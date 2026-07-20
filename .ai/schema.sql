@@ -77,6 +77,7 @@ CREATE TABLE contact_messages (
     phone VARCHAR(20) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     message TEXT NOT NULL,
+    ip_address VARCHAR(45) NULL,
     is_read TINYINT(1) NOT NULL DEFAULT 0,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -90,6 +91,7 @@ CREATE TABLE donation_interests (
     donation_amount DECIMAL(10,2) NOT NULL,
     payment_method VARCHAR(50) NOT NULL,
     transaction_id VARCHAR(100) NULL,
+    ip_address VARCHAR(45) NULL,
     status ENUM('pending', 'verified', 'rejected') NOT NULL DEFAULT 'pending',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

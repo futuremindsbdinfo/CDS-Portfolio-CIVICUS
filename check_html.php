@@ -1,0 +1,1 @@
+<?php $html = file_get_contents('http://localhost:8000/index.php'); libxml_use_internal_errors(true); $doc = new DOMDocument(); $doc->loadHTML($html); foreach(libxml_get_errors() as $error) { echo $error->message; }

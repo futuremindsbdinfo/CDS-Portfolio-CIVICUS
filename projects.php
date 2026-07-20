@@ -4,7 +4,7 @@ require_once 'includes/sanitize.php';
 
 require_once 'includes/db.php';
 
-$db = get_db_connection();
+$db = Database::getConnection();
 $projects = [];
 if ($db) {
     $projects = $db->query("SELECT * FROM projects ORDER BY created_at DESC")->fetchAll();
@@ -52,10 +52,20 @@ if ($db) {
                 <div class="project-card bg-white rounded-lg shadow-sm hover:shadow-md border border-gray-200 overflow-hidden transition-all duration-300" data-status="<?php echo e($project['status']); ?>">
                     <!-- Cover Image -->
                     <div class="relative">
-                        <?php 
-                            $img_src = !empty($project['cover_image']) ? 'uploads/projects/' . e($project['cover_image']) : 'assets/img/projects/placeholder.jpg';
-                        ?>
-                        <img src="<?php echo $img_src; ?>" alt="<?php echo e($project['title_bn']); ?> - Cover" class="w-full h-56 object-cover bg-gray-200" loading="lazy">
+                          <?php 
+                              $img_path = 'uploads/projects/' . $project['cover_image'];
+                              $has_image = !empty($project['cover_image']) && file_exists(__DIR__ . '/' . $img_path);
+                          ?>
+                          <?php if ($has_image): ?>
+                              <img src="<?php echo e($img_path); ?>" alt="<?php echo e($project['title_bn']); ?> - Cover" class="w-full h-56 object-cover bg-gray-200" loading="lazy">
+                          <?php else: ?>
+                              <div class="w-full h-56 bg-brand-gradient relative overflow-hidden">
+                                <svg class="absolute inset-0 h-full w-full opacity-30" viewBox="0 0 400 250">
+                                  <circle cx="80" cy="60" r="80" fill="white" />
+                                  <circle cx="320" cy="200" r="120" fill="white" />
+                                </svg>
+                              </div>
+                          <?php endif; ?>
                         <!-- Status Badge -->
                         <?php if ($project['status'] === 'ongoing'): ?>
                             <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded shadow">

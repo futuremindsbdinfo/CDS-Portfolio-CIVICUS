@@ -41,3 +41,9 @@
   4. Actual hosting-এ deploy + SSL install + cPanel-এ cronjob দিয়ে `scripts/backup_db.php` শিডিউল করা
 
 > **সতর্কতা:** কাজের সাথে সাথে এই ফাইলটি নিয়মিত আপডেট করতে হবে (UPDATE IT REGULARLY)।
+
+- **[FIXED/IMPLEMENTED]** contact.php তৈরি করা হয়েছে (CSRF + IP rate limiting সহ)। donation.php-তে আসল CSRF টোকেন এবং IP rate limiting + DB insert লজিক যোগ করা হয়েছে।
+
+- **[FIXED]** admin/dashboard.php সহ মোট ৭টি ফাইলে 'Call to undefined function get_db_connection()' error দেখা দিচ্ছিল। Root cause: আগের একটি commit-এ Antigravity agent ভুল করে Database::getConnection()-এর বদলে get_db_connection() কল করেছিল। ৭টি ফাইলে এটি ঠিক করে Database::getConnection() দিয়ে replace করা হয়েছে।
+
+- **[FEATURE ADDED]** Notices-এ Optional PDF Attachment ফীচার যোগ করা হয়েছে। সিকিউরিটির জন্য application/pdf MIME type check (finfo), %PDF- magic bytes check, double extension block, 5MB limit এবং random filename generate করা হচ্ছে। ফাইলগুলো uploads/notices/ ফোল্ডারে সেভ হবে (যা .htaccess দিয়ে PHP execution block করা)।
