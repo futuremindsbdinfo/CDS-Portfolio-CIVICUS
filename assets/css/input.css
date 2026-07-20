@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cds-green: #3A7D5C;
+    --cds-blue: #1e3a8a;
+    --cds-bg: #f7faf8;
+  }
+  body {
+    background-color: var(--cds-bg);
+    color: #333;
+  }
+}

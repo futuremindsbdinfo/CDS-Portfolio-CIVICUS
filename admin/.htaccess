@@ -1,0 +1,5 @@
+# admin/.htaccess
+# Ensure PHP is executed properly in the admin directory
+<IfModule mod_php.c>
+    php_flag engine on
+</IfModule>
