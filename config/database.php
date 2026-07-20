@@ -1,7 +1,8 @@
 <?php
 // config/database.php
 
-function loadEnv($path) {
+if (!function_exists('loadEnv')) {
+    function loadEnv($path) {
     if (!file_exists($path)) {
         return;
     }
@@ -17,10 +18,23 @@ function loadEnv($path) {
             $_SERVER[$name] = $value;
         }
     }
+    }
 }
 
 // Load .env from project root
 loadEnv(__DIR__ . '/../.env');
+
+$app_env = $_ENV['APP_ENV'] ?? 'production';
+
+if ($app_env === 'development') {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+    error_reporting(E_ALL); // Log all errors, but do not display them
+}
 
 return [
     'host' => $_ENV['DB_HOST'] ?? 'localhost',

@@ -1,10 +1,10 @@
 <?php
 // admin/login.php
 require_once __DIR__ . '/../includes/auth.php';
+init_secure_session();
+
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../includes/sanitize.php';
-
-init_secure_session();
 
 if (!empty($_SESSION['admin_id'])) {
     header("Location: dashboard.php");

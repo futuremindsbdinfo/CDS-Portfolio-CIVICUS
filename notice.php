@@ -2,36 +2,13 @@
 // notice.php
 require_once 'includes/sanitize.php';
 
-// Dummy data for notices
-$dummy_notices = [
-    [
-        'id' => 1,
-        'title_bn' => 'আগামী সাধারণ সভা সংক্রান্ত নোটিশ',
-        'title_en' => 'Notice regarding upcoming general meeting',
-        'content_bn' => 'সকল সদস্যকে জানানো যাচ্ছে যে আগামী ১০ই আগস্ট, ২০২৪ তারিখে সোসাইটির বার্ষিক সাধারণ সভা অনুষ্ঠিত হবে। বিস্তারিত জানতে সংযুক্ত পিডিএফ ফাইলটি ডাউনলোড করুন।',
-        'content_en' => 'All members are informed that the annual general meeting of the society will be held on August 10, 2024. Download the attached PDF for details.',
-        'file_path' => '#', // Placeholder for PDF download
-        'published_at' => '2024-07-15 10:00:00'
-    ],
-    [
-        'id' => 2,
-        'title_bn' => 'ত্রাণ তহবিল সংগ্রহ',
-        'title_en' => 'Relief fund collection',
-        'content_bn' => 'বন্যা দুর্গতদের সহায়তার জন্য জরুরি ত্রাণ তহবিল সংগ্রহ করা হচ্ছে। আগ্রহী দাতাদের দ্রুত যোগাযোগ করার অনুরোধ করা হলো।',
-        'content_en' => 'Emergency relief funds are being collected for flood victims. Interested donors are requested to contact soon.',
-        'file_path' => '',
-        'published_at' => '2024-06-20 14:30:00'
-    ],
-    [
-        'id' => 3,
-        'title_bn' => 'নতুন সদস্য সংগ্রহ অভিযান ২০২৪',
-        'title_en' => 'New membership drive 2024',
-        'content_bn' => 'সোসাইটির নতুন সদস্য সংগ্রহ কার্যক্রম আগামী মাস থেকে শুরু হতে যাচ্ছে। ফর্ম পূরণের নিয়মাবলী ওয়েবসাইটে প্রকাশ করা হবে।',
-        'content_en' => 'The new membership drive of the society is going to start from next month. Rules for filling the form will be published on the website.',
-        'file_path' => '#',
-        'published_at' => '2024-05-10 09:15:00'
-    ]
-];
+require_once 'includes/db.php';
+
+$db = get_db_connection();
+$notices = [];
+if ($db) {
+    $notices = $db->query("SELECT * FROM notices ORDER BY published_at DESC")->fetchAll();
+}
 ?>
 <?php include 'includes/header.php'; ?>
 
@@ -53,7 +30,7 @@ $dummy_notices = [
 <section class="py-12 md:py-20 bg-gray-50 min-h-screen">
     <div class="container mx-auto px-4 max-w-4xl">
         <div class="space-y-6">
-            <?php foreach ($dummy_notices as $notice): ?>
+            <?php foreach ($notices as $notice): ?>
                 <div class="bg-white p-6 md:p-8 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
                         <h2 class="text-xl md:text-2xl font-bold text-cds-blue">
@@ -81,6 +58,11 @@ $dummy_notices = [
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
+            <?php if(empty($notices)): ?>
+                <div class="bg-white p-8 rounded-lg shadow-sm text-center">
+                    <p class="text-gray-500 font-medium">কোনো নোটিশ পাওয়া যায়নি। / No notices found.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

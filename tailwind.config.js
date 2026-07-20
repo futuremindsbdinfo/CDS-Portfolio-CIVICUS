@@ -11,7 +11,8 @@ module.exports = {
       colors: {
         'cds-green': '#3A7D5C',
         'cds-blue': '#1e3a8a',
-        'cds-bg': '#f7faf8'
+        'cds-bg': '#f7faf8',
+        'warm-white': '#FAF8F3'
       },
       fontFamily: {
         'sans': ['"Noto Sans Bengali"', '"SolaimanLipi"', 'Arial', 'sans-serif'],

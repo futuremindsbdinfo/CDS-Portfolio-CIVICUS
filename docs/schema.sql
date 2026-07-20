@@ -1,2 +1,0 @@
--- Placeholder for schema.sql as requested
--- Content will be provided separately by the user

@@ -1,15 +1,17 @@
-# design.md - CDS Portfolio (Design System & Aesthetics)
+# CDS Portfolio - Design System
 
-## ১. কালার প্যালেট (Color & Theme)
-CDS মেম্বারশিপ ফর্মের সাথে সামঞ্জস্য রেখে ওয়েবসাইটের মূল কালার থিম নির্ধারণ করা হয়েছে:
-- **প্রাইমারি কালার (Primary):** Green (`#3A7D5C`) - প্রকৃতির, বৃদ্ধি এবং আস্থার প্রতীক।
-- **সেকেন্ডারি কালার (Secondary):** Blue (`#1e3a8a`) - পেশাদারিত্ব এবং স্থায়িত্ব বোঝাতে।
-- **ব্যাকগ্রাউন্ড (Background):** Light Background (`#f7faf8` বা White) - ক্লিন এবং প্রফেশনাল লুকের জন্য।
+## Typography
+- **Heading Font:** Noto Serif Bengali
+- **Body Font:** Noto Sans Bengali
 
-## ২. ফন্ট এবং টাইপোগ্রাফি (Fonts & Typography)
-যেহেতু ওয়েবসাইটটি বাংলা এবং ইংরেজি উভয় ভাষায় হবে, তাই মেম্বারশিপ ফর্মের ফন্টগুলোই ব্যবহার করা হবে:
-- **প্রাইমারি ফন্ট:** `Noto Sans Bengali`, `SolaimanLipi`, `Arial`, `sans-serif` (সাধারণ টেক্সট বা বডির জন্য)।
-- **হেডিং ফন্ট:** `Noto Serif Bengali`, `serif` (বড় শিরোনাম বা হেডিংয়ের জন্য)।
+## Color Palette
+- **Primary Green:** `#3A7D5C` (Used for primary buttons, prominent links, and accents)
+- **Secondary Blue:** `#1e3a8a` (Used for footer, dark accents, and secondary text)
+- **Warm Off-White:** `#FAF8F3` (Used for main backgrounds to provide a softer, more organic feel than flat white)
+- **Text Dark:** `#1f2937` (Standard dark gray for readability)
 
-## ৩. ভাষা (Language)
-- ওয়েবসাইটটিতে বাংলা এবং ইংরেজি উভয় ভাষাই সাপোর্ট করবে (Multi-language)।
+## UI Elements
+- Shadows and gradients used to provide subtle depth (no completely flat generic blocks).
+- "Important Links" cards use a modern layout with subtle elevation and large background icons.
+- Organic SVGs instead of standard placeholder boxes.
+- "Pill/Badge" tags used for core pillars (সুশিক্ষা, সুস্বাস্থ্য, সুনাগরিক, সুশাসন).

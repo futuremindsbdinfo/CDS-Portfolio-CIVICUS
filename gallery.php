@@ -2,73 +2,13 @@
 // gallery.php
 require_once 'includes/sanitize.php';
 
-// Dummy data structured exactly as `gallery` table in schema.sql
-$dummy_gallery = [
-    [
-        'id' => 1,
-        'project_id' => 1,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'রক্তদান ক্যাম্পেইনের উদ্বোধনী অনুষ্ঠান',
-        'caption_en' => 'Inauguration ceremony of blood donation campaign',
-        'event_date' => '2023-05-10'
-    ],
-    [
-        'id' => 2,
-        'project_id' => 1,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'স্বেচ্ছাসেবীদের রক্ত সংগ্রহ কার্যক্রম',
-        'caption_en' => 'Blood collection activities by volunteers',
-        'event_date' => '2023-05-11'
-    ],
-    [
-        'id' => 3,
-        'project_id' => 2,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'দেশব্যাপী বৃক্ষরোপণ কর্মসূচি - সিলেট',
-        'caption_en' => 'Nationwide tree plantation program - Sylhet',
-        'event_date' => '2023-08-05'
-    ],
-    [
-        'id' => 4,
-        'project_id' => 2,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'বৃক্ষরোপণ কর্মসূচি - রাজশাহী',
-        'caption_en' => 'Tree plantation program - Rajshahi',
-        'event_date' => '2023-08-12'
-    ],
-    [
-        'id' => 5,
-        'project_id' => 3,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'শিশুদের মাঝে বই বিতরণ',
-        'caption_en' => 'Book distribution among children',
-        'event_date' => '2024-01-05'
-    ],
-    [
-        'id' => 6,
-        'project_id' => 4,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'শীতবস্ত্র বিতরণের প্রস্তুতি',
-        'caption_en' => 'Preparation for winter clothes distribution',
-        'event_date' => '2024-01-14'
-    ],
-    [
-        'id' => 7,
-        'project_id' => 4,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'দিনাজপুরে কম্বল বিতরণ',
-        'caption_en' => 'Blanket distribution in Dinajpur',
-        'event_date' => '2024-01-18'
-    ],
-    [
-        'id' => 8,
-        'project_id' => 5,
-        'image_path' => 'assets/img/gallery/placeholder.jpg',
-        'caption_bn' => 'তরুণদের আইটি প্রশিক্ষণ সেশন',
-        'caption_en' => 'IT training session for youth',
-        'event_date' => '2024-03-05'
-    ]
-];
+require_once 'includes/db.php';
+
+$db = get_db_connection();
+$gallery = [];
+if ($db) {
+    $gallery = $db->query("SELECT * FROM gallery ORDER BY created_at DESC")->fetchAll();
+}
 ?>
 <?php include 'includes/header.php'; ?>
 
@@ -91,14 +31,18 @@ $dummy_gallery = [
     <div class="container mx-auto px-4">
         <!-- Responsive Grid -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            <?php foreach ($dummy_gallery as $photo): ?>
-                <?php $caption_bn = e($photo['caption_bn']); $caption_en = e($photo['caption_en']); ?>
-                <a href="<?php echo e($photo['image_path']); ?>" 
+            <?php foreach ($gallery as $photo): ?>
+                <?php 
+                    $caption_bn = e($photo['caption_bn']); 
+                    $caption_en = e($photo['caption_en']); 
+                    $img_src = !empty($photo['image_path']) ? 'uploads/gallery/' . e($photo['image_path']) : 'assets/img/gallery/placeholder.jpg';
+                ?>
+                <a href="<?php echo $img_src; ?>" 
                    class="gallery-item group relative block overflow-hidden rounded-lg shadow-sm hover:shadow-lg transition-all focus:outline-none focus:ring-4 focus:ring-cds-green"
                    data-caption-bn="<?php echo $caption_bn; ?>"
                    data-caption-en="<?php echo $caption_en; ?>">
                     
-                    <img src="<?php echo e($photo['image_path']); ?>" 
+                    <img src="<?php echo $img_src; ?>" 
                          alt="<?php echo $caption_bn; ?>" 
                          class="w-full h-48 md:h-64 object-cover bg-gray-200 group-hover:scale-105 transition-transform duration-500" loading="lazy">
                     
@@ -115,6 +59,11 @@ $dummy_gallery = [
                     </div>
                 </a>
             <?php endforeach; ?>
+            <?php if(empty($gallery)): ?>
+                <div class="col-span-2 md:col-span-3 lg:col-span-4 text-center p-8 bg-white rounded-lg shadow-sm">
+                    <p class="text-gray-500 font-medium">কোনো ছবি পাওয়া যায়নি। / No photos found.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

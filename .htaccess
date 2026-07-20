@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS (Skip localhost/127.0.0.1 for local dev)
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_php.c>
+    # Production Error Settings
+    php_flag display_errors Off
+    php_flag log_errors On
+    # Ensure errors are logged to the project's log directory
+    php_value error_log "logs/error.log"
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes

@@ -13,6 +13,12 @@ function init_secure_session() {
             'httponly' => true,
             'samesite' => 'Strict'
         ]);
+        $session_path = __DIR__ . '/../logs/sessions';
+        if (!is_dir($session_path)) {
+            mkdir($session_path, 0777, true);
+        }
+        session_save_path($session_path);
+        
         session_start();
     }
 }

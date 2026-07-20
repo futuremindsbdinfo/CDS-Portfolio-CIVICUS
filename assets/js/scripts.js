@@ -3,6 +3,39 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
+    // Mobile Menu Toggle Logic (header.php)
+    // ==========================================
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+
+    if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                iconMenu.classList.add('hidden');
+                iconClose.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                iconMenu.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        });
+        
+        // Close menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                iconMenu.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        });
+    }
+
+
+    // ==========================================
     // Project Filtering Logic (projects.php)
     // ==========================================
     const filterBtns = document.querySelectorAll('.filter-btn');

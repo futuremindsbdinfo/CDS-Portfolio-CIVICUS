@@ -2,64 +2,13 @@
 // projects.php
 require_once 'includes/sanitize.php';
 
-// Dummy data structured exactly as `projects` table in schema.sql
-$dummy_projects = [
-    [
-        'id' => 1,
-        'title_bn' => 'বিনামূল্যে রক্তদান ক্যাম্পেইন',
-        'title_en' => 'Free Blood Donation Campaign',
-        'description_bn' => 'সমাজের সুবিধাবঞ্চিত মানুষদের জন্য বিনামূল্যে রক্তদান এবং ব্লাড গ্রুপিং কার্যক্রম। এই ক্যাম্পেইনে ৫০০ জনেরও বেশি মানুষ অংশগ্রহণ করেন।',
-        'description_en' => 'Free blood donation and blood grouping activities for underprivileged people. Over 500 people participated in this campaign.',
-        'status' => 'completed',
-        'cover_image' => 'assets/img/projects/placeholder.jpg',
-        'start_date' => '2023-05-10',
-        'end_date' => '2023-05-15'
-    ],
-    [
-        'id' => 2,
-        'title_bn' => 'দেশব্যাপী বৃক্ষরোপণ কর্মসূচি',
-        'title_en' => 'Nationwide Tree Plantation Program',
-        'description_bn' => 'পরিবেশ রক্ষায় দেশব্যাপী ১০,০০০ গাছ লাগানোর উদ্যোগ নেওয়া হয়েছে, যা বর্তমানে চলমান।',
-        'description_en' => 'An initiative to plant 10,000 trees nationwide to protect the environment, which is currently ongoing.',
-        'status' => 'ongoing',
-        'cover_image' => 'assets/img/projects/placeholder.jpg',
-        'start_date' => '2023-08-01',
-        'end_date' => null
-    ],
-    [
-        'id' => 3,
-        'title_bn' => 'অসহায় শিশুদের শিক্ষাসামগ্রী বিতরণ',
-        'title_en' => 'Educational Materials Distribution to Helpless Children',
-        'description_bn' => 'গ্রামের দরিদ্র পরিবারের ১০০ জন শিশুর মাঝে বিনামূল্যে বই, খাতা, ও কলম বিতরণ করা হয়েছে।',
-        'description_en' => 'Free books, notebooks, and pens were distributed among 100 children from poor families in the village.',
-        'status' => 'completed',
-        'cover_image' => 'assets/img/projects/placeholder.jpg',
-        'start_date' => '2024-01-05',
-        'end_date' => '2024-01-10'
-    ],
-    [
-        'id' => 4,
-        'title_bn' => 'শীতবস্ত্র বিতরণ ২০২৪',
-        'title_en' => 'Winter Clothes Distribution 2024',
-        'description_bn' => 'উত্তরাঞ্চলের শীতার্ত মানুষের মাঝে ৫,০০০ কম্বল ও শীতের পোশাক বিতরণের মেগা প্রজেক্ট।',
-        'description_en' => 'Mega project to distribute 5,000 blankets and winter clothes among cold-stricken people in the northern region.',
-        'status' => 'completed',
-        'cover_image' => 'assets/img/projects/placeholder.jpg',
-        'start_date' => '2024-01-15',
-        'end_date' => '2024-01-30'
-    ],
-    [
-        'id' => 5,
-        'title_bn' => 'তরুণ উদ্যোক্তা প্রশিক্ষণ',
-        'title_en' => 'Youth Entrepreneurship Training',
-        'description_bn' => 'বেকার যুবকদের স্বাবলম্বী করার জন্য আইটি ও ব্যবসায়িক প্রশিক্ষণ প্রদান করা হচ্ছে।',
-        'description_en' => 'Providing IT and business training to unemployed youth to make them self-reliant.',
-        'status' => 'ongoing',
-        'cover_image' => 'assets/img/projects/placeholder.jpg',
-        'start_date' => '2024-03-01',
-        'end_date' => null
-    ]
-];
+require_once 'includes/db.php';
+
+$db = get_db_connection();
+$projects = [];
+if ($db) {
+    $projects = $db->query("SELECT * FROM projects ORDER BY created_at DESC")->fetchAll();
+}
 ?>
 <?php include 'includes/header.php'; ?>
 
@@ -99,11 +48,14 @@ $dummy_projects = [
 
         <!-- Projects Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach ($dummy_projects as $project): ?>
+            <?php foreach ($projects as $project): ?>
                 <div class="project-card bg-white rounded-lg shadow-sm hover:shadow-md border border-gray-200 overflow-hidden transition-all duration-300" data-status="<?php echo e($project['status']); ?>">
                     <!-- Cover Image -->
                     <div class="relative">
-                        <img src="<?php echo e($project['cover_image']); ?>" alt="<?php echo e($project['title_bn']); ?> - Cover" class="w-full h-56 object-cover bg-gray-200" loading="lazy">
+                        <?php 
+                            $img_src = !empty($project['cover_image']) ? 'uploads/projects/' . e($project['cover_image']) : 'assets/img/projects/placeholder.jpg';
+                        ?>
+                        <img src="<?php echo $img_src; ?>" alt="<?php echo e($project['title_bn']); ?> - Cover" class="w-full h-56 object-cover bg-gray-200" loading="lazy">
                         <!-- Status Badge -->
                         <?php if ($project['status'] === 'ongoing'): ?>
                             <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded shadow">
@@ -140,6 +92,11 @@ $dummy_projects = [
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php if(empty($projects)): ?>
+                <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center p-8 bg-white rounded-lg shadow-sm">
+                    <p class="text-gray-500 font-medium">কোনো প্রজেক্ট পাওয়া যায়নি। / No projects found.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
