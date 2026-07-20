@@ -71,7 +71,7 @@ require_once __DIR__ . '/includes/header.php';
             <circle cx="140" cy="340" r="5" />
         </g>
         </svg>
-        <div class="absolute -bottom-4 -left-4 rounded-2xl bg-primary p-4 shadow-card animate-[float_5s_ease-in-out_infinite]">
+        <div class="absolute bottom-0 -left-2 rounded-2xl bg-primary p-4 shadow-card animate-[float_5s_ease-in-out_infinite]">
         <div class="text-xs text-white/80">সক্রিয় জেলা</div>
         <div class="font-serif-bn text-2xl font-bold text-white">১২ +</div>
         </div>
