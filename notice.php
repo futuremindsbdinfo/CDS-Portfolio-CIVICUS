@@ -25,12 +25,20 @@ $paged = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Handle Single Notice View
 $active = null;
+$related_notices = [];
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $activeId = (int)$_GET['id'];
     $activeStmt = $pdo->prepare("SELECT * FROM notices WHERE id = :id");
     $activeStmt->bindValue(':id', $activeId, PDO::PARAM_INT);
     $activeStmt->execute();
     $active = $activeStmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($active) {
+        $relatedStmt = $pdo->prepare("SELECT * FROM notices WHERE id != :id ORDER BY created_at DESC LIMIT 3");
+        $relatedStmt->bindValue(':id', $active['id'], PDO::PARAM_INT);
+        $relatedStmt->execute();
+        $related_notices = $relatedStmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 // Fetch recent notices for sidebar
@@ -103,6 +111,20 @@ require_once __DIR__ . '/includes/header.php';
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4"><path d="M19 12H5M11 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
           সব নোটিশে ফিরে যান
         </a>
+
+        <?php if(!empty($related_notices)): ?>
+        <div class="mt-12">
+          <h3 class="font-serif-bn text-xl font-bold border-b border-border pb-3 mb-6">সাম্প্রতিক অন্যান্য নোটিশ</h3>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <?php foreach($related_notices as $rn): ?>
+            <a href="/notice.php?id=<?php echo $rn['id']; ?>" class="group block rounded-2xl border border-border bg-surface p-4 shadow-card transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card-hover">
+              <div class="text-[10px] font-semibold text-primary bg-primary-soft w-max px-2 py-0.5 rounded-full mb-2"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
+              <h4 class="font-serif-bn text-sm font-bold leading-snug group-hover:text-primary"><?php echo e($rn['title_bn']); ?></h4>
+            </a>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
       </article>
 
       <!-- Sidebar -->
@@ -117,12 +139,27 @@ require_once __DIR__ . '/includes/header.php';
           <ul class="mt-3 space-y-3">
             <?php foreach($recent_notices as $rn): ?>
               <li>
-                <a href="/notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition <?php echo ($active['id'] == $rn['id']) ? 'text-primary' : 'text-foreground/85 hover:text-primary'; ?>">
+                <a href="/notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition <?php echo (isset($active) && $active['id'] == $rn['id']) ? 'text-primary' : 'text-foreground/85 hover:text-primary'; ?>">
                   <div class="text-xs font-semibold text-primary"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
                   <div class="mt-1 font-serif-bn text-sm font-bold leading-snug"><?php echo e($rn['title_bn']); ?></div>
                 </a>
               </li>
             <?php endforeach; ?>
+          </ul>
+        </div>
+        
+        <div class="rounded-2xl border border-border bg-surface p-5 shadow-card">
+          <div class="flex items-center gap-2 border-b border-border pb-3">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary-soft text-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </span>
+            <h3 class="font-serif-bn text-base font-bold">গুরুত্বপূর্ণ লিংক</h3>
+          </div>
+          <ul class="mt-3 space-y-2">
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>বার্ষিক প্রতিবেদন ২০২৫</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>সাংগঠনিক গঠনতন্ত্র</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বেচ্ছাসেবক নীতিমালা</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বচ্ছতা ও নিরীক্ষা</a></li>
           </ul>
         </div>
       </aside>
@@ -200,12 +237,27 @@ require_once __DIR__ . '/includes/header.php';
           <ul class="mt-3 space-y-3">
             <?php foreach($recent_notices as $rn): ?>
               <li>
-                <a href="/notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition text-foreground/85 hover:text-primary">
+                <a href="/notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition <?php echo (isset($active) && $active['id'] == $rn['id']) ? 'text-primary' : 'text-foreground/85 hover:text-primary'; ?>">
                   <div class="text-xs font-semibold text-primary"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
                   <div class="mt-1 font-serif-bn text-sm font-bold leading-snug"><?php echo e($rn['title_bn']); ?></div>
                 </a>
               </li>
             <?php endforeach; ?>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-surface p-5 shadow-card">
+          <div class="flex items-center gap-2 border-b border-border pb-3">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary-soft text-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </span>
+            <h3 class="font-serif-bn text-base font-bold">গুরুত্বপূর্ণ লিংক</h3>
+          </div>
+          <ul class="mt-3 space-y-2">
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>বার্ষিক প্রতিবেদন ২০২৫</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>সাংগঠনিক গঠনতন্ত্র</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বেচ্ছাসেবক নীতিমালা</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বচ্ছতা ও নিরীক্ষা</a></li>
           </ul>
         </div>
       </aside>

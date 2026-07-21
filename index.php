@@ -191,25 +191,25 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- STATS BAND -->
-<section class="relative mx-4 my-10 overflow-hidden rounded-3xl bg-brand-gradient px-6 py-14 shadow-card-hover sm:mx-6 lg:mx-auto lg:max-w-7xl lg:px-12">
+<section id="impact-stats" class="relative mx-4 my-10 overflow-hidden rounded-3xl bg-brand-gradient px-6 py-14 shadow-card-hover sm:mx-6 lg:mx-auto lg:max-w-7xl lg:px-12">
 <svg class="absolute inset-0 h-full w-full opacity-20" viewBox="0 0 800 300" preserveAspectRatio="none">
     <path d="M0 200 Q200 100 400 200 T800 200 V300 H0Z" fill="white" />
 </svg>
 <div class="relative grid grid-cols-2 gap-8 lg:grid-cols-4">
     <div class="text-center">
-        <div class="font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl">৩২০+</div>
+        <div class="count-up font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl" data-target="320" data-suffix="+">০</div>
         <div class="mt-2 text-sm font-medium text-white/80">স্বেচ্ছাসেবী</div>
     </div>
     <div class="text-center">
-        <div class="font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl">৪৫</div>
+        <div class="count-up font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl" data-target="45">০</div>
         <div class="mt-2 text-sm font-medium text-white/80">সম্পন্ন প্রজেক্ট</div>
     </div>
     <div class="text-center">
-        <div class="font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl">১,৫০০+</div>
+        <div class="count-up font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl" data-target="1500" data-suffix="+">০</div>
         <div class="mt-2 text-sm font-medium text-white/80">উপকারভোগী পরিবার</div>
     </div>
     <div class="text-center">
-        <div class="font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl">২০১৫</div>
+        <div class="count-up font-serif-bn text-4xl font-bold tracking-tight text-white sm:text-5xl" data-target="2015">০</div>
         <div class="mt-2 text-sm font-medium text-white/80">প্রতিষ্ঠার বছর</div>
     </div>
 </div>
@@ -424,5 +424,59 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const convertToBengaliNumber = (num) => {
+        const banglaDigits = {
+            '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪',
+            '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯'
+        };
+        let numStr = num.toString();
+        if (num >= 1000) {
+            numStr = new Intl.NumberFormat('en-IN').format(num);
+        }
+        return numStr.replace(/\d/g, match => banglaDigits[match]);
+    };
+
+    const animateCountUp = (el, target, duration, suffix) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            const currentCount = Math.floor(easeProgress * target);
+            
+            el.innerText = convertToBengaliNumber(currentCount) + (suffix || '');
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                el.innerText = convertToBengaliNumber(target) + (suffix || '');
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.count-up');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'), 10);
+                    const suffix = counter.getAttribute('data-suffix') || '';
+                    animateCountUp(counter, target, 2000, suffix);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.getElementById('impact-stats');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

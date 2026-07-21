@@ -146,6 +146,15 @@ require_once __DIR__ . '/includes/header.php';
     <button id="lightbox-close" aria-label="Close" class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M6 6l12 12M18 6L6 18" /></svg>
     </button>
+    
+    <button id="lightbox-prev" aria-label="Previous" class="absolute left-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 z-10 hidden sm:grid">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    
+    <button id="lightbox-next" aria-label="Next" class="absolute right-4 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 z-10 hidden sm:grid">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+
     <div class="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-surface shadow-card-hover" onclick="event.stopPropagation()">
       <div class="relative w-full overflow-hidden bg-black flex justify-center items-center" style="height: 70vh;">
         <img id="lightbox-img" src="" alt="Gallery Image" class="max-w-full max-h-full object-contain">

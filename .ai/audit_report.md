@@ -25,14 +25,14 @@
 
 > ⚠️ **CAUTION:** বর্তমানে নোটিশ, প্রজেক্ট এবং গ্যালারি-তে শুধু Add ও Delete আছে — Edit/Update একেবারেই নেই। এটি ছাড়া সাইট প্রোডাকশনে চালানো সম্ভব নয়।
 
-- [ ] `admin/notices.php` → Edit ফর্ম ও Update query
-- [ ] `admin/projects_admin.php` → Edit ফর্ম ও Update query
-- [ ] `admin/gallery_admin.php` → Edit ফর্ম ও Update query
+- [x] `admin/notices.php` → Edit ফর্ম ও Update query
+- [x] `admin/projects_admin.php` → Edit ফর্ম ও Update query
+- [x] `admin/gallery_admin.php` → Edit ফর্ম ও Update query
 
 ### ১.২ ৪০৪ এরর পেজ নেই
 
-- [ ] সুন্দর `404.php` পেজ তৈরি
-- [ ] `.htaccess`-এ `ErrorDocument 404` সেট
+- [x] সুন্দর `404.php` পেজ তৈরি
+- [x] `.htaccess`-এ `ErrorDocument 404` সেট
 
 ### ১.৩ টেস্টিং
 
@@ -58,7 +58,7 @@
 | FAQ Accordion | ✅ সম্পূর্ণ | |
 | **Count-up Animation** | ❌ মিসিং | Stats এ স্ক্রলে সংখ্যা অ্যানিমেশন |
 
-- [ ] Count-up স্ক্রল অ্যানিমেশন (Vanilla JS দিয়ে — IntersectionObserver + requestAnimationFrame)
+- [x] Count-up স্ক্রল অ্যানিমেশন (Vanilla JS দিয়ে — IntersectionObserver + requestAnimationFrame)
 
 ### ২.২ ডোনেশন পেজ (`donation.php`)
 
@@ -71,8 +71,8 @@
 | **"স্বচ্ছতা ও ভরসা" Trust Band** | ❌ মিসিং |
 | **Copy-to-Clipboard বাটন** | ❌ মিসিং |
 
-- [ ] "স্বচ্ছতা ও ভরসা" Trust Band সেকশন যুক্ত (৪টি কার্ড: স্বাধীন নিরীক্ষা, ১০০% ব্যবহার, নিয়মিত রিপোর্ট, নিরাপদ লেনদেন)
-- [ ] Payment account number-এ Copy-to-Clipboard বাটন যুক্ত
+- [x] "স্বচ্ছতা ও ভরসা" Trust Band সেকশন যুক্ত (৪টি কার্ড: স্বাধীন নিরীক্ষা, ১০০% ব্যবহার, নিয়মিত রিপোর্ট, নিরাপদ লেনদেন)
+- [x] Payment account number-এ Copy-to-Clipboard বাটন যুক্ত
 
 ### ২.৩ গ্যালারি পেজ (`gallery.php`)
 
@@ -83,7 +83,7 @@
 | Lightbox Modal | ⚠️ অসম্পূর্ণ |
 | **Lightbox Prev/Next নেভিগেশন** | ❌ মিসিং |
 
-- [ ] Lightbox-এ Prev/Next বাটন + Arrow key সাপোর্ট যুক্ত
+- [x] Lightbox-এ Prev/Next বাটন + Arrow key সাপোর্ট যুক্ত
 
 ### ২.৪ নোটিশ পেজ (`notice.php`)
 
@@ -96,8 +96,8 @@
 | **"গুরুত্বপূর্ণ লিংক" সাইডবার** | ❌ মিসিং |
 | **সম্পর্কিত নোটিশ** | ❌ মিসিং |
 
-- [ ] নোটিশ সাইডবারে "গুরুত্বপূর্ণ লিংক" বক্স যুক্ত
-- [ ] নোটিশ ডিটেইল ভিউতে নিচে ৩টি সম্পর্কিত নোটিশ কার্ড যুক্ত
+- [x] নোটিশ সাইডবারে "গুরুত্বপূর্ণ লিংক" বক্স যুক্ত
+- [x] নোটিশ ডিটেইল ভিউতে নিচে ৩টি সম্পর্কিত নোটিশ কার্ড যুক্ত
 
 ---
 

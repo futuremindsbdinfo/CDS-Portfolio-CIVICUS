@@ -144,29 +144,62 @@ document.addEventListener('DOMContentLoaded', () => {
         const lightboxCaptionEn = document.getElementById('lightbox-caption-en');
         const lightboxProject = document.getElementById('lightbox-project');
         const lightboxDate = document.getElementById('lightbox-date');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
         const lightboxClose = document.getElementById('lightbox-close');
+        
+        let currentIndex = 0;
 
         if(lightbox) {
+            function updateLightbox(index) {
+                if (index < 0) index = galleryItems.length - 1;
+                if (index >= galleryItems.length) index = 0;
+                currentIndex = index;
+                
+                const item = galleryItems[currentIndex];
+                const imgSrc = item.getAttribute('href');
+                const captionBn = item.getAttribute('data-caption-bn');
+                const captionEn = item.getAttribute('data-caption-en') || '';
+                const project = item.getAttribute('data-project') || '';
+                const date = item.getAttribute('data-date') || '';
+                
+                if(lightboxImg) lightboxImg.src = imgSrc;
+                if(lightboxCaptionBn) lightboxCaptionBn.textContent = captionBn;
+                if(lightboxCaptionEn) lightboxCaptionEn.textContent = captionEn;
+                if(lightboxProject) lightboxProject.textContent = project;
+                if(lightboxDate) lightboxDate.textContent = date;
+            }
+
             // Open Lightbox
-            galleryItems.forEach(item => {
+            galleryItems.forEach((item, index) => {
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const imgSrc = item.getAttribute('href');
-                    const captionBn = item.getAttribute('data-caption-bn');
-                    const captionEn = item.getAttribute('data-caption-en') || '';
-                    const project = item.getAttribute('data-project') || '';
-                    const date = item.getAttribute('data-date') || '';
-                    
-                    if(lightboxImg) lightboxImg.src = imgSrc;
-                    if(lightboxCaptionBn) lightboxCaptionBn.textContent = captionBn;
-                    if(lightboxCaptionEn) lightboxCaptionEn.textContent = captionEn;
-                    if(lightboxProject) lightboxProject.textContent = project;
-                    if(lightboxDate) lightboxDate.textContent = date;
-                    
+                    updateLightbox(index);
                     lightbox.classList.remove('hidden');
                     lightbox.classList.add('flex');
                 });
             });
+
+            // Prev / Next logic
+            function showPrev() {
+                updateLightbox(currentIndex - 1);
+            }
+            function showNext() {
+                updateLightbox(currentIndex + 1);
+            }
+
+            if (lightboxPrev) {
+                lightboxPrev.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showPrev();
+                });
+            }
+            if (lightboxNext) {
+                lightboxNext.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showNext();
+                });
+            }
 
             // Close Lightbox on Close Button Click
             if(lightboxClose) {
@@ -180,10 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Close Lightbox on Escape Key Press
+            // Keyboard Navigation (Esc, Left, Right)
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-                    closeLightbox();
+                if (!lightbox.classList.contains('hidden')) {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                    } else if (e.key === 'ArrowLeft') {
+                        showPrev();
+                    } else if (e.key === 'ArrowRight') {
+                        showNext();
+                    }
                 }
             });
 
