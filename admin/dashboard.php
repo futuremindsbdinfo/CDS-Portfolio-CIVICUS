@@ -83,7 +83,41 @@ $activityIcon = function($t) {
     if ($t === 'notice') return '<path d="M6 3h9l5 5v13H6z M14 3v6h6" stroke-linejoin="round" />';
     return '<circle cx="12" cy="12" r="10" />';
 };
+
+// Fetch 7-day chart data
+$chart_dates = [];
+$chart_labels = [];
+$chart_donations = [];
+$chart_messages = [];
+
+for ($i = 6; $i >= 0; $i--) {
+    $date = date('Y-m-d', strtotime("-$i days"));
+    $chart_labels[] = date('d M', strtotime($date));
+    $chart_dates[$date] = ['donations' => 0, 'messages' => 0];
+}
+
+$start_date = date('Y-m-d 00:00:00', strtotime('-6 days'));
+
+$donations_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM donation_interests WHERE created_at >= ? GROUP BY DATE(created_at)");
+$donations_query->execute([$start_date]);
+foreach ($donations_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['donations'] = $row['c'];
+}
+
+$messages_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM contact_messages WHERE created_at >= ? GROUP BY DATE(created_at)");
+$messages_query->execute([$start_date]);
+foreach ($messages_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
+    if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['messages'] = $row['c'];
+}
+
+foreach ($chart_dates as $d => $data) {
+    $chart_donations[] = $data['donations'];
+    $chart_messages[] = $data['messages'];
+}
 ?>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div>
     <!-- Header -->
@@ -169,6 +203,16 @@ $activityIcon = function($t) {
 
     </div>
 
+    <!-- Activity Chart -->
+    <div class="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="mb-4 flex items-center justify-between">
+            <div class="font-serif-bn text-base font-bold text-slate-900">গত ৭ দিনের কার্যক্রম</div>
+        </div>
+        <div class="relative w-full h-[300px]">
+            <canvas id="activityChart"></canvas>
+        </div>
+    </div>
+
     <div class="mt-6 grid gap-6 lg:grid-cols-[3fr_2fr]">
         <!-- Recent Activity -->
         <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -224,5 +268,86 @@ $activityIcon = function($t) {
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    
+    // Data from PHP
+    const labels = <?php echo json_encode($chart_labels); ?>;
+    const donationsData = <?php echo json_encode($chart_donations); ?>;
+    const messagesData = <?php echo json_encode($chart_messages); ?>;
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Donations',
+                    data: donationsData,
+                    backgroundColor: 'rgba(139, 92, 246, 0.8)', // Violet-500
+                    borderRadius: 4,
+                },
+                {
+                    label: 'Messages',
+                    data: messagesData,
+                    backgroundColor: 'rgba(244, 63, 94, 0.8)', // Rose-500
+                    borderRadius: 4,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: "'Inter', sans-serif",
+                            size: 12
+                        },
+                        usePointStyle: true,
+                        boxWidth: 8
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { family: "'Inter', sans-serif", size: 13 },
+                    bodyFont: { family: "'Inter', sans-serif", size: 13 },
+                    padding: 10,
+                    cornerRadius: 8,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        font: { family: "'Inter', sans-serif", size: 11 }
+                    },
+                    grid: {
+                        color: 'rgba(226, 232, 240, 0.5)',
+                        drawBorder: false,
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: { family: "'Inter', sans-serif", size: 11 }
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+        }
+    });
+});
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

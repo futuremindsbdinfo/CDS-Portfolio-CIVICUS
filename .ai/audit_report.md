@@ -103,12 +103,12 @@
 
 ## 🟠 Phase 3: অ্যাডমিন প্যানেল পলিশ ও ইন্টারঅ্যাক্টিভিটি
 
-- [ ] Contact Messages-এ ফিল্টার ট্যাবস (All / Unread / Read)
-- [ ] Contact Message ডিটেইল মডাল (পুরো মেসেজ + sender IP দেখা)
-- [ ] Donation ডিটেইল মডাল (পূর্ণ donor তথ্য দেখা)
-- [ ] ড্যাশবোর্ডে ৭-দিনের Activity Bar Chart (Chart.js CDN বা plain SVG)
-- [ ] Admin প্রোফাইল কার্ড (নাম, ইমেইল, শেষ লগইন)
-- [ ] Password Strength Meter (পাসওয়ার্ড শক্তি নির্দেশক)
+- [x] Contact Messages-এ ফিল্টার ট্যাবস (All / Unread / Read)
+- [x] Contact Message ডিটেইল মডাল (পুরো মেসেজ + sender IP দেখা)
+- [x] Donation ডিটেইল মডাল (পূর্ণ donor তথ্য দেখা)
+- [x] ড্যাশবোর্ডে ৭-দিনের Activity Bar Chart (Chart.js CDN বা plain SVG)
+- [x] Admin প্রোফাইল কার্ড (নাম, ইমেইল, শেষ লগইন)
+- [x] Password Strength Meter (পাসওয়ার্ড শক্তি নির্দেশক)
 
 ---
 
