@@ -71,6 +71,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
+// Handle Update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
+    $id = (int)$_POST['id'];
+    $project_id = !empty($_POST['project_id']) ? (int)$_POST['project_id'] : null;
+    $caption_bn = clean_input($_POST['caption_bn']);
+    $caption_en = clean_input($_POST['caption_en'] ?? '');
+    $event_date = !empty($_POST['event_date']) ? clean_input($_POST['event_date']) : null;
+    
+    $image_path = null;
+    if (isset($_FILES['image_path']) && $_FILES['image_path']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $upload_result = handle_image_upload($_FILES['image_path'], 'gallery');
+        if (!$upload_result['success']) {
+            $_SESSION['flash_message'] = $upload_result['error'];
+            $_SESSION['flash_type'] = "error";
+            header("Location: gallery_admin.php");
+            exit;
+        }
+        $image_path = $upload_result['filename'];
+    }
+
+    if ($db && !empty($caption_bn) && $id > 0) {
+        if ($image_path) {
+            // Get old image to delete
+            $stmt = $db->prepare("SELECT image_path FROM gallery WHERE id = ?");
+            $stmt->execute([$id]);
+            $old_photo = $stmt->fetch();
+            if ($old_photo && $old_photo['image_path'] && file_exists(__DIR__ . '/../uploads/gallery/' . $old_photo['image_path'])) {
+                @unlink(__DIR__ . '/../uploads/gallery/' . $old_photo['image_path']);
+            }
+
+            $stmt = $db->prepare("UPDATE gallery SET project_id = ?, image_path = ?, caption_bn = ?, caption_en = ?, event_date = ? WHERE id = ?");
+            $success = $stmt->execute([$project_id, $image_path, $caption_bn, $caption_en, $event_date, $id]);
+        } else {
+            $stmt = $db->prepare("UPDATE gallery SET project_id = ?, caption_bn = ?, caption_en = ?, event_date = ? WHERE id = ?");
+            $success = $stmt->execute([$project_id, $caption_bn, $caption_en, $event_date, $id]);
+        }
+
+        if ($success) {
+            $_SESSION['flash_message'] = "Photo updated successfully.";
+            $_SESSION['flash_type'] = "success";
+        } else {
+            $_SESSION['flash_message'] = "Failed to update photo.";
+            $_SESSION['flash_type'] = "error";
+        }
+    }
+    header("Location: gallery_admin.php");
+    exit;
+}
+
 // Fetch all gallery items
 $photos = [];
 if ($db) {
@@ -80,6 +130,14 @@ if ($db) {
         LEFT JOIN projects p ON g.project_id = p.id 
         ORDER BY g.created_at DESC
     ")->fetchAll();
+}
+
+// Fetch item to edit
+$edit_photo = null;
+if (isset($_GET['edit_id']) && $db) {
+    $stmt = $db->prepare("SELECT * FROM gallery WHERE id = ?");
+    $stmt->execute([(int)$_GET['edit_id']]);
+    $edit_photo = $stmt->fetch();
 }
 ?>
 
@@ -140,6 +198,58 @@ if ($db) {
         </form>
     </div>
 
+    <?php if ($edit_photo): ?>
+    <!-- Edit Form -->
+    <div id="edit-photo-form" class="mb-8 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="mb-4 font-serif-bn text-lg font-bold text-slate-900">Edit Photo</div>
+        <form action="gallery_admin.php" method="POST" class="space-y-4" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="id" value="<?php echo $edit_photo['id']; ?>">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Caption (Bengali) *</span>
+                    <input type="text" name="caption_bn" value="<?php echo e($edit_photo['caption_bn']); ?>" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Caption (English)</span>
+                    <input type="text" name="caption_en" value="<?php echo e($edit_photo['caption_en']); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                </label>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Link to Project (Optional)</span>
+                    <select name="project_id" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                        <option value="">None</option>
+                        <?php foreach($projects as $p): ?>
+                            <option value="<?php echo $p['id']; ?>" <?php echo $edit_photo['project_id'] == $p['id'] ? 'selected' : ''; ?>><?php echo e($p['title_bn']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Event Date</span>
+                    <input type="date" name="event_date" value="<?php echo e($edit_photo['event_date']); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                </label>
+                <label class="block md:col-span-2">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Photo Image (Optional - Max 5MB)</span>
+                    <div class="mb-2 h-16 w-24 rounded-md bg-slate-200 bg-cover bg-center overflow-hidden">
+                        <img src="../uploads/gallery/<?php echo e($edit_photo['image_path']); ?>" alt="current" class="h-full w-full object-cover">
+                    </div>
+                    <input type="file" name="image_path" accept="image/jpeg,image/png,image/webp" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                    <span class="text-xs text-slate-500 mt-1 block">Leave empty to keep the current image.</span>
+                </label>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <a href="gallery_admin.php" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancel</a>
+                <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-110">Update Photo</button>
+            </div>
+        </form>
+    </div>
+    <?php endif; ?>
+
     <!-- Gallery List -->
     <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
@@ -183,6 +293,9 @@ if ($db) {
                             </td>
                             <td class="px-4 py-3 text-slate-600"><?php echo $photo['event_date'] ? date('d M Y', strtotime($photo['event_date'])) : 'N/A'; ?></td>
                             <td class="px-4 py-3 flex gap-2 h-full items-center justify-center">
+                                <a href="gallery_admin.php?edit_id=<?php echo $photo['id']; ?>" class="grid h-8 w-8 place-items-center rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-primary transition mt-1" title="Edit">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </a>
                                 <form action="gallery_admin.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this photo?');" class="inline-block mt-1">
                                     <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                     <input type="hidden" name="action" value="delete">
