@@ -47,6 +47,7 @@ function is_rate_limited($username, $ip) {
     ");
     $stmt->execute([$username, $ip]);
     $failed_attempts = $stmt->fetchColumn();
+    $stmt->closeCursor();
     
     return $failed_attempts >= 5;
 }

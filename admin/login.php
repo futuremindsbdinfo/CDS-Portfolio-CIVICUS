@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("SELECT id, password_hash, is_active FROM admins WHERE username = ?");
             $stmt->execute([$username]);
             $admin = $stmt->fetch();
+            $stmt->closeCursor();
 
             if ($admin && password_verify($password, $admin['password_hash'])) {
                 if ($admin['is_active']) {
