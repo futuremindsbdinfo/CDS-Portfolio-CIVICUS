@@ -65,10 +65,6 @@ require_once __DIR__ . '/includes/header.php';
         <path fill="url(#g2)" d="M460 240c0 118-90 210-208 210S48 358 48 240 138 30 256 30s204 92 204 210z" />
         <g fill="white">
             <image href="/assets/img/cds-logo.png" x="114" y="100" width="280" height="280" class="animate-float drop-shadow-2xl" />
-            <circle cx="150" cy="150" r="6" />
-            <circle cx="360" cy="180" r="4" />
-            <circle cx="380" cy="330" r="7" />
-            <circle cx="140" cy="340" r="5" />
         </g>
         </svg>
         <div class="absolute bottom-0 -left-2 rounded-2xl bg-primary p-4 shadow-card animate-[float_5s_ease-in-out_infinite]">
