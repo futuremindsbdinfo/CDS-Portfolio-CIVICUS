@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $content = $_POST['content']; // not cleaned fully here, we will rely on output escaping or a safer sanitize
     // Actually, I should use clean_input as per the project's standard.
     $content = clean_input($_POST['content']);
-    $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : null;
+    $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : date('Y-m-d');
     
     $cover_image = null;
     if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $id = (int)$_POST['id'];
     $title = clean_input($_POST['title']);
     $content = clean_input($_POST['content']);
-    $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : null;
+    $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : date('Y-m-d');
     
     if ($db && !empty($title) && !empty($content)) {
         $cover_image_query = "";
