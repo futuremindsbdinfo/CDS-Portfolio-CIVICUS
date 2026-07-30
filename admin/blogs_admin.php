@@ -280,6 +280,8 @@ if ($db) {
     automatic_uploads: true,
     file_picker_types: 'image',
     height: 400,
+    promotion: false,
+    branding: false,
     content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px }'
   });
 </script>
