@@ -53,6 +53,7 @@ CREATE TABLE projects (
     status ENUM('ongoing', 'completed') NOT NULL DEFAULT 'ongoing',
     cover_image VARCHAR(255) NOT NULL,
     video_embed TEXT NULL,
+    video_url VARCHAR(255) NULL,
     start_date DATE NULL,
     end_date DATE NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP

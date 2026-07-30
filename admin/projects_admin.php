@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $start_date = !empty($_POST['start_date']) ? clean_input($_POST['start_date']) : null;
     $end_date = !empty($_POST['end_date']) ? clean_input($_POST['end_date']) : null;
     $video_embed = !empty($_POST['video_embed']) ? $_POST['video_embed'] : null; // don't fully clean since it's iframe HTML
+    $video_url = !empty($_POST['video_url']) ? clean_input($_POST['video_url']) : null;
 
     $cover_image = null;
     if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -56,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     if ($db && !empty($title_bn) && !empty($description_bn)) {
-        $stmt = $db->prepare("INSERT INTO projects (title_bn, title_en, description_bn, description_en, status, cover_image, start_date, end_date, video_embed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$title_bn, $title_en, $description_bn, $description_en, $status, $cover_image, $start_date, $end_date, $video_embed])) {
+        $stmt = $db->prepare("INSERT INTO projects (title_bn, title_en, description_bn, description_en, status, cover_image, start_date, end_date, video_embed, video_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$title_bn, $title_en, $description_bn, $description_en, $status, $cover_image, $start_date, $end_date, $video_embed, $video_url])) {
             $_SESSION['flash_message'] = "Project added successfully.";
             $_SESSION['flash_type'] = "success";
         } else {
@@ -81,10 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $start_date = !empty($_POST['start_date']) ? clean_input($_POST['start_date']) : null;
     $end_date = !empty($_POST['end_date']) ? clean_input($_POST['end_date']) : null;
     $video_embed = !empty($_POST['video_embed']) ? $_POST['video_embed'] : null; // don't fully clean since it's iframe HTML
+    $video_url = !empty($_POST['video_url']) ? clean_input($_POST['video_url']) : null;
 
     if ($db && !empty($title_bn) && !empty($description_bn)) {
         $cover_image_query = "";
-        $params = [$title_bn, $title_en, $description_bn, $description_en, $status, $start_date, $end_date, $video_embed];
+        $params = [$title_bn, $title_en, $description_bn, $description_en, $status, $start_date, $end_date, $video_embed, $video_url];
 
         if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] !== UPLOAD_ERR_NO_FILE) {
             $upload_result = handle_image_upload($_FILES['cover_image'], 'projects');
@@ -108,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         
         $params[] = $id;
 
-        $stmt = $db->prepare("UPDATE projects SET title_bn = ?, title_en = ?, description_bn = ?, description_en = ?, status = ?, start_date = ?, end_date = ?, video_embed = ? $cover_image_query WHERE id = ?");
+        $stmt = $db->prepare("UPDATE projects SET title_bn = ?, title_en = ?, description_bn = ?, description_en = ?, status = ?, start_date = ?, end_date = ?, video_embed = ?, video_url = ? $cover_image_query WHERE id = ?");
         if ($stmt->execute($params)) {
             $_SESSION['flash_message'] = "Project updated successfully.";
             $_SESSION['flash_type'] = "success";
@@ -192,6 +194,10 @@ if ($db) {
                 <label class="block md:col-span-3">
                     <span class="mb-1.5 block text-xs font-semibold text-slate-600">Video Embed Code (Optional)</span>
                     <textarea name="video_embed" rows="3" placeholder="e.g. <iframe src='https://www.youtube.com/embed/...'></iframe>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono text-xs"></textarea>
+                </label>
+                <label class="block md:col-span-3">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Video Link (Optional, will show a 'Watch Video' button)</span>
+                    <input type="url" name="video_url" placeholder="e.g. https://youtube.com/watch?v=..." class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                 </label>
             </div>
 
@@ -305,6 +311,10 @@ if ($db) {
                                         <label class="block md:col-span-3">
                                             <span class="mb-1.5 block text-xs font-semibold text-slate-600">Video Embed Code (Optional)</span>
                                             <textarea name="video_embed" rows="3" placeholder="e.g. <iframe src='https://www.youtube.com/embed/...'></iframe>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono text-xs"><?php echo e($project['video_embed'] ?? ''); ?></textarea>
+                                        </label>
+                                        <label class="block md:col-span-3">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Video Link (Optional, will show a 'Watch Video' button)</span>
+                                            <input type="url" name="video_url" value="<?php echo e($project['video_url'] ?? ''); ?>" placeholder="e.g. https://youtube.com/watch?v=..." class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                                         </label>
                                     </div>
                         

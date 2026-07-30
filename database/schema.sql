@@ -67,6 +67,7 @@ CREATE TABLE projects (
     status ENUM('ongoing', 'completed') NOT NULL DEFAULT 'ongoing',
     cover_image VARCHAR(255) NULL,          -- শুধু ফাইলের নাম রাখা হবে, পাথ না (path traversal এড়ানোর জন্য)
     video_embed TEXT NULL,
+    video_url VARCHAR(255) NULL,
     start_date DATE NULL,
     end_date DATE NULL,
     created_by INT UNSIGNED NOT NULL,
