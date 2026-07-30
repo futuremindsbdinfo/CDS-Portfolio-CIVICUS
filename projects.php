@@ -50,9 +50,10 @@ if ($db) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach ($projects as $project): ?>
                 <div class="project-card bg-white rounded-lg shadow-sm hover:shadow-md border border-gray-200 overflow-hidden transition-all duration-300" data-status="<?php echo e($project['status']); ?>">
-                    <!-- Cover Image -->
+                    <!-- Cover Image / Video -->
                     <div class="relative">
                           <?php 
+                              $has_video = !empty($project['video_url']);
                               $img_path = 'uploads/projects/' . $project['cover_image'];
                               $has_image = !empty($project['cover_image']) && file_exists(__DIR__ . '/' . $img_path);
                           ?>
@@ -99,6 +100,15 @@ if ($db) {
                                 ?>
                             </span>
                         </div>
+                        
+                        <?php if (!empty($project['video_url'])): ?>
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <a href="<?php echo e($project['video_url']); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-full bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold py-2 px-4 rounded transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                                <span>ভিডিও দেখুন</span>
+                            </a>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>

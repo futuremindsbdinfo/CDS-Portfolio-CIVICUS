@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // notice.php
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/sanitize.php';

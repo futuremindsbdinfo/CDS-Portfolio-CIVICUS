@@ -36,6 +36,9 @@ foreach($nav_items as $item) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - CDS</title>
     <link rel="icon" type="image/png" href="/assets/img/cds-logo.png">
+    <!-- Bengali Fonts: Kalpurush + SolaimanLipi -->
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
     <link href="../assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../../assets/css/style.css'); ?>" rel="stylesheet">
     <script>
         function toggleSidebar() {

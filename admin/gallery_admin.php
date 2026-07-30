@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // admin/gallery_admin.php
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../includes/upload_handler.php';

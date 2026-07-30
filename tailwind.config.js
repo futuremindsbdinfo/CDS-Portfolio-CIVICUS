@@ -42,10 +42,10 @@ module.exports = {
         }
       },
       fontFamily: {
-        'sans-bn': ['"Noto Sans Bengali"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        'serif-bn': ['"Noto Serif Bengali"', 'ui-serif', 'Georgia', 'serif'],
-        'sans': ['"Noto Sans Bengali"', '"SolaimanLipi"', 'Arial', 'sans-serif'],
-        'serif': ['"Noto Serif Bengali"', 'serif']
+        'sans-bn': ['Kalpurush', 'SolaimanLipi', 'Arial', 'sans-serif'],
+        'serif-bn': ['SolaimanLipi', 'Kalpurush', 'serif'],
+        'sans': ['Kalpurush', 'SolaimanLipi', 'Arial', 'sans-serif'],
+        'serif': ['SolaimanLipi', 'Kalpurush', 'serif']
       },
       keyframes: {
         float: {

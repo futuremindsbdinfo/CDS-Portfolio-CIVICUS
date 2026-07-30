@@ -64,8 +64,8 @@
                     <span data-lang="en" class="hidden">Our Mission</span>
                 </h3>
                 <p class="text-gray-600 leading-relaxed">
-                    <span data-lang="bn">সুশিক্ষা, উন্নত চিকিৎসা, দারিদ্র্য বিমোচন এবং সামাজিক ন্যায়বিচার প্রতিষ্ঠার মাধ্যমে সমাজের পিছিয়ে পড়া জনগোষ্ঠীর জীবনযাত্রার মান উন্নয়ন করা এবং তাদের স্বাবলম্বী হতে সহায়তা করা।</span>
-                    <span data-lang="en" class="hidden">To improve the standard of living of the marginalized people in society and help them become self-reliant by establishing good education, advanced healthcare, poverty alleviation, and social justice.</span>
+                    <span data-lang="bn">নাগরিকদের অধিকার, দায়িত্ব ও সামাজিক অংশগ্রহণ সম্পর্কে সচেতন করা; সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার লক্ষ্যে উন্নয়নমূলক কার্যক্রমের মাধ্যমে স্থানীয় জনগোষ্ঠীর জীবনমান উন্নয়নে কাজ করা।</span>
+                    <span data-lang="en" class="hidden">To make citizens aware of their rights, responsibilities, and social participation; and to improve the living standards of local communities through quality education, healthcare, good governance, and developmental activities.</span>
                 </p>
             </div>
 
@@ -80,11 +80,48 @@
                     <span data-lang="en" class="hidden">Our Vision</span>
                 </h3>
                 <p class="text-gray-600 leading-relaxed">
-                    <span data-lang="bn">একটি প্রগতিশীল, বৈষম্যহীন এবং সচেতন সমাজ গঠন করা, যেখানে প্রতিটি নাগরিক তার দায়িত্ব পালনে সচেষ্ট হবে এবং রাষ্ট্রের প্রতিটি স্তরে সুশাসন নিশ্চিত হবে।</span>
-                    <span data-lang="en" class="hidden">To build a progressive, non-discriminatory, and conscious society where every citizen will strive to fulfill their responsibilities, and good governance will be ensured at every level of the state.</span>
+                    <span data-lang="bn">সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার লক্ষ্যে কাজ করে একটি সচেতন, ন্যায়ভিত্তিক ও দায়িত্বশীল সমাজ গড়ে তোলা।</span>
+                    <span data-lang="en" class="hidden">To build a conscious, justice-based, and responsible society by ensuring quality education, good governance, healthcare, human values, and sustainable development.</span>
                 </p>
             </div>
 
+        </div>
+    </div>
+</section>
+<!-- Values Section -->
+<section class="py-16 bg-white border-y border-gray-200">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-serif font-bold text-center text-cds-blue mb-4">
+            <span data-lang="bn">আমাদের মূল্যবোধ</span>
+            <span data-lang="en" class="hidden">Our Values</span>
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            <span data-lang="bn">গঠনতন্ত্রের ধারা ২৬ (শৃংখলা ও আচরণবিধি) অনুযায়ী সিডিএস যেসব নীতি মেনে চলে।</span>
+            <span data-lang="en" class="hidden">The principles CDS adheres to according to Article 26 (Code of Conduct) of the constitution.</span>
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="bg-gray-50 p-6 rounded-lg text-center border-t-2 border-cds-green">
+                <div class="w-12 h-12 bg-green-100 text-cds-green rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">বৈষম্যহীন সমাজ</h4>
+                <p class="text-sm text-gray-600">ধর্ম, বর্ণ, লিঙ্গ বা সামাজিক অবস্থানের ভিত্তিতে কোনো বৈষম্য করা হবে না।</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center border-t-2 border-cds-blue">
+                <div class="w-12 h-12 bg-blue-100 text-cds-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">স্বচ্ছতা ও নৈতিকতা</h4>
+                <p class="text-sm text-gray-600">দুর্নীতি, স্বজনপ্রীতি ও ক্ষমতার অপব্যবহার কঠোরভাবে নিষিদ্ধ।</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center border-t-2 border-cds-green">
+                <div class="w-12 h-12 bg-green-100 text-cds-green rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                </div>
+                <h4 class="font-bold text-gray-800 mb-2">সম্মান ও মর্যাদা</h4>
+                <p class="text-sm text-gray-600">নারী, শিশু ও প্রান্তিক জনগোষ্ঠীর প্রতি সম্মানজনক আচরণ নিশ্চিত করা হবে।</p>
+            </div>
         </div>
     </div>
 </section>
@@ -103,65 +140,80 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             
-            <!-- Team Member 1 -->
+            <?php
+            $teamMembers = [
+                ['bn' => 'সভাপতি', 'en' => 'President'],
+                ['bn' => 'সহ-সভাপতি', 'en' => 'Vice President'],
+                ['bn' => 'সহ-সভাপতি', 'en' => 'Vice President'],
+                ['bn' => 'সাধারণ সম্পাদক', 'en' => 'General Secretary'],
+                ['bn' => 'যুগ্ম সাধারণ সম্পাদক', 'en' => 'Joint General Secretary'],
+                ['bn' => 'যুগ্ম সাধারণ সম্পাদক', 'en' => 'Joint General Secretary'],
+                ['bn' => 'সাংগঠনিক সম্পাদক', 'en' => 'Organizing Secretary'],
+                ['bn' => 'অর্থ সম্পাদক', 'en' => 'Finance Secretary'],
+                ['bn' => 'দপ্তর সম্পাদক', 'en' => 'Office Secretary'],
+                ['bn' => 'প্রচার ও প্রকাশনা সম্পাদক', 'en' => 'Publicity & Publication Secretary'],
+                ['bn' => 'শিক্ষা বিষয়ক সম্পাদক', 'en' => 'Education Secretary'],
+                ['bn' => 'স্বাস্থ্য বিষয়ক সম্পাদক', 'en' => 'Health Secretary'],
+                ['bn' => 'সুশাসন ও অধিকার বিষয়ক সম্পাদক', 'en' => 'Governance & Rights Secretary'],
+                ['bn' => 'যুব ও স্বেচ্ছাসেবক বিষয়ক সম্পাদক', 'en' => 'Youth & Volunteer Secretary'],
+                ['bn' => 'নারী ও শিশু বিষয়ক সম্পাদক', 'en' => 'Women & Child Secretary'],
+                ['bn' => 'পরিবেশ ও উন্নয়ন বিষয়ক সম্পাদক', 'en' => 'Environment & Development Secretary'],
+                ['bn' => 'আইন ও সালিশ বিষয়ক সম্পাদক', 'en' => 'Law & Arbitration Secretary']
+            ];
+            
+            foreach ($teamMembers as $index => $member):
+            ?>
             <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
-                <img src="assets/img/team/placeholder.jpg" alt="President - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
+                <img src="assets/img/team/placeholder.jpg" alt="<?php echo $member['en']; ?> - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-1">
-                        <span data-lang="bn">আব্দুর রহমান</span>
-                        <span data-lang="en" class="hidden">Abdur Rahman</span>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1 hidden">
+                        <span data-lang="bn">নাম যুক্ত করা হবে</span>
+                        <span data-lang="en" class="hidden">Name TBA</span>
                     </h3>
                     <p class="text-cds-green font-semibold text-sm">
-                        <span data-lang="bn">প্রেসিডেন্ট</span>
-                        <span data-lang="en" class="hidden">President</span>
+                        <span data-lang="bn"><?php echo $member['bn']; ?></span>
+                        <span data-lang="en" class="hidden"><?php echo $member['en']; ?></span>
                     </p>
                 </div>
             </div>
+            <?php endforeach; ?>
 
-            <!-- Team Member 2 -->
-            <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
-                <img src="assets/img/team/placeholder.jpg" alt="Secretary - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-1">
-                        <span data-lang="bn">মাহমুদুল হাসান</span>
-                        <span data-lang="en" class="hidden">Mahmudul Hasan</span>
-                    </h3>
-                    <p class="text-cds-green font-semibold text-sm">
-                        <span data-lang="bn">সাধারণ সম্পাদক</span>
-                        <span data-lang="en" class="hidden">General Secretary</span>
-                    </p>
-                </div>
-            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Team Member 3 -->
-            <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
-                <img src="assets/img/team/placeholder.jpg" alt="Treasurer - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-1">
-                        <span data-lang="bn">ফারহানা ইয়াসমিন</span>
-                        <span data-lang="en" class="hidden">Farhana Yasmin</span>
-                    </h3>
-                    <p class="text-cds-green font-semibold text-sm">
-                        <span data-lang="bn">কোষাধ্যক্ষ</span>
-                        <span data-lang="en" class="hidden">Treasurer</span>
-                    </p>
-                </div>
-            </div>
+<!-- Advisory Council Section -->
+<section class="py-16 bg-gray-50 border-t border-gray-200">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-serif font-bold text-center text-cds-blue mb-4">
+            <span data-lang="bn">আমাদের উপদেষ্টা পরিষদ</span>
+            <span data-lang="en" class="hidden">Our Advisory Council</span>
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            <span data-lang="bn">সমাজের সম্মানিত, অভিজ্ঞ ও বিশেষজ্ঞ ব্যক্তিবর্গ যারা আমাদের পথপ্রদর্শক হিসেবে কাজ করছেন।</span>
+            <span data-lang="en" class="hidden">The respected, experienced, and expert individuals of society who act as our guides.</span>
+        </p>
 
-            <!-- Team Member 4 -->
-            <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
-                <img src="assets/img/team/placeholder.jpg" alt="Coordinator - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-1">
-                        <span data-lang="bn">কামরুল ইসলাম</span>
-                        <span data-lang="en" class="hidden">Kamrul Islam</span>
-                    </h3>
-                    <p class="text-cds-green font-semibold text-sm">
-                        <span data-lang="bn">প্রজেক্ট কো-অর্ডিনেটর</span>
-                        <span data-lang="en" class="hidden">Project Coordinator</span>
-                    </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            
+            <?php
+            // Assuming 3 placeholder advisors for now
+            for($i=1; $i<=3; $i++):
+            ?>
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center p-6 border border-gray-100">
+                <div class="w-24 h-24 mx-auto bg-gray-200 rounded-full overflow-hidden mb-4">
+                    <img src="assets/img/team/placeholder.jpg" alt="Advisor Placeholder" class="w-full h-full object-cover">
                 </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-1">
+                    <span data-lang="bn">উপদেষ্টার নাম</span>
+                    <span data-lang="en" class="hidden">Advisor Name</span>
+                </h3>
+                <p class="text-cds-green font-semibold text-sm">
+                    <span data-lang="bn">উপদেষ্টা সদস্য</span>
+                    <span data-lang="en" class="hidden">Advisory Member</span>
+                </p>
             </div>
+            <?php endfor; ?>
 
         </div>
     </div>
