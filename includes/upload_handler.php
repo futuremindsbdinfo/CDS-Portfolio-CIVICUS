@@ -152,3 +152,57 @@ function handle_image_upload($file, $target_dir) {
         return ['success' => false, 'error' => 'Failed to save the processed image.'];
     }
 }
+
+/**
+ * Handle secure file upload (e.g., PDF)
+ * 
+ * @param array $file $_FILES entry
+ * @param string $target_dir Target directory inside 'uploads/'
+ * @param array $allowed_exts Allowed file extensions
+ * @param int $max_size Maximum file size in bytes
+ * @return array ['success' => bool, 'filename' => string|null, 'error' => string|null]
+ */
+function handle_file_upload($file, $target_dir, $allowed_exts = ['pdf'], $max_size = 10 * 1024 * 1024) {
+    if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'error' => 'Upload failed or no file uploaded.'];
+    }
+
+    if ($file['size'] > $max_size) {
+        return ['success' => false, 'error' => 'File size exceeds the limit.'];
+    }
+
+    $parts = explode('.', $file['name']);
+    $ext = strtolower(end($parts));
+    
+    if (!in_array($ext, $allowed_exts)) {
+        return ['success' => false, 'error' => 'Invalid file extension. Allowed: ' . implode(', ', $allowed_exts)];
+    }
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    if (!$finfo) {
+        return ['success' => false, 'error' => 'Server configuration error (finfo missing).'];
+    }
+    
+    $mime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    // Simple mime check for PDF
+    if ($ext === 'pdf' && $mime !== 'application/pdf') {
+        return ['success' => false, 'error' => 'Invalid file content (MIME type mismatch for PDF).'];
+    }
+
+    $random_name = bin2hex(random_bytes(16)) . '.' . $ext;
+    
+    $full_target_dir = __DIR__ . '/../uploads/' . $target_dir;
+    if (!is_dir($full_target_dir)) {
+        mkdir($full_target_dir, 0755, true);
+    }
+    
+    $target_file_path = $full_target_dir . '/' . $random_name;
+
+    if (move_uploaded_file($file['tmp_name'], $target_file_path)) {
+        return ['success' => true, 'filename' => $random_name];
+    } else {
+        return ['success' => false, 'error' => 'Failed to save the file.'];
+    }
+}

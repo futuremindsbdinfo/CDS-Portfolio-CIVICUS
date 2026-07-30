@@ -95,3 +95,13 @@ CREATE TABLE donation_interests (
     status ENUM('pending', 'verified', 'rejected') NOT NULL DEFAULT 'pending',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 8. blogs
+CREATE TABLE blogs (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    cover_image VARCHAR(255) NULL,
+    published_date DATE NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

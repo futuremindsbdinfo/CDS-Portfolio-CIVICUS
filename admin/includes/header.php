@@ -16,6 +16,8 @@ $nav_items = [
     ['key' => 'notices.php', 'label' => 'Notices', 'icon' => '<path d="M6 3h9l5 5v13H6z M14 3v6h6" stroke-linejoin="round" />'],
     ['key' => 'projects_admin.php', 'label' => 'Projects', 'icon' => '<path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 18l9 5 9-5" stroke-linejoin="round" />'],
     ['key' => 'gallery_admin.php', 'label' => 'Gallery', 'icon' => '<rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="M21 15l-5-5L5 21" />'],
+    ['key' => 'blogs_admin.php', 'label' => 'Blogs', 'icon' => '<path d="M4 19h16v2H4zm14-4H6V5h12v10z"/>'],
+    ['key' => 'publications_admin.php', 'label' => 'Publications', 'icon' => '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>'],
     ['key' => 'contact_messages.php', 'label' => 'Contact Messages', 'icon' => '<rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" />'],
     ['key' => 'donation_interests.php', 'label' => 'Donation Interests', 'icon' => '<path d="M12 21s-7-4.5-7-10a4 4 0 017-2.7A4 4 0 0119 11c0 5.5-7 10-7 10z" />'],
     ['key' => 'change_password.php', 'label' => 'Admin Settings', 'icon' => '<circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z" />']

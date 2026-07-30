@@ -44,13 +44,14 @@
 
 - **[FIXED/IMPLEMENTED]** contact.php তৈরি করা হয়েছে (CSRF + IP rate limiting সহ)। donation.php-তে আসল CSRF টোকেন এবং IP rate limiting + DB insert লজিক যোগ করা হয়েছে।
 
+> **সতর্কতা:** কাজের সাথে সাথে এই ফাইলটি নিয়মিত আপডেট করতে হবে (UPDATE IT REGULARLY)。
+
+- **[FIXED/IMPLEMENTED]** contact.php তৈরি করা হয়েছে (CSRF + IP rate limiting সহ)। donation.php-তে আসল CSRF টোকেন এবং IP rate limiting + DB insert লজিক যোগ করা হয়েছে।
+
 - **[FIXED]** admin/dashboard.php সহ মোট ৭টি ফাইলে 'Call to undefined function get_db_connection()' error দেখা দিচ্ছিল। Root cause: আগের একটি commit-এ Antigravity agent ভুল করে Database::getConnection()-এর বদলে get_db_connection() কল করেছিল। ৭টি ফাইলে এটি ঠিক করে Database::getConnection() দিয়ে replace করা হয়েছে।
 
 - **[FEATURE ADDED]** Notices-এ Optional PDF Attachment ফীচার যোগ করা হয়েছে। সিকিউরিটির জন্য application/pdf MIME type check (finfo), %PDF- magic bytes check, double extension block, 5MB limit এবং random filename generate করা হচ্ছে। ফাইলগুলো uploads/notices/ ফোল্ডারে সেভ হবে (যা .htaccess দিয়ে PHP execution block করা)।
 - **[FIXED]** Hero সেকশনের CDS লোগো গ্রাফিক্সের চারপাশের ৪টি অপ্রয়োজনীয় সাদা ডট (circle element) `index.php` থেকে রিমুভ করা হয়েছে।
 - **[UPDATED]** Footer-এ "Made with ♥ by Future Minds Academy" (লিংক: `https://fuminds.com`) আপডেট করা হয়েছে।
 - **[REDESIGNED]** `admin/login.php` পেজটিকে আধুনিক Glassmorphic UI, ব্যাকগ্রাউন্ড গ্লো, লোগো, ইনপুট আইকন, পাসওয়ার্ড শো/হাইড বাটন এবং Kalpurush/SolaimanLipi ফন্ট সহ রেডিজাইন করা হয়েছে।
-
-
-
-
+- **[FEATURE ADDED]** Blogs CRUD (admin/blogs_admin.php) যোগ করা হয়েছে। title, content, published_date, cover_image (uploads/blogs/) সহ সম্পূর্ণ ফাংশনালিটি (PDO, CSRF, sanitize)। `blog.php` তে ডাইনামিক ফেচিং এবং `blog_details.php` টেমপ্লেট তৈরি করা হয়েছে। schema.sql এ blogs টেবিল যোগ করা হয়েছে।

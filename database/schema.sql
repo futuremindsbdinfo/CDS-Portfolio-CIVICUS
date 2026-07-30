@@ -123,3 +123,17 @@ CREATE TABLE donation_interests (
     INDEX idx_submitted (submitted_at),
     INDEX idx_ip_time (ip_address, submitted_at)
 ) ENGINE=InnoDB;
+
+-- ============================================
+-- 8. PUBLICATIONS (প্রকাশনা ও ম্যাগাজিন)
+-- ============================================
+CREATE TABLE publications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    type ENUM('ম্যাগাজিন', 'প্রতিবেদন', 'গবেষণা') NOT NULL,
+    cover_image VARCHAR(255) NULL,
+    file_path VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
