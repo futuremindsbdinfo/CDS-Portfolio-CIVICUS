@@ -68,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $_SESSION['flash_message'] = "Failed to add blog.";
             $_SESSION['flash_type'] = "error";
         }
+    } else {
+        $_SESSION['flash_message'] = "Title and Content are required.";
+        $_SESSION['flash_type'] = "error";
     }
     header("Location: blogs_admin.php");
     exit;
@@ -115,6 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $_SESSION['flash_message'] = "Failed to update blog.";
             $_SESSION['flash_type'] = "error";
         }
+    } else {
+        $_SESSION['flash_message'] = "Title and Content are required.";
+        $_SESSION['flash_type'] = "error";
     }
     header("Location: blogs_admin.php");
     exit;
@@ -142,7 +148,7 @@ if ($db) {
     <!-- Add Form -->
     <div id="add-blog-form" class="mb-8 hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div class="mb-4 font-serif-bn text-lg font-bold text-slate-900">Add New Blog</div>
-        <form action="blogs_admin.php" method="POST" class="space-y-4" enctype="multipart/form-data">
+        <form action="blogs_admin.php" method="POST" class="space-y-4" enctype="multipart/form-data" onsubmit="tinymce.triggerSave();">
             <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
             <input type="hidden" name="action" value="add">
             
@@ -156,7 +162,7 @@ if ($db) {
             <div class="grid grid-cols-1 gap-4">
                 <label class="block">
                     <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content *</span>
-                    <textarea name="content" required rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+                    <textarea name="content" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
                 </label>
             </div>
 
@@ -223,7 +229,7 @@ if ($db) {
                         <tr id="edit-blog-form-<?php echo $blog['id']; ?>" class="hidden bg-slate-50/80 border-b border-slate-200">
                             <td colspan="3" class="p-5">
                                 <div class="mb-4 font-serif-bn text-base font-bold text-slate-900">Edit Blog</div>
-                                <form action="blogs_admin.php" method="POST" class="space-y-4" enctype="multipart/form-data">
+                                <form action="blogs_admin.php" method="POST" class="space-y-4" enctype="multipart/form-data" onsubmit="tinymce.triggerSave();">
                                     <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                                     <input type="hidden" name="action" value="edit">
                                     <input type="hidden" name="id" value="<?php echo $blog['id']; ?>">
@@ -238,7 +244,7 @@ if ($db) {
                                     <div class="grid grid-cols-1 gap-4">
                                         <label class="block">
                                             <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content *</span>
-                                            <textarea name="content" required rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo $blog['content']; ?></textarea>
+                                            <textarea name="content" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo $blog['content']; ?></textarea>
                                         </label>
                                     </div>
                         
