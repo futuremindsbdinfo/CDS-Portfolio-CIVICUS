@@ -1,21 +1,19 @@
 <?php
 // gallery.php
+require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/sanitize.php';
 
-// Directory containing gallery images
-$galleryDir = __DIR__ . '/assets/img/gallery/';
-$imageFiles = [];
+$db = Database::getConnection();
+$photos = [];
 
-if (is_dir($galleryDir)) {
-    // Scan directory for image files
-    $files = scandir($galleryDir);
-    foreach ($files as $file) {
-        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-            // Sort to ensure consistent order, or we can just append
-            $imageFiles[] = $file;
-        }
-    }
+if ($db) {
+    // Fetch all gallery items from database
+    $photos = $db->query("
+        SELECT g.*, p.title_bn as project_title 
+        FROM gallery g 
+        LEFT JOIN projects p ON g.project_id = p.id 
+        ORDER BY g.created_at DESC
+    ")->fetchAll();
 }
 
 require_once __DIR__ . '/includes/header.php';
@@ -37,18 +35,22 @@ require_once __DIR__ . '/includes/header.php';
   <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
     <!-- Masonry-like columns -->
-    <?php if (empty($imageFiles)): ?>
+    <?php if (empty($photos)): ?>
       <div class="p-8 text-center text-muted-foreground bg-surface rounded-2xl border border-border shadow-card">
         কোনো ছবি পাওয়া যায়নি।
       </div>
     <?php else: ?>
       <div class="columns-2 gap-4 lg:columns-3 xl:columns-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
-        <?php foreach ($imageFiles as $filename): 
-            $imgSrc = '/assets/img/gallery/' . e($filename);
+        <?php foreach ($photos as $photo): 
+            $imgSrc = '/uploads/gallery/' . e($photo['image_path']);
         ?>
           <a href="<?php echo $imgSrc; ?>" 
+             data-caption="<?php echo e($photo['caption_bn']); ?>"
              class="gallery-item group relative block overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover">
-            <img src="<?php echo $imgSrc; ?>" alt="Gallery Image" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105" loading="lazy">
+            <img src="<?php echo $imgSrc; ?>" alt="<?php echo e($photo['caption_bn']); ?>" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105" loading="lazy">
+            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <p class="text-white font-serif-bn font-medium text-sm lg:text-base line-clamp-2"><?php echo e($photo['caption_bn']); ?></p>
+            </div>
           </a>
         <?php endforeach; ?>
       </div>
@@ -74,8 +76,61 @@ require_once __DIR__ . '/includes/header.php';
       <div class="relative w-full overflow-hidden bg-black flex justify-center items-center" style="height: 70vh;">
         <img id="lightbox-img" src="" alt="Gallery Image" class="max-w-full max-h-full object-contain">
       </div>
+      <div class="bg-white p-4 text-center border-t border-slate-100">
+        <p id="lightbox-caption" class="font-serif-bn text-lg text-slate-800"></p>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const items = Array.from(document.querySelectorAll('.gallery-item'));
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeBtn = document.getElementById('lightbox-close');
+        const prevBtn = document.getElementById('lightbox-prev');
+        const nextBtn = document.getElementById('lightbox-next');
+        let currentIndex = 0;
+
+        function openLightbox(index) {
+            if (index < 0 || index >= items.length) return;
+            currentIndex = index;
+            const item = items[currentIndex];
+            lightboxImg.src = item.href;
+            lightboxCaption.textContent = item.getAttribute('data-caption') || '';
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        items.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                openLightbox(index);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', closeLightbox);
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox((currentIndex - 1 + items.length) % items.length);
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox((currentIndex + 1) % items.length);
+        });
+    });
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

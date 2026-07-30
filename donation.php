@@ -173,9 +173,9 @@ require_once __DIR__ . '/includes/header.php';
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <?php
       $methods = [
-        ["name" => "বিকাশ", "type" => "মার্চেন্ট", "number" => "01700-000000", "ref" => "Reference: DONATION", "instructions" => "Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
-        ["name" => "নগদ", "type" => "মার্চেন্ট", "number" => "01700-000000", "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
-        ["name" => "রকেট", "type" => "মার্চেন্ট", "number" => "01700-000000-0", "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
+        ["name" => "বিকাশ", "type" => "মার্চেন্ট", "number" => get_setting('donation_bkash', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
+        ["name" => "নগদ", "type" => "মার্চেন্ট", "number" => get_setting('donation_nagad', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
+        ["name" => "রকেট", "type" => "মার্চেন্ট", "number" => get_setting('donation_rocket', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
         ["name" => "সোনালী ব্যাংক", "type" => "চলতি হিসাব", "number" => "0000 1234 5678", "ref" => "Routing: 123456789 (Motijheel)", "instructions" => "ব্যাংক ট্রান্সফার বা BEFTN এর মাধ্যমে সরাসরি একাউন্টে টাকা পাঠাতে পারেন।", "accent" => "linear-gradient(135deg, #0f766e, #0e5e58)"]
       ];
       foreach ($methods as $m):

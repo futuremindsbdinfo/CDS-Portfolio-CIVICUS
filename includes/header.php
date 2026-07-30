@@ -1,16 +1,21 @@
 <?php
 // includes/header.php
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/settings_helper.php';
 init_secure_session();
+
+$site_title = get_setting('site_title', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)');
+$site_slogan = get_setting('site_slogan', 'সুশিক্ষা • সুশাসন • সুস্বাস্থ্য • সুনাগরিক • উন্নত বাংলাদেশ');
+$site_desc = get_setting('site_description', 'সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার লক্ষ্যে কাজ করা একটি স্বেচ্ছাসেবী সংগঠন।');
 ?>
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</title>
+    <title><?php echo htmlspecialchars($site_title); ?></title>
     <link rel="icon" type="image/png" href="/assets/img/cds-logo.png">
-    <meta name="description" content="সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার লক্ষ্যে কাজ করা একটি স্বেচ্ছাসেবী সংগঠন।">
+    <meta name="description" content="<?php echo htmlspecialchars($site_desc); ?>">
     <!-- Google Fonts for Bengali -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <!-- Compiled Tailwind CSS -->
@@ -28,7 +33,7 @@ init_secure_session();
                 সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)
               </div>
               <div class="truncate text-xs font-medium text-slate-500">
-                সুশিক্ষা • সুশাসন • সুস্বাস্থ্য • সুনাগরিক • উন্নত বাংলাদেশ
+                <?php echo htmlspecialchars($site_slogan); ?>
               </div>
             </span>
           </a>

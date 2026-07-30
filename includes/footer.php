@@ -18,11 +18,10 @@
             <div>
               <div class="flex items-center gap-3">
                 <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-10 w-auto shrink-0 drop-shadow-sm">
-                <div class="font-serif-bn text-lg font-bold">সিটিজেন ডেভেলপমেন্ট সোসাইটি</div>
+                <div class="font-serif-bn text-lg font-bold"><?php echo htmlspecialchars(get_setting('site_title', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি')); ?></div>
               </div>
               <p class="mt-4 text-sm leading-relaxed text-white/80">
-                সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস) — সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার
-                লক্ষ্যে কাজ করা একটি অলাভজনক সংগঠন।
+                <?php echo htmlspecialchars(get_setting('site_description', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস) — সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক ও উন্নত বাংলাদেশ গড়ার লক্ষ্যে কাজ করা একটি অলাভজনক সংগঠন।')); ?>
               </p>
             </div>
             <div>
@@ -48,10 +47,9 @@
             <div>
               <div class="font-serif-bn text-base font-bold">যোগাযোগ</div>
               <ul class="mt-4 space-y-2 text-sm text-white/85">
-                <li><strong class="text-white">প্রধান কার্যালয়:</strong> কাকরাইল, ঢাকা</li>
-                <li><strong class="text-white">কর্ম এলাকা:</strong> নাঙ্গলকোট ও লালমাই, কুমিল্লা</li>
-                <li>+৮৮০ ১৭০০-০০০০০০</li>
-                <li>info@cds-bd.org</li>
+                <li><?php echo htmlspecialchars(get_setting('site_address', 'ঢাকা, বাংলাদেশ')); ?></li>
+                <li><?php echo htmlspecialchars(get_setting('site_phone', '+880 1234-567890')); ?></li>
+                <li><?php echo htmlspecialchars(get_setting('site_email', 'contact@cdsbangladesh.org')); ?></li>
               </ul>
               <a href="/admin/login.php" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white">
                 অ্যাডমিন প্যানেল &rarr;
@@ -60,10 +58,21 @@
             <div>
               <div class="font-serif-bn text-base font-bold">সোশ্যাল মিডিয়া</div>
               <div class="mt-4 flex gap-3">
-                  <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">F</a>
-                  <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">X</a>
-                  <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">in</a>
-                  <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">IG</a>
+                  <?php if(get_setting('social_facebook')): ?>
+                  <a href="<?php echo htmlspecialchars(get_setting('social_facebook')); ?>" target="_blank" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">F</a>
+                  <?php endif; ?>
+                  
+                  <?php if(get_setting('social_twitter')): ?>
+                  <a href="<?php echo htmlspecialchars(get_setting('social_twitter')); ?>" target="_blank" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">X</a>
+                  <?php endif; ?>
+                  
+                  <?php if(get_setting('social_linkedin')): ?>
+                  <a href="<?php echo htmlspecialchars(get_setting('social_linkedin')); ?>" target="_blank" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">in</a>
+                  <?php endif; ?>
+                  
+                  <?php if(get_setting('social_youtube')): ?>
+                  <a href="<?php echo htmlspecialchars(get_setting('social_youtube')); ?>" target="_blank" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-sm font-bold text-white transition hover:bg-primary">YT</a>
+                  <?php endif; ?>
               </div>
             </div>
           </div>

@@ -268,7 +268,7 @@ require_once __DIR__ . '/includes/header.php';
     <h2 class="mt-2 font-serif-bn text-3xl font-bold sm:text-4xl">দ্রুত পৌঁছান</h2>
     </div>
 </div>
-<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <a href="/projects.php" class="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-card transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover">
         <div class="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-primary/10 transition group-hover:scale-110 group-hover:text-primary/20">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="h-full w-full"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 14h5" stroke-linecap="round"></path></svg>
@@ -315,6 +315,30 @@ require_once __DIR__ . '/includes/header.php';
             </div>
             <h3 class="mt-4 font-serif-bn text-lg font-bold">সদস্য ফর্ম</h3>
             <p class="mt-1 text-sm text-muted-foreground">সাধারণ, আজীবন, দাতা, উপদেষ্টা বা ছাত্র সদস্য হিসেবে যুক্ত হোন।</p>
+        </div>
+    </a>
+    <a href="/blogs.php" class="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-card transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover">
+        <div class="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-primary/10 transition group-hover:scale-110 group-hover:text-primary/20">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="h-full w-full"><path d="M4 19h16v2H4zm14-4H6V5h12v10z"></path></svg>
+        </div>
+        <div class="relative">
+            <div class="grid h-10 w-10 place-items-center rounded-lg bg-primary-soft text-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+            <h3 class="mt-4 font-serif-bn text-lg font-bold">ব্লগ</h3>
+            <p class="mt-1 text-sm text-muted-foreground">আমাদের সর্বশেষ খবর ও চিন্তাধারা।</p>
+        </div>
+    </a>
+    <a href="/publications.php" class="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-card transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-card-hover">
+        <div class="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 text-primary/10 transition group-hover:scale-110 group-hover:text-primary/20">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="h-full w-full"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+        </div>
+        <div class="relative">
+            <div class="grid h-10 w-10 place-items-center rounded-lg bg-primary-soft text-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+            <h3 class="mt-4 font-serif-bn text-lg font-bold">প্রকাশনা</h3>
+            <p class="mt-1 text-sm text-muted-foreground">গবেষণা, ম্যাগাজিন এবং প্রতিবেদন।</p>
         </div>
     </a>
 </div>
@@ -464,7 +488,7 @@ require_once __DIR__ . '/includes/header.php';
         <a href="/donation.php" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-card hover:brightness-110">
         অনুদান
         </a>
-        <a href="/index.php#contact" class="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-primary-soft hover:text-primary">
+        <a href="/contact.php" class="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground hover:bg-primary-soft hover:text-primary">
         যোগাযোগ করুন
         </a>
     </div>

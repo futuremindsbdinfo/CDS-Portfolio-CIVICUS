@@ -77,7 +77,7 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">অফিস ঠিকানা</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Office Address</h3>
-                                <p class="text-gray-600 mt-1">123/A, Motijheel C/A, Dhaka-1000, Bangladesh</p>
+                                <p class="text-gray-600 mt-1"><?php echo nl2br(htmlspecialchars(get_setting('site_address', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></p>
                             </div>
                         </div>
                         
@@ -86,7 +86,7 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">ইমেইল</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Email</h3>
-                                <p class="text-gray-600 mt-1">info@cds.org.bd</p>
+                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_email', 'info@cds.org.bd')); ?></p>
                             </div>
                         </div>
                         
@@ -95,10 +95,16 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">ফোন</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Phone</h3>
-                                <p class="text-gray-600 mt-1">+880 1700-000000</p>
+                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_phone', '+880 1700-000000')); ?></p>
                             </div>
                         </div>
                     </div>
+                    
+                    <?php if (get_setting('google_map_embed')): ?>
+                    <div class="mt-6 rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                        <?php echo get_setting('google_map_embed'); ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
 

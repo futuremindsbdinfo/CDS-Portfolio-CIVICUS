@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // admin/gallery_admin.php
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../includes/upload_handler.php';
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
-// Handle Add
+// Handle Add (Bulk Upload)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
     $project_id = !empty($_POST['project_id']) ? (int)$_POST['project_id'] : null;
@@ -45,28 +45,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $caption_en = clean_input($_POST['caption_en'] ?? '');
     $event_date = !empty($_POST['event_date']) ? clean_input($_POST['event_date']) : null;
     
-    $image_path = null;
-    if (isset($_FILES['image_path']) && $_FILES['image_path']['error'] !== UPLOAD_ERR_NO_FILE) {
-        $upload_result = handle_image_upload($_FILES['image_path'], 'gallery');
-        if (!$upload_result['success']) {
-            $_SESSION['flash_message'] = $upload_result['error'];
-            $_SESSION['flash_type'] = "error";
-            header("Location: gallery_admin.php");
-            exit;
+    $success_count = 0;
+    $error_messages = [];
+
+    if (isset($_FILES['image_path']) && is_array($_FILES['image_path']['name'])) {
+        $file_count = count($_FILES['image_path']['name']);
+        
+        for ($i = 0; $i < $file_count; $i++) {
+            if ($_FILES['image_path']['error'][$i] === UPLOAD_ERR_NO_FILE) {
+                continue; // Skip empty slots
+            }
+            
+            // Reconstruct single file array for the handler
+            $single_file = [
+                'name' => $_FILES['image_path']['name'][$i],
+                'type' => $_FILES['image_path']['type'][$i],
+                'tmp_name' => $_FILES['image_path']['tmp_name'][$i],
+                'error' => $_FILES['image_path']['error'][$i],
+                'size' => $_FILES['image_path']['size'][$i]
+            ];
+            
+            $upload_result = handle_image_upload($single_file, 'gallery');
+            if (!$upload_result['success']) {
+                $error_messages[] = $single_file['name'] . ': ' . $upload_result['error'];
+                continue;
+            }
+            
+            $image_path = $upload_result['filename'];
+            
+            if ($db && !empty($image_path)) {
+                $stmt = $db->prepare("INSERT INTO gallery (project_id, image_path, caption_bn, caption_en, event_date) VALUES (?, ?, ?, ?, ?)");
+                if ($stmt->execute([$project_id, $image_path, $caption_bn, $caption_en, $event_date])) {
+                    $success_count++;
+                }
+            }
         }
-        $image_path = $upload_result['filename'];
     }
 
-    if ($db && !empty($caption_bn) && !empty($image_path)) {
-        $stmt = $db->prepare("INSERT INTO gallery (project_id, image_path, caption_bn, caption_en, event_date) VALUES (?, ?, ?, ?, ?)");
-        if ($stmt->execute([$project_id, $image_path, $caption_bn, $caption_en, $event_date])) {
-            $_SESSION['flash_message'] = "Photo added successfully.";
-            $_SESSION['flash_type'] = "success";
-        } else {
-            $_SESSION['flash_message'] = "Failed to add photo.";
-            $_SESSION['flash_type'] = "error";
-        }
+    if ($success_count > 0) {
+        $_SESSION['flash_message'] = "$success_count photo(s) added successfully." . (!empty($error_messages) ? " Some failed: " . implode(', ', $error_messages) : "");
+        $_SESSION['flash_type'] = empty($error_messages) ? "success" : "warning";
+    } else {
+        $_SESSION['flash_message'] = "Failed to add photos. " . implode(', ', $error_messages);
+        $_SESSION['flash_type'] = "error";
     }
+    
     header("Location: gallery_admin.php");
     exit;
 }
@@ -186,8 +209,9 @@ if (isset($_GET['edit_id']) && $db) {
                     <input type="date" name="event_date" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                 </label>
                 <label class="block md:col-span-2">
-                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Photo Image (JPG, PNG, WEBP - Max 5MB) *</span>
-                    <input type="file" name="image_path" accept="image/jpeg,image/png,image/webp" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Photo Image(s) (JPG, PNG, WEBP - Max 5MB per file) *</span>
+                    <input type="file" name="image_path[]" accept="image/jpeg,image/png,image/webp" multiple required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                    <span class="text-xs text-slate-500 mt-1 block">You can select multiple photos at once (Bulk Upload). They will all share the same caption and project tag.</span>
                 </label>
             </div>
 
