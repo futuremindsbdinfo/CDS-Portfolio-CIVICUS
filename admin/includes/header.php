@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // admin/includes/header.php
 require_once __DIR__ . '/../../includes/auth.php';
 init_secure_session();

@@ -33,7 +33,7 @@
                   <li><a href="/projects.php" class="hover:text-white hover:underline">প্রজেক্টস</a></li>
                   <li><a href="/gallery.php" class="hover:text-white hover:underline">গ্যালারি</a></li>
                   <li><a href="/notice.php" class="hover:text-white hover:underline">নোটিশ</a></li>
-                  <li><a href="/index.php#contact" class="hover:text-white hover:underline">যোগাযোগ</a></li>
+                  <li><a href="/contact.php" class="hover:text-white hover:underline">যোগাযোগ</a></li>
               </ul>
             </div>
             <div>

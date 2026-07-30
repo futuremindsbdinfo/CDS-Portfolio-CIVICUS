@@ -238,7 +238,7 @@ if ($db) {
                                     <div class="grid grid-cols-1 gap-4">
                                         <label class="block">
                                             <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content *</span>
-                                            <textarea name="content" required rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo e($blog['content']); ?></textarea>
+                                            <textarea name="content" required rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo $blog['content']; ?></textarea>
                                         </label>
                                     </div>
                         
@@ -267,5 +267,20 @@ if ($db) {
         </div>
     </div>
 </div>
+
+<!-- TinyMCE Rich Text Editor -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: 'textarea[name="content"]',
+    plugins: 'image link media lists table code wordcount',
+    toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image media | table code',
+    images_upload_url: 'upload_image.php',
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    height: 400,
+    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px }'
+  });
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

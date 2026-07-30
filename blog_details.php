@@ -49,9 +49,8 @@ if (!$blog) {
             <div class="p-6 md:p-10 lg:p-12">
                 <div class="prose prose-lg max-w-none text-gray-700 font-sans-bn leading-relaxed">
                     <?php 
-                    // Use nl2br for basic formatting since we used textarea.
-                    // If true rich text was used, this should be output directly (with purifier if needed).
-                    echo nl2br($blog['content']); 
+                    // Content is HTML from TinyMCE
+                    echo $blog['content']; 
                     ?>
                 </div>
 

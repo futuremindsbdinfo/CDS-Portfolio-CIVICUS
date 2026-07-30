@@ -42,7 +42,7 @@ init_secure_session();
               <a href="/blog.php" class="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:bg-primary-soft hover:text-primary">ব্লগ</a>
               <a href="/publications.php" class="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:bg-primary-soft hover:text-primary">প্রকাশনা</a>
               <a href="/donation.php" class="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:bg-primary-soft hover:text-primary">অনুদান</a>
-              <a href="/index.php#contact" class="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:bg-primary-soft hover:text-primary">যোগাযোগ</a>
+              <a href="/contact.php" class="rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:bg-primary-soft hover:text-primary">যোগাযোগ</a>
           </nav>
 
           <a href="https://membership.fuminds.com/" target="_blank" class="ml-auto inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-card transition hover:brightness-110 lg:ml-3">
@@ -73,7 +73,7 @@ init_secure_session();
               <a href="/blog.php" class="rounded-md px-3 py-3 text-sm font-medium text-foreground/85 hover:bg-primary-soft hover:text-primary">ব্লগ</a>
               <a href="/publications.php" class="rounded-md px-3 py-3 text-sm font-medium text-foreground/85 hover:bg-primary-soft hover:text-primary">প্রকাশনা</a>
               <a href="/donation.php" class="rounded-md px-3 py-3 text-sm font-medium text-foreground/85 hover:bg-primary-soft hover:text-primary">অনুদান</a>
-              <a href="/index.php#contact" class="rounded-md px-3 py-3 text-sm font-medium text-foreground/85 hover:bg-primary-soft hover:text-primary">যোগাযোগ</a>
+              <a href="/contact.php" class="rounded-md px-3 py-3 text-sm font-medium text-foreground/85 hover:bg-primary-soft hover:text-primary">যোগাযোগ</a>
           </nav>
         </div>
     </header>
