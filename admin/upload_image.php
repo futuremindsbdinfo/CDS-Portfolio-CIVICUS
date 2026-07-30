@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../../includes/auth.php';
+error_reporting(0);
+require_once __DIR__ . '/../includes/auth.php';
 init_secure_session();
 require_admin_login();
 
@@ -38,12 +39,22 @@ if (is_uploaded_file($temp['tmp_name'])){
     $file_name = uniqid('img_', true) . '.' . $file_extension;
     $filetowrite = __DIR__ . '/../uploads/blogs/' . $file_name;
     
+    // Ensure directory exists
+    $dir = dirname($filetowrite);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    
     if(move_uploaded_file($temp['tmp_name'], $filetowrite)){
         // Determine the base URL
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https://" : "http://";
-        $baseurl = $protocol . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['REQUEST_URI']), '/admin');
+        $uri_dir = dirname($_SERVER['REQUEST_URI']);
+        $uri_dir = str_replace('\\', '/', $uri_dir);
+        $basepath = preg_replace('#/admin$#', '', $uri_dir);
+        $baseurl = $protocol . $_SERVER['HTTP_HOST'] . $basepath;
         
         // Respond to the successful upload with JSON.
+        header('Content-Type: application/json');
         echo json_encode(array('location' => $baseurl . '/uploads/blogs/' . $file_name));
     } else {
         header("HTTP/1.1 500 Server Error");

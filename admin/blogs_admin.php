@@ -276,6 +276,7 @@ if ($db) {
     plugins: 'image link media lists table code wordcount',
     toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image media | table code',
     images_upload_url: 'upload_image.php',
+    images_upload_credentials: true,
     automatic_uploads: true,
     file_picker_types: 'image',
     height: 400,
