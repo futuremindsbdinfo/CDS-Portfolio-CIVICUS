@@ -1,16 +1,13 @@
 <?php
 error_reporting(0);
-require_once __DIR__ . '/../includes/auth.php';
-init_secure_session();
-require_admin_login();
 
 // Allowed origins to prevent CSRF via CORS
 $accepted_origins = array("http://localhost", "http://localhost:8000", "http://127.0.0.1:8000", "https://cds.fuminds.com");
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
-    // same-origin requests won't set an origin. If the origin is set, it must be valid.
     if (in_array($_SERVER['HTTP_ORIGIN'], $accepted_origins)) {
         header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+        header('Access-Control-Allow-Credentials: true');
     } else {
         header("HTTP/1.1 403 Origin Denied");
         return;
@@ -20,8 +17,13 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 // Don't attempt to process the upload on an OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     header("Access-Control-Allow-Methods: POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
     return;
 }
+
+require_once __DIR__ . '/../includes/auth.php';
+init_secure_session();
+require_admin_login();
 
 reset ($_FILES);
 $temp = current($_FILES);
