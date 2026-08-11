@@ -31,7 +31,7 @@ function isActiveLink($page, $current_page) {
 </head>
 <body class="bg-warm-grain min-h-screen font-sans-bn text-foreground">
 
-    <!-- Dropdown Animation Styles -->
+        <!-- Dropdown Animation Styles -->
     <style>
       .custom-dropdown {
         display: none;
@@ -44,9 +44,20 @@ function isActiveLink($page, $current_page) {
         from { opacity: 0; transform: translateY(4px) scale(0.98); }
         to { opacity: 1; transform: translateY(0) scale(1); }
       }
+      .sub-dropdown {
+        display: none;
+      }
+      .group-sub:hover > .sub-dropdown {
+        display: block;
+        animation: subDropdownFadeIn 0.2s ease-out forwards;
+      }
+      @keyframes subDropdownFadeIn {
+        from { opacity: 0; transform: translateX(-4px) scale(0.98); }
+        to { opacity: 1; transform: translateX(0) scale(1); }
+      }
     </style>
 
-    <!-- HEADER -->
+        <!-- HEADER -->
     <header class="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
         <div class="mx-auto flex justify-between max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <a href="index.php" class="flex min-w-0 items-center gap-3">
@@ -64,122 +75,147 @@ function isActiveLink($page, $current_page) {
           </a>
 
           <nav class="hidden items-center gap-1 lg:flex">
+              <!-- Desktop Search Bar -->
+              <div class="relative mr-2 flex items-center">
+                  <input type="text" placeholder="Search..." class="w-48 rounded-full border border-border bg-surface px-4 py-1.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="absolute right-3 h-4 w-4 text-foreground/50"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              </div>
+
               <a href="index.php" class="whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('index.php', $current_page); ?>">
-                  <span data-lang="bn">হোম</span><span data-lang="en" class="hidden">Home</span>
+                  <span data-lang="bn">Home</span><span data-lang="en" class="hidden">Home</span>
               </a>
               
               <!-- Who We Are Dropdown -->
               <div class="relative group">
-                  <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['about.php', 'notice.php', 'gallery.php'])) ? 'bg-primary-soft text-primary font-bold' : 'text-foreground/80'; ?>">
-                      <span data-lang="bn">আমাদের সম্পর্কে</span><span data-lang="en" class="hidden">Who We Are</span>
+                  <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
+                      <span data-lang="bn">Who We Are</span><span data-lang="en" class="hidden">Who We Are</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
-                  <div class="absolute left-0 top-full pt-1 w-72 custom-dropdown z-50">
+                  <div class="absolute left-0 top-full pt-1 w-64 custom-dropdown z-50">
                       <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                          <a href="about.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('about.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                          
+                          <!-- Our Impact Stories -->
+                          <div class="relative group-sub">
+                              <button class="flex w-full items-center justify-between rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                                  <div class="font-semibold text-sm">
+                                      <span data-lang="bn">Our Impact Stories</span><span data-lang="en" class="hidden">Our Impact Stories</span>
+                                  </div>
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 -rotate-90"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              </button>
+                              <div class="absolute left-full top-0 pl-1 w-64 sub-dropdown z-50">
+                                  <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">General Comment 37</span><span data-lang="en" class="hidden">General Comment 37</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Co-Creation</span><span data-lang="en" class="hidden">Co-Creation</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Zambia: 15+ year campaign for rights</span><span data-lang="en" class="hidden">Zambia: 15+ year campaign for rights</span></a>
+                                  </div>
                               </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">এক নজরে</span><span data-lang="en" class="hidden">At a Glance</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">আমাদের লক্ষ্য ও উদ্দেশ্য</span><span data-lang="en" class="hidden">Our vision and mission</span></div>
+                          </div>
+
+                          <!-- Values and accountability -->
+                          <div class="relative group-sub">
+                              <button class="flex w-full items-center justify-between rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                                  <div class="font-semibold text-sm">
+                                      <span data-lang="bn">Values and accountability</span><span data-lang="en" class="hidden">Values and accountability</span>
+                                  </div>
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 -rotate-90"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              </button>
+                              <div class="absolute left-full top-0 pl-1 w-64 sub-dropdown z-50">
+                                  <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Diversity and Inclusion</span><span data-lang="en" class="hidden">Diversity and Inclusion</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Hold Us to Account</span><span data-lang="en" class="hidden">Hold Us to Account</span></a>
+                                  </div>
                               </div>
+                          </div>
+
+                          <!-- Annual Reports -->
+                          <a href="#" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Annual Reports</span><span data-lang="en" class="hidden">Annual Reports</span></div>
                           </a>
-                          <a href="committee.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('committee.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                          
+                          <!-- Board -->
+                          <div class="relative group-sub">
+                              <button class="flex w-full items-center justify-between rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                                  <div class="font-semibold text-sm">
+                                      <span data-lang="bn">Board</span><span data-lang="en" class="hidden">Board</span>
+                                  </div>
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 -rotate-90"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              </button>
+                              <div class="absolute left-full top-0 pl-1 w-56 sub-dropdown z-50">
+                                  <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Board Elections 2026</span><span data-lang="en" class="hidden">Board Elections 2026</span></a>
+                                  </div>
                               </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">কমিটি</span><span data-lang="en" class="hidden">Committee</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">আমাদের বর্তমান কমিটি</span><span data-lang="en" class="hidden">Our current committee</span></div>
-                              </div>
+                          </div>
+
+                          <!-- Members, Networks, Staff, Contact Us -->
+                          <a href="#" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Members</span><span data-lang="en" class="hidden">Members</span></div>
                           </a>
-                          <a href="constitution.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('constitution.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                              </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">গঠনতন্ত্র</span><span data-lang="en" class="hidden">Constitution</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">সংগঠনের নীতিমালা ও গঠনতন্ত্র</span><span data-lang="en" class="hidden">Rules and regulations</span></div>
-                              </div>
+                          <a href="#" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Networks</span><span data-lang="en" class="hidden">Networks</span></div>
                           </a>
+                          <a href="#" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Staff</span><span data-lang="en" class="hidden">Staff</span></div>
+                          </a>
+                          <a href="contact.php" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Contact Us</span><span data-lang="en" class="hidden">Contact Us</span></div>
+                          </a>
+
                       </div>
                   </div>
               </div>
 
               <!-- What We Do Dropdown -->
               <div class="relative group">
-                  <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['projects.php', 'publications.php', 'blog.php'])) ? 'bg-primary-soft text-primary font-bold' : 'text-foreground/80'; ?>">
-                      <span data-lang="bn">আমাদের কার্যক্রম</span><span data-lang="en" class="hidden">What We Do</span>
+                  <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
+                      <span data-lang="bn">What We Do</span><span data-lang="en" class="hidden">What We Do</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
-                  <div class="absolute left-0 top-full pt-1 w-72 custom-dropdown z-50">
+                  <div class="absolute left-0 top-full pt-1 w-64 custom-dropdown z-50">
                       <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                          <a href="projects.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('projects.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                          
+                          <!-- Co-creating Knowledge -->
+                          <div class="relative group-sub">
+                              <button class="flex w-full items-center justify-between rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                                  <div class="font-semibold text-sm">
+                                      <span data-lang="bn">Co-creating Knowledge</span><span data-lang="en" class="hidden">Co-creating Knowledge</span>
+                                  </div>
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 -rotate-90"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              </button>
+                              <div class="absolute left-full top-0 pl-1 w-56 sub-dropdown z-50">
+                                  <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">CIVICUS Monitor Ratings</span><span data-lang="en" class="hidden">CIVICUS Monitor Ratings</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">CIVICUS Lens Analysis</span><span data-lang="en" class="hidden">CIVICUS Lens Analysis</span></a>
+                                  </div>
                               </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">প্রজেক্টসমূহ</span><span data-lang="en" class="hidden">Projects</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">চলমান ও সম্পন্ন প্রজেক্ট</span><span data-lang="en" class="hidden">Ongoing & completed</span></div>
-                              </div>
-                          </a>
-                          <a href="gallery.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('gallery.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                              </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">গ্যালারি</span><span data-lang="en" class="hidden">Gallery</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">কার্যক্রমের ছবি ও ভিডিও</span><span data-lang="en" class="hidden">Photos and videos</span></div>
-                              </div>
-                          </a>
-                      </div>
-                  </div>
-              </div>
+                          </div>
 
-              <!-- Engage & Act Dropdown -->
-              <div class="relative group">
-                  <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['gov-links.php', 'forms.php', 'contact.php'])) ? 'bg-primary-soft text-primary font-bold' : 'text-foreground/80'; ?>">
-                      <span data-lang="bn">গুরুত্বপূর্ণ লিংক</span><span data-lang="en" class="hidden">Important Links</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                  </button>
-                  <div class="absolute left-0 top-full pt-1 w-72 custom-dropdown z-50">
-                      <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                          <a href="gov-links.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('gov-links.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                          <!-- Our Reports -->
+                          <div class="relative group-sub">
+                              <button class="flex w-full items-center justify-between rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                                  <div class="font-semibold text-sm">
+                                      <span data-lang="bn">Our Reports</span><span data-lang="en" class="hidden">Our Reports</span>
+                                  </div>
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 -rotate-90"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              </button>
+                              <div class="absolute left-full top-0 pl-1 w-64 sub-dropdown z-50">
+                                  <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">State of Civil Society Reports</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">People Power Under Attack</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
+                                      <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Other Publications</span><span data-lang="en" class="hidden">Other Publications</span></a>
+                                  </div>
                               </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">সরকারি লিংক</span><span data-lang="en" class="hidden">Govt. Links</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">গুরুত্বপূর্ণ সরকারি ওয়েবসাইট</span><span data-lang="en" class="hidden">Important govt websites</span></div>
-                              </div>
+                          </div>
+                          
+                          <!-- Advocating for Change -->
+                          <a href="#" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
+                              <div class="font-semibold text-sm"><span data-lang="bn">Advocating for Change</span><span data-lang="en" class="hidden">Advocating for Change</span></div>
                           </a>
-                          <a href="forms.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('forms.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                              </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">আবেদন ফর্ম</span><span data-lang="en" class="hidden">Application Forms</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">সদস্য ও অন্যান্য ফর্ম</span><span data-lang="en" class="hidden">Membership & others</span></div>
-                              </div>
-                          </a>
-                          <a href="contact.php" class="flex items-start gap-3 rounded-lg p-3 hover:bg-primary-soft transition group/item <?php echo isActiveLink('contact.php', $current_page); ?>">
-                              <div class="mt-0.5 rounded-md bg-primary/10 p-2 text-primary group-hover/item:bg-primary group-hover/item:text-white transition">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                              </div>
-                              <div>
-                                  <div class="font-semibold text-foreground"><span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact Us</span></div>
-                                  <div class="mt-1 text-xs text-foreground/70"><span data-lang="bn">আমাদের সাথে যোগাযোগ করুন</span><span data-lang="en" class="hidden">Get in touch with us</span></div>
-                              </div>
-                          </a>
+
                       </div>
                   </div>
               </div>
               
-              <!-- CTA Button -->
-              <a href="donation.php" class="ml-2 whitespace-nowrap rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary hover:text-white <?php echo isActiveLink('donation.php', $current_page); ?>">
-                  <span data-lang="bn">অনুদান</span><span data-lang="en" class="hidden">Donate</span>
-              </a>
           </nav>
 
           <div class="flex items-center gap-2 sm:gap-3">
@@ -188,14 +224,6 @@ function isActiveLink($page, $current_page) {
               <button data-set-lang="bn" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition bg-primary/20 text-primary font-bold">BN</button>
               <button data-set-lang="en" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition text-foreground/70 hover:text-primary">EN</button>
             </div>
-
-            <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 sm:h-5 sm:w-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M8.5 7a4 4 0 100 8 4 4 0 000-8zM20 8v6M23 11h-6"></path>
-              </svg>
-              <span data-lang="bn">যোগদান</span>
-              <span data-lang="en" class="hidden">JOIN</span>
-            </a>
 
             <button id="mobile-menu-btn" aria-label="Menu" class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border bg-surface lg:hidden">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5 menu-open-icon">
@@ -211,71 +239,106 @@ function isActiveLink($page, $current_page) {
         <!-- mobile menu -->
         <div id="mobile-menu" class="overflow-y-auto border-t border-border bg-background/95 backdrop-blur transition-[max-height] duration-300 lg:hidden max-h-0">
           <nav class="mx-auto flex max-w-7xl flex-col px-4 py-2 sm:px-6">
+              
+              <!-- Mobile Search -->
+              <div class="relative my-2">
+                  <input type="text" placeholder="Search..." class="w-full rounded-full border border-border bg-surface px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="absolute right-4 top-2.5 h-4 w-4 text-foreground/50"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              </div>
+
               <a href="index.php" class="rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('index.php', $current_page); ?>">
-                  <span data-lang="bn">হোম</span><span data-lang="en" class="hidden">Home</span>
+                  <span data-lang="bn">Home</span><span data-lang="en" class="hidden">Home</span>
               </a>
               
               <!-- Who We Are (Mobile) -->
               <details class="group">
-                  <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['about.php', 'notice.php', 'gallery.php'])) ? 'text-primary font-bold' : 'text-foreground/80'; ?> [&::-webkit-details-marker]:hidden">
-                      <span><span data-lang="bn">আমাদের সম্পর্কে</span><span data-lang="en" class="hidden">Who We Are</span></span>
+                  <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                      <span><span data-lang="bn">Who We Are</span><span data-lang="en" class="hidden">Who We Are</span></span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </summary>
                   <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-2 space-y-1">
-                      <a href="about.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('about.php', $current_page); ?>">
-                          <span data-lang="bn">আমাদের সম্পর্কে</span><span data-lang="en" class="hidden">About Us</span>
-                      </a>
-                      <a href="notice.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('notice.php', $current_page); ?>">
-                          <span data-lang="bn">নোটিশ বোর্ড</span><span data-lang="en" class="hidden">Notice Board</span>
-                      </a>
-                      <a href="gallery.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('gallery.php', $current_page); ?>">
-                          <span data-lang="bn">গ্যালারি</span><span data-lang="en" class="hidden">Gallery</span>
-                      </a>
+                      
+                      <!-- Our Impact Stories (Mobile nested) -->
+                      <details class="group">
+                          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                              <span><span data-lang="bn">Our Impact Stories</span><span data-lang="en" class="hidden">Our Impact Stories</span></span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </summary>
+                          <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">General Comment 37</span><span data-lang="en" class="hidden">General Comment 37</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Co-Creation</span><span data-lang="en" class="hidden">Co-Creation</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Zambia: 15+ year campaign for rights</span><span data-lang="en" class="hidden">Zambia: 15+ year campaign for rights</span></a>
+                          </div>
+                      </details>
+                      
+                      <!-- Values and accountability (Mobile nested) -->
+                      <details class="group">
+                          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                              <span><span data-lang="bn">Values and accountability</span><span data-lang="en" class="hidden">Values and accountability</span></span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </summary>
+                          <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Diversity and Inclusion</span><span data-lang="en" class="hidden">Diversity and Inclusion</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Hold Us to Account</span><span data-lang="en" class="hidden">Hold Us to Account</span></a>
+                          </div>
+                      </details>
+
+                      <a href="#" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Annual Reports</span><span data-lang="en" class="hidden">Annual Reports</span></a>
+                      
+                      <!-- Board (Mobile nested) -->
+                      <details class="group">
+                          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                              <span><span data-lang="bn">Board</span><span data-lang="en" class="hidden">Board</span></span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </summary>
+                          <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Board Elections 2026</span><span data-lang="en" class="hidden">Board Elections 2026</span></a>
+                          </div>
+                      </details>
+
+                      <a href="#" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Members</span><span data-lang="en" class="hidden">Members</span></a>
+                      <a href="#" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Networks</span><span data-lang="en" class="hidden">Networks</span></a>
+                      <a href="#" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Staff</span><span data-lang="en" class="hidden">Staff</span></a>
+                      <a href="contact.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Contact Us</span><span data-lang="en" class="hidden">Contact Us</span></a>
                   </div>
               </details>
 
               <!-- What We Do (Mobile) -->
               <details class="group">
-                  <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['projects.php', 'publications.php', 'blog.php'])) ? 'text-primary font-bold' : 'text-foreground/80'; ?> [&::-webkit-details-marker]:hidden">
-                      <span><span data-lang="bn">আমাদের কার্যক্রম</span><span data-lang="en" class="hidden">What We Do</span></span>
+                  <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                      <span><span data-lang="bn">What We Do</span><span data-lang="en" class="hidden">What We Do</span></span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </summary>
                   <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-2 space-y-1">
-                      <a href="projects.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('projects.php', $current_page); ?>">
-                          <span data-lang="bn">প্রজেক্টস</span><span data-lang="en" class="hidden">Projects</span>
-                      </a>
-                      <a href="publications.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('publications.php', $current_page); ?>">
-                          <span data-lang="bn">প্রকাশনা</span><span data-lang="en" class="hidden">Publications</span>
-                      </a>
-                      <a href="blog.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('blog.php', $current_page); ?>">
-                          <span data-lang="bn">নিউজ ও ব্লগ</span><span data-lang="en" class="hidden">News & Blog</span>
-                      </a>
+                      
+                      <!-- Co-creating Knowledge (Mobile nested) -->
+                      <details class="group">
+                          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                              <span><span data-lang="bn">Co-creating Knowledge</span><span data-lang="en" class="hidden">Co-creating Knowledge</span></span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </summary>
+                          <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Monitor Ratings</span><span data-lang="en" class="hidden">CIVICUS Monitor Ratings</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Lens Analysis</span><span data-lang="en" class="hidden">CIVICUS Lens Analysis</span></a>
+                          </div>
+                      </details>
+
+                      <!-- Our Reports (Mobile nested) -->
+                      <details class="group">
+                          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/80 [&::-webkit-details-marker]:hidden">
+                              <span><span data-lang="bn">Our Reports</span><span data-lang="en" class="hidden">Our Reports</span></span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </summary>
+                          <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">State of Civil Society Reports</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">People Power Under Attack</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Other Publications</span><span data-lang="en" class="hidden">Other Publications</span></a>
+                          </div>
+                      </details>
+
+                      <a href="#" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary"><span data-lang="bn">Advocating for Change</span><span data-lang="en" class="hidden">Advocating for Change</span></a>
                   </div>
               </details>
-
-              <!-- Engage & Act (Mobile) -->
-              <details class="group">
-                  <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo (in_array($current_page, ['gov-links.php', 'forms.php', 'contact.php'])) ? 'text-primary font-bold' : 'text-foreground/80'; ?> [&::-webkit-details-marker]:hidden">
-                      <span><span data-lang="bn">যোগদান করুন</span><span data-lang="en" class="hidden">Engage & Act</span></span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                  </summary>
-                  <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-2 space-y-1">
-                      <a href="gov-links.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('gov-links.php', $current_page); ?>">
-                          <span data-lang="bn">সরকারি লিংক</span><span data-lang="en" class="hidden">Govt Links</span>
-                      </a>
-                      <a href="forms.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('forms.php', $current_page); ?>">
-                          <span data-lang="bn">আবেদন ফরমসমূহ</span><span data-lang="en" class="hidden">Application Forms</span>
-                      </a>
-                      <a href="contact.php" class="block rounded-md px-3 py-2 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('contact.php', $current_page); ?>">
-                          <span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span>
-                      </a>
-                  </div>
-              </details>
-
-              <!-- Mobile CTA -->
-              <a href="donation.php" class="mt-2 text-center rounded-md bg-primary/10 px-3 py-3 text-sm font-bold text-primary hover:bg-primary hover:text-white transition <?php echo isActiveLink('donation.php', $current_page); ?>">
-                  <span data-lang="bn">অনুদান</span><span data-lang="en" class="hidden">Donate</span>
-              </a>
 
               <!-- Mobile Language Switcher -->
               <div class="mt-4 mb-2 flex sm:hidden shrink-0 items-center justify-center rounded-full border border-border bg-surface p-1 shadow-sm">
