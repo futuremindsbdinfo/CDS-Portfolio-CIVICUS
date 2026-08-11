@@ -216,6 +216,10 @@ function isActiveLink($page, $current_page) {
                   </div>
               </div>
               
+              <!-- CTA Button -->
+              <a href="donation.php" class="ml-2 whitespace-nowrap rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary hover:text-white <?php echo isActiveLink('donation.php', $current_page); ?>">
+                  <span data-lang="bn">অনুদান</span><span data-lang="en" class="hidden">Donate</span>
+              </a>
           </nav>
 
           <div class="flex items-center gap-2 sm:gap-3">
@@ -224,6 +228,14 @@ function isActiveLink($page, $current_page) {
               <button data-set-lang="bn" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition bg-primary/20 text-primary font-bold">BN</button>
               <button data-set-lang="en" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition text-foreground/70 hover:text-primary">EN</button>
             </div>
+
+            <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 sm:h-5 sm:w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M8.5 7a4 4 0 100 8 4 4 0 000-8zM20 8v6M23 11h-6"></path>
+              </svg>
+              <span data-lang="bn">যোগদান</span>
+              <span data-lang="en" class="hidden">JOIN</span>
+            </a>
 
             <button id="mobile-menu-btn" aria-label="Menu" class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border bg-surface lg:hidden">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5 menu-open-icon">
