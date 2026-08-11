@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
     $title = clean_input($_POST['title']);
+    $title_en = clean_input($_POST['title_en'] ?? '');
     // For rich text we might not want to strip all tags if we use an actual rich text editor, 
     // but the prompt says rich text/textarea. I'll use clean_input for now or a loose sanitize if needed.
     // Given the framework, let's stick to clean_input for safety. Wait, clean_input might strip tags. 
@@ -42,9 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     // Since I don't have its content exactly, I'll use it to be safe, but maybe we should allow some html if they want rich text.
     // If they want actual rich text, they'd use Quill or TinyMCE. The user said "(Rich text/textarea)", 
     // so maybe basic textarea is fine for now. 
-    $content = $_POST['content']; // not cleaned fully here, we will rely on output escaping or a safer sanitize
-    // Actually, I should use clean_input as per the project's standard.
     $content = clean_input($_POST['content']);
+    $content_en = clean_input($_POST['content_en'] ?? '');
     $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : date('Y-m-d');
     
     $cover_image = null;
@@ -60,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     if ($db && !empty($title) && !empty($content)) {
-        $stmt = $db->prepare("INSERT INTO blogs (title, content, cover_image, published_date) VALUES (?, ?, ?, ?)");
-        if ($stmt->execute([$title, $content, $cover_image, $published_date])) {
+        $stmt = $db->prepare("INSERT INTO blogs (title, title_en, content, content_en, cover_image, published_date) VALUES (?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$title, $title_en, $content, $content_en, $cover_image, $published_date])) {
             $_SESSION['flash_message'] = "Blog added successfully.";
             $_SESSION['flash_type'] = "success";
         } else {
@@ -81,12 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
     $id = (int)$_POST['id'];
     $title = clean_input($_POST['title']);
+    $title_en = clean_input($_POST['title_en'] ?? '');
     $content = clean_input($_POST['content']);
+    $content_en = clean_input($_POST['content_en'] ?? '');
     $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : date('Y-m-d');
     
     if ($db && !empty($title) && !empty($content)) {
         $cover_image_query = "";
-        $params = [$title, $content, $published_date];
+        $params = [$title, $title_en, $content, $content_en, $published_date];
 
         if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] !== UPLOAD_ERR_NO_FILE) {
             $upload_result = handle_image_upload($_FILES['cover_image'], 'blogs');
@@ -110,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         
         $params[] = $id;
 
-        $stmt = $db->prepare("UPDATE blogs SET title = ?, content = ?, published_date = ? $cover_image_query WHERE id = ?");
+        $stmt = $db->prepare("UPDATE blogs SET title = ?, title_en = ?, content = ?, content_en = ?, published_date = ? $cover_image_query WHERE id = ?");
         if ($stmt->execute($params)) {
             $_SESSION['flash_message'] = "Blog updated successfully.";
             $_SESSION['flash_type'] = "success";
@@ -153,16 +155,24 @@ if ($db) {
             <input type="hidden" name="action" value="add">
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label class="block md:col-span-2">
-                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title *</span>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (Bengali) *</span>
                     <input type="text" name="title" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (English)</span>
+                    <input type="text" name="title_en" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                 </label>
             </div>
 
             <div class="grid grid-cols-1 gap-4">
                 <label class="block">
-                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content *</span>
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content (Bengali) *</span>
                     <textarea name="content" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+                </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content (English)</span>
+                    <textarea name="content_en" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
                 </label>
             </div>
 
@@ -235,16 +245,24 @@ if ($db) {
                                     <input type="hidden" name="id" value="<?php echo $blog['id']; ?>">
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <label class="block md:col-span-2">
-                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title *</span>
+                                        <label class="block">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (Bengali) *</span>
                                             <input type="text" name="title" required value="<?php echo e($blog['title']); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                        </label>
+                                        <label class="block">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (English)</span>
+                                            <input type="text" name="title_en" value="<?php echo e($blog['title_en']); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                                         </label>
                                     </div>
                         
                                     <div class="grid grid-cols-1 gap-4">
                                         <label class="block">
-                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content *</span>
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content (Bengali) *</span>
                                             <textarea name="content" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo $blog['content']; ?></textarea>
+                                        </label>
+                                        <label class="block">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Content (English)</span>
+                                            <textarea name="content_en" rows="8" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo $blog['content_en']; ?></textarea>
                                         </label>
                                     </div>
                         
@@ -278,7 +296,7 @@ if ($db) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
   tinymce.init({
-    selector: 'textarea[name="content"]',
+    selector: 'textarea[name="content"], textarea[name="content_en"]',
     plugins: 'image link media lists table code wordcount',
     toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image media | table code',
     images_upload_url: 'upload_image.php',

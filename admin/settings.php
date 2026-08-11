@@ -164,9 +164,13 @@ include 'includes/header.php';
                     </label>
                 </div>
                 <div>
-                    <label class="block">
-                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Office Address (অফিস ঠিকানা)</span>
+                    <label class="block mb-4">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Office Address (অফিস ঠিকানা - Bangla)</span>
                         <textarea name="site_address" rows="2" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"><?php echo e($settings['site_address'] ?? ''); ?></textarea>
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Office Address (অফিস ঠিকানা - English)</span>
+                        <textarea name="site_address_en" rows="2" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"><?php echo e($settings['site_address_en'] ?? ''); ?></textarea>
                     </label>
                 </div>
                 <div>

@@ -39,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
     $title = clean_input($_POST['title']);
+    $title_en = clean_input($_POST['title_en'] ?? '');
     $description = clean_input($_POST['description']);
+    $description_en = clean_input($_POST['description_en'] ?? '');
     $type = clean_input($_POST['type']);
     
     $cover_image = null;
@@ -72,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     if ($db && !empty($title) && !empty($description) && !empty($file_path)) {
-        $stmt = $db->prepare("INSERT INTO publications (title, description, type, cover_image, file_path) VALUES (?, ?, ?, ?, ?)");
-        if ($stmt->execute([$title, $description, $type, $cover_image, $file_path])) {
+        $stmt = $db->prepare("INSERT INTO publications (title, title_en, description, description_en, type, cover_image, file_path) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$title, $title_en, $description, $description_en, $type, $cover_image, $file_path])) {
             $_SESSION['flash_message'] = "Publication added successfully.";
             $_SESSION['flash_type'] = "success";
         } else {
@@ -90,12 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
     $id = (int)$_POST['id'];
     $title = clean_input($_POST['title']);
+    $title_en = clean_input($_POST['title_en'] ?? '');
     $description = clean_input($_POST['description']);
+    $description_en = clean_input($_POST['description_en'] ?? '');
     $type = clean_input($_POST['type']);
     
     if ($db && !empty($title) && !empty($description)) {
-        $update_query = "UPDATE publications SET title = ?, description = ?, type = ?";
-        $params = [$title, $description, $type];
+        $update_query = "UPDATE publications SET title = ?, title_en = ?, description = ?, description_en = ?, type = ?";
+        $params = [$title, $title_en, $description, $description_en, $type];
 
         if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] !== UPLOAD_ERR_NO_FILE) {
             $upload_result = handle_image_upload($_FILES['cover_image'], 'publications');
@@ -181,9 +185,16 @@ if ($db) {
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
-                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title *</span>
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (BN) *</span>
                     <input type="text" name="title" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                 </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (EN)</span>
+                    <input type="text" name="title_en" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                </label>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
                 <label class="block">
                     <span class="mb-1.5 block text-xs font-semibold text-slate-600">Type *</span>
                     <select name="type" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
@@ -194,10 +205,14 @@ if ($db) {
                 </label>
             </div>
 
-            <div class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label class="block">
-                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description *</span>
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description (BN) *</span>
                     <textarea name="description" required rows="4" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+                </label>
+                <label class="block">
+                    <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description (EN)</span>
+                    <textarea name="description_en" rows="4" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
                 </label>
             </div>
 
@@ -286,9 +301,16 @@ if ($db) {
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <label class="block">
-                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title *</span>
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (BN) *</span>
                                             <input type="text" name="title" required value="<?php echo e($pub['title']); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                                         </label>
+                                        <label class="block">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Title (EN)</span>
+                                            <input type="text" name="title_en" value="<?php echo e($pub['title_en'] ?? ''); ?>" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 gap-4">
                                         <label class="block">
                                             <span class="mb-1.5 block text-xs font-semibold text-slate-600">Type *</span>
                                             <select name="type" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
@@ -299,10 +321,14 @@ if ($db) {
                                         </label>
                                     </div>
                         
-                                    <div class="grid grid-cols-1 gap-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <label class="block">
-                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description *</span>
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description (BN) *</span>
                                             <textarea name="description" required rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo e($pub['description']); ?></textarea>
+                                        </label>
+                                        <label class="block">
+                                            <span class="mb-1.5 block text-xs font-semibold text-slate-600">Description (EN)</span>
+                                            <textarea name="description_en" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"><?php echo e($pub['description_en'] ?? ''); ?></textarea>
                                         </label>
                                     </div>
                         

@@ -1,14 +1,21 @@
 <?php 
 require_once 'includes/db.php';
 require_once 'includes/sanitize.php';
-include 'includes/header.php'; 
 
 // Fetch publications
 $db = Database::getConnection();
 $publications = [];
 if ($db) {
-    $publications = $db->query("SELECT * FROM publications ORDER BY created_at DESC")->fetchAll();
+    try {
+        $publications = $db->query("SELECT * FROM publications ORDER BY created_at DESC")->fetchAll();
+    } catch (PDOException $e) {
+        $publications = [];
+    }
 }
+
+$page_title = "প্রকাশনা ও ম্যাগাজিন (Publications & Magazine)";
+$meta_description = "সিডিএস এর বিভিন্ন ম্যাগাজিন, প্রতিবেদন, এবং গবেষণাপত্র পড়ুন ও ডাউনলোড করুন।";
+include 'includes/header.php';
 ?>
 
 <!-- Page Header -->
@@ -34,8 +41,14 @@ if ($db) {
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 text-gray-400 mb-4">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 </div>
-                <h3 class="text-xl font-serif font-bold text-gray-800 mb-2">কোনো প্রকাশনা পাওয়া যায়নি</h3>
-                <p class="text-gray-500">শীঘ্রই নতুন প্রকাশনা যুক্ত করা হবে।</p>
+                <h3 class="text-xl font-serif font-bold text-gray-800 mb-2">
+                    <span data-lang="bn">কোনো প্রকাশনা পাওয়া যায়নি</span>
+                    <span data-lang="en" class="hidden">No publications found</span>
+                </h3>
+                <p class="text-gray-500">
+                    <span data-lang="bn">শীঘ্রই নতুন প্রকাশনা যুক্ত করা হবে।</span>
+                    <span data-lang="en" class="hidden">New publications will be added soon.</span>
+                </p>
             </div>
         <?php else: ?>
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -68,9 +81,13 @@ if ($db) {
                     </div>
                     
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-serif font-bold text-gray-900 mb-2"><?php echo e($pub['title']); ?></h3>
+                        <h3 class="text-xl font-serif font-bold text-gray-900 mb-2 line-clamp-2">
+                            <span data-lang="bn"><?php echo e($pub['title']); ?></span>
+                            <span data-lang="en" class="hidden"><?php echo !empty($pub['title_en']) ? e($pub['title_en']) : e($pub['title']); ?></span>
+                        </h3>
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
-                            <?php echo e($pub['description']); ?>
+                            <span data-lang="bn"><?php echo e($pub['description']); ?></span>
+                            <span data-lang="en" class="hidden"><?php echo !empty($pub['description_en']) ? e($pub['description_en']) : e($pub['description']); ?></span>
                         </p>
                         
                         <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
@@ -78,10 +95,14 @@ if ($db) {
                             <?php if ($pub['file_path']): ?>
                             <a href="uploads/publications/<?php echo e($pub['file_path']); ?>" download class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-primary-soft text-primary text-sm font-semibold hover:bg-primary hover:text-white transition-colors" target="_blank">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                ডাউনলোড
+                                <span data-lang="bn">ডাউনলোড</span>
+                                <span data-lang="en" class="hidden">Download</span>
                             </a>
                             <?php else: ?>
-                            <span class="text-xs text-gray-400">ফাইল নেই</span>
+                            <span class="text-xs text-gray-400">
+                                <span data-lang="bn">ফাইল নেই</span>
+                                <span data-lang="en" class="hidden">No file</span>
+                            </span>
                             <?php endif; ?>
                         </div>
                     </div>

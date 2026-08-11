@@ -77,7 +77,10 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">অফিস ঠিকানা</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Office Address</h3>
-                                <p class="text-gray-600 mt-1"><?php echo nl2br(htmlspecialchars(get_setting('site_address', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></p>
+                                <p class="text-gray-600 mt-1">
+                                    <span data-lang="bn"><?php echo nl2br(htmlspecialchars(get_setting('site_address', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo nl2br(htmlspecialchars(get_setting('site_address_en', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></span>
+                                </p>
                             </div>
                         </div>
                         

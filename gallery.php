@@ -7,27 +7,44 @@ $db = Database::getConnection();
 $photos = [];
 
 if ($db) {
-    // Fetch all gallery items from database
-    $photos = $db->query("
-        SELECT g.*, p.title_bn as project_title 
-        FROM gallery g 
-        LEFT JOIN projects p ON g.project_id = p.id 
-        ORDER BY g.created_at DESC
-    ")->fetchAll();
+    try {
+        $photos = $db->query("
+            SELECT g.*, p.title_bn as project_title 
+            FROM gallery g 
+            LEFT JOIN projects p ON g.project_id = p.id 
+            ORDER BY g.created_at DESC
+        ")->fetchAll();
+    } catch (PDOException $e) {
+        $photos = [];
+    }
 }
 
+$page_title = "গ্যালারি (Gallery)";
+$meta_description = "সংগঠনের চলমান ও সম্পন্ন কর্মকাণ্ডের কিছু নির্বাচিত মুহূর্ত ও ছবি দেখুন।";
 require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="bg-warm-grain min-h-screen font-sans-bn text-foreground">
   <div class="bg-secondary px-4 py-12 text-center sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <h1 class="font-serif-bn text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">গ্যালারি</h1>
-      <p class="mt-4 text-base text-white/80 sm:text-lg">সংগঠনের চলমান ও সম্পন্ন কর্মকাণ্ডের কিছু নির্বাচিত মুহূর্ত।</p>
+      <h1 class="font-serif-bn text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">
+          <span data-lang="bn">গ্যালারি</span>
+          <span data-lang="en" class="hidden">Gallery</span>
+      </h1>
+      <p class="mt-4 text-base text-white/80 sm:text-lg">
+          <span data-lang="bn">সংগঠনের চলমান ও সম্পন্ন কর্মকাণ্ডের কিছু নির্বাচিত মুহূর্ত।</span>
+          <span data-lang="en" class="hidden">Selected moments of the organization's ongoing and completed activities.</span>
+      </p>
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm text-white/80">
-        <a href="/index.php" class="hover:text-white hover:underline">হোম</a>
+        <a href="index.php" class="hover:text-white hover:underline">
+            <span data-lang="bn">হোম</span>
+            <span data-lang="en" class="hidden">Home</span>
+        </a>
         <span class="opacity-50">/</span>
-        <span>গ্যালারি</span>
+        <span>
+            <span data-lang="bn">গ্যালারি</span>
+            <span data-lang="en" class="hidden">Gallery</span>
+        </span>
       </div>
     </div>
   </div>
@@ -37,7 +54,8 @@ require_once __DIR__ . '/includes/header.php';
     <!-- Masonry-like columns -->
     <?php if (empty($photos)): ?>
       <div class="p-8 text-center text-muted-foreground bg-surface rounded-2xl border border-border shadow-card">
-        কোনো ছবি পাওয়া যায়নি।
+        <span data-lang="bn">কোনো ছবি পাওয়া যায়নি।</span>
+        <span data-lang="en" class="hidden">No photos found.</span>
       </div>
     <?php else: ?>
       <div class="columns-2 gap-4 lg:columns-3 xl:columns-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
@@ -45,11 +63,15 @@ require_once __DIR__ . '/includes/header.php';
             $imgSrc = '/uploads/gallery/' . e($photo['image_path']);
         ?>
           <a href="<?php echo $imgSrc; ?>" 
-             data-caption="<?php echo e($photo['caption_bn']); ?>"
+             data-caption-bn="<?php echo e($photo['caption_bn']); ?>"
+             data-caption-en="<?php echo e($photo['caption_en']); ?>"
              class="gallery-item group relative block overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover">
             <img src="<?php echo $imgSrc; ?>" alt="<?php echo e($photo['caption_bn']); ?>" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105" loading="lazy">
             <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                <p class="text-white font-serif-bn font-medium text-sm lg:text-base line-clamp-2"><?php echo e($photo['caption_bn']); ?></p>
+                <p class="text-white font-serif-bn font-medium text-sm lg:text-base line-clamp-2">
+                    <span data-lang="bn"><?php echo e($photo['caption_bn']); ?></span>
+                    <span data-lang="en" class="hidden"><?php echo !empty($photo['caption_en']) ? e($photo['caption_en']) : e($photo['caption_bn']); ?></span>
+                </p>
             </div>
           </a>
         <?php endforeach; ?>
@@ -99,7 +121,16 @@ require_once __DIR__ . '/includes/header.php';
             currentIndex = index;
             const item = items[currentIndex];
             lightboxImg.src = item.href;
-            lightboxCaption.textContent = item.getAttribute('data-caption') || '';
+            
+            const currentLang = document.documentElement.lang || 'bn';
+            const hiddenBn = currentLang === 'bn' ? '' : 'hidden';
+            const hiddenEn = currentLang === 'en' ? '' : 'hidden';
+            
+            lightboxCaption.innerHTML = `
+                <span data-lang="bn" class="${hiddenBn}">${item.getAttribute('data-caption-bn') || ''}</span>
+                <span data-lang="en" class="${hiddenEn}">${item.getAttribute('data-caption-en') || item.getAttribute('data-caption-bn') || ''}</span>
+            `;
+            
             lightbox.classList.remove('hidden');
             lightbox.classList.add('flex');
             document.body.style.overflow = 'hidden';

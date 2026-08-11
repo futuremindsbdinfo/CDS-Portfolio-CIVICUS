@@ -37,6 +37,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
+
+// Handle Bulk Delete
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'bulk_delete') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
+    $ids = $_POST['ids'] ?? [];
+    if (!empty($ids) && is_array($ids) && $db) {
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        
+        // Delete files first
+        $stmt = $db->prepare("SELECT image_path FROM gallery WHERE id IN ($placeholders)");
+        $stmt->execute($ids);
+        $photos = $stmt->fetchAll();
+        foreach ($photos as $photo) {
+            if ($photo['image_path'] && file_exists(__DIR__ . '/../uploads/gallery/' . $photo['image_path'])) {
+                @unlink(__DIR__ . '/../uploads/gallery/' . $photo['image_path']);
+            }
+        }
+        
+        // Delete records
+        $stmt = $db->prepare("DELETE FROM gallery WHERE id IN ($placeholders)");
+        if ($stmt->execute($ids)) {
+            $_SESSION['flash_message'] = count($ids) . " photo(s) deleted successfully.";
+            $_SESSION['flash_type'] = "success";
+        } else {
+            $_SESSION['flash_message'] = "Failed to delete photos.";
+            $_SESSION['flash_type'] = "error";
+        }
+    }
+    header("Location: gallery_admin.php");
+    exit;
+}
+
 // Handle Add (Bulk Upload)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) { die("CSRF token validation failed."); }
@@ -170,10 +202,16 @@ if (isset($_GET['edit_id']) && $db) {
             <h1 class="font-serif-bn text-2xl font-bold text-slate-900">Gallery Management</h1>
             <p class="mt-1 text-sm text-slate-500">গ্যালারির সকল ছবি পরিচালনা করুন</p>
         </div>
-        <button onclick="document.getElementById('add-photo-form').classList.toggle('hidden')" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-110">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4"><path d="M12 5v14M5 12h14" stroke-linecap="round" /></svg>
-            নতুন ছবি
-        </button>
+        <div class="flex gap-2">
+            <button onclick="bulkDelete()" id="bulk-delete-btn" class="hidden inline-flex items-center gap-1.5 rounded-lg bg-rose-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:brightness-110">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13" stroke-linejoin="round" /></svg>
+                Bulk Delete
+            </button>
+            <button onclick="document.getElementById('add-photo-form').classList.toggle('hidden')" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-110">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4"><path d="M12 5v14M5 12h14" stroke-linecap="round" /></svg>
+                নতুন ছবি
+            </button>
+        </div>
     </div>
 
     <!-- Add Form -->
@@ -274,12 +312,19 @@ if (isset($_GET['edit_id']) && $db) {
     </div>
     <?php endif; ?>
 
+
     <!-- Gallery List -->
+    <form id="bulk-delete-form" action="gallery_admin.php" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+        <input type="hidden" name="action" value="bulk_delete">
     <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
                 <thead>
+
                     <tr class="border-b border-slate-200 bg-slate-50 text-xs text-slate-500">
+                        <th class="px-4 py-3 font-semibold uppercase tracking-wider w-8"><input type="checkbox" onchange="toggleAll(this)" class="rounded border-slate-300 text-primary focus:ring-primary"></th>
                         <th class="px-4 py-3 font-semibold uppercase tracking-wider w-16">Preview</th>
                         <th class="px-4 py-3 font-semibold uppercase tracking-wider">Caption</th>
                         <th class="px-4 py-3 font-semibold uppercase tracking-wider">Linked Project</th>
@@ -290,7 +335,7 @@ if (isset($_GET['edit_id']) && $db) {
                 <tbody class="divide-y divide-slate-100 bg-white">
                     <?php if(empty($photos)): ?>
                     <tr>
-                        <td colspan="5" class="px-4 py-8 text-center">
+                        <td colspan="6" class="px-4 py-8 text-center">
                             <div class="grid place-items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-white p-12 text-center">
                                 <div class="grid h-14 w-14 place-items-center rounded-full bg-slate-100 text-slate-400">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-7 w-7"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="M21 15l-5-5L5 21" /></svg>
@@ -301,7 +346,9 @@ if (isset($_GET['edit_id']) && $db) {
                     </tr>
                     <?php else: ?>
                         <?php foreach($photos as $photo): ?>
+
                         <tr class="hover:bg-slate-50/50">
+                            <td class="px-4 py-3"><input type="checkbox" name="ids[]" value="<?php echo $photo['id']; ?>" class="row-checkbox rounded border-slate-300 text-primary focus:ring-primary" onchange="checkBulkDeleteBtn()"></td>
                             <td class="px-4 py-3">
                                 <div class="h-10 w-16 rounded-md bg-slate-200 bg-cover bg-center overflow-hidden">
                                     <img src="../uploads/gallery/<?php echo e($photo['image_path']); ?>" alt="preview" class="h-full w-full object-cover">
@@ -335,7 +382,36 @@ if (isset($_GET['edit_id']) && $db) {
                 </tbody>
             </table>
         </div>
+
     </div>
+    </form>
+
 </div>
+
+<script>
+function toggleAll(source) {
+    checkboxes = document.querySelectorAll('.row-checkbox');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = source.checked;
+    }
+    checkBulkDeleteBtn();
+}
+
+function checkBulkDeleteBtn() {
+    const anyChecked = document.querySelectorAll('.row-checkbox:checked').length > 0;
+    const btn = document.getElementById('bulk-delete-btn');
+    if (anyChecked) {
+        btn.classList.remove('hidden');
+    } else {
+        btn.classList.add('hidden');
+    }
+}
+
+function bulkDelete() {
+    if (confirm('Are you sure you want to delete the selected photos?')) {
+        document.getElementById('bulk-delete-form').submit();
+    }
+}
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

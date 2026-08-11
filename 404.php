@@ -18,22 +18,26 @@ require_once __DIR__ . '/includes/header.php';
         
         <div>
             <h1 class="mt-6 text-6xl font-extrabold text-slate-900 font-serif-bn tracking-tight">
-                ৪<span class="text-primary">০</span>৪
+                <span data-lang="bn">৪<span class="text-primary">০</span>৪</span>
+                <span data-lang="en" class="hidden">4<span class="text-primary">0</span>4</span>
             </h1>
             <h2 class="mt-4 text-3xl font-bold text-slate-800 font-serif-bn">
-                পেজটি খুঁজে পাওয়া যায়নি
+                <span data-lang="bn">পেজটি খুঁজে পাওয়া যায়নি</span>
+                <span data-lang="en" class="hidden">Page Not Found</span>
             </h2>
             <p class="mt-2 text-base text-slate-600 font-serif-bn">
-                আপনি যে পেজটি খুঁজছেন তা মুছে ফেলা হয়েছে, নাম পরিবর্তন করা হয়েছে অথবা সাময়িকভাবে অনুপলব্ধ।
+                <span data-lang="bn">আপনি যে পেজটি খুঁজছেন তা মুছে ফেলা হয়েছে, নাম পরিবর্তন করা হয়েছে অথবা সাময়িকভাবে অনুপলব্ধ।</span>
+                <span data-lang="en" class="hidden">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</span>
             </p>
         </div>
         
         <div class="mt-8 flex justify-center">
-            <a href="/" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:brightness-110 shadow-sm transition-all duration-200">
+            <a href="" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:brightness-110 shadow-sm transition-all duration-200">
                 <svg class="mr-2 -ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                হোমপেজে ফিরে যান
+                <span data-lang="bn">হোমপেজে ফিরে যান</span>
+                <span data-lang="en" class="hidden">Go back home</span>
             </a>
         </div>
     </div>

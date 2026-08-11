@@ -9,8 +9,13 @@ function get_all_settings() {
     if ($settings === null) {
         $db = Database::getConnection();
         if ($db) {
-            $rows = $db->query("SELECT setting_key, setting_value FROM settings")->fetchAll(PDO::FETCH_KEY_PAIR);
-            $settings = $rows ? $rows : [];
+            try {
+                $rows = $db->query("SELECT setting_key, setting_value FROM settings")->fetchAll(PDO::FETCH_KEY_PAIR);
+                $settings = $rows ? $rows : [];
+            } catch (PDOException $e) {
+                // Table might not exist yet
+                $settings = [];
+            }
         } else {
             $settings = [];
         }
@@ -21,5 +26,5 @@ function get_all_settings() {
 
 function get_setting($key, $default = '') {
     $settings = get_all_settings();
-    return isset($settings[$key]) ? $settings[$key] : $default;
+    return (isset($settings[$key]) && trim($settings[$key]) !== '') ? $settings[$key] : $default;
 }

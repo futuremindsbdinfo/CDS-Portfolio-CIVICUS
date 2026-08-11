@@ -7,10 +7,17 @@ require_once 'includes/db.php';
 $db = Database::getConnection();
 $projects = [];
 if ($db) {
-    $projects = $db->query("SELECT * FROM projects ORDER BY created_at DESC")->fetchAll();
+    try {
+        $projects = $db->query("SELECT * FROM projects ORDER BY created_at DESC")->fetchAll();
+    } catch (PDOException $e) {
+        $projects = [];
+    }
 }
+
+$page_title = "আমাদের প্রজেক্টস (Our Projects)";
+$meta_description = "সমাজের উন্নয়নে আমাদের চলমান এবং পূর্ববর্তী কার্যক্রমগুলো সম্পর্কে বিস্তারিত জানুন।";
+include 'includes/header.php';
 ?>
-<?php include 'includes/header.php'; ?>
 
 <!-- Page Header -->
 <div class="bg-cds-blue py-12 md:py-16 text-white text-center">
@@ -112,7 +119,10 @@ if ($db) {
                             <?php if (!empty($project['video_url'])): ?>
                             <a href="<?php echo e($project['video_url']); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-full bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold py-2 px-4 rounded transition-colors duration-200">
                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                                <span>ভিডিও দেখুন</span>
+                                <span>
+                                    <span data-lang="bn">ভিডিও দেখুন</span>
+                                    <span data-lang="en" class="hidden">Watch Video</span>
+                                </span>
                             </a>
                             <?php endif; ?>
                         </div>

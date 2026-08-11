@@ -35,7 +35,7 @@
             </div>
             <div data-lang="en" class="hidden">
                 <p class="mb-4">
-                    Citizen Development Society (CDS) is a social welfare, non-profit, and voluntary organization. Our journey began with a noble mission to improve the living standards of the neglected, underprivileged, and poor people in society. We believe every citizen has the right to good education, good health, and a safe environment.
+                    Citizen Development Society (CDS) is a social welfare, non-profit, and voluntary organization. Our journey began with a noble mission to improve the living standards of the neglected, underprivileged, and poor people in society. We believe every citizen has the right to Quality Education, Health and Well-being, and a safe environment.
                 </p>
                 <p class="mb-4">
                     Since its inception, CDS has been working tirelessly to promote education, ensure healthcare, raise social awareness, and establish good governance. Our volunteers work at the grassroots level to identify real social problems and take appropriate steps to solve them.
@@ -105,22 +105,40 @@
                 <div class="w-12 h-12 bg-green-100 text-cds-green rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </div>
-                <h4 class="font-bold text-gray-800 mb-2">বৈষম্যহীন সমাজ</h4>
-                <p class="text-sm text-gray-600">ধর্ম, বর্ণ, লিঙ্গ বা সামাজিক অবস্থানের ভিত্তিতে কোনো বৈষম্য করা হবে না।</p>
+                <h4 class="font-bold text-gray-800 mb-2">
+                    <span data-lang="bn">বৈষম্যহীন সমাজ</span>
+                    <span data-lang="en" class="hidden">Non-discriminatory Society</span>
+                </h4>
+                <p class="text-sm text-gray-600">
+                    <span data-lang="bn">ধর্ম, বর্ণ, লিঙ্গ বা সামাজিক অবস্থানের ভিত্তিতে কোনো বৈষম্য করা হবে না।</span>
+                    <span data-lang="en" class="hidden">No discrimination will be made on the basis of religion, race, gender, or social status.</span>
+                </p>
             </div>
             <div class="bg-gray-50 p-6 rounded-lg text-center border-t-2 border-cds-blue">
                 <div class="w-12 h-12 bg-blue-100 text-cds-blue rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
-                <h4 class="font-bold text-gray-800 mb-2">স্বচ্ছতা ও নৈতিকতা</h4>
-                <p class="text-sm text-gray-600">দুর্নীতি, স্বজনপ্রীতি ও ক্ষমতার অপব্যবহার কঠোরভাবে নিষিদ্ধ।</p>
+                <h4 class="font-bold text-gray-800 mb-2">
+                    <span data-lang="bn">স্বচ্ছতা ও নৈতিকতা</span>
+                    <span data-lang="en" class="hidden">Transparency and Ethics</span>
+                </h4>
+                <p class="text-sm text-gray-600">
+                    <span data-lang="bn">দুর্নীতি, স্বজনপ্রীতি ও ক্ষমতার অপব্যবহার কঠোরভাবে নিষিদ্ধ।</span>
+                    <span data-lang="en" class="hidden">Corruption, nepotism, and abuse of power are strictly prohibited.</span>
+                </p>
             </div>
             <div class="bg-gray-50 p-6 rounded-lg text-center border-t-2 border-cds-green">
                 <div class="w-12 h-12 bg-green-100 text-cds-green rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                 </div>
-                <h4 class="font-bold text-gray-800 mb-2">সম্মান ও মর্যাদা</h4>
-                <p class="text-sm text-gray-600">নারী, শিশু ও প্রান্তিক জনগোষ্ঠীর প্রতি সম্মানজনক আচরণ নিশ্চিত করা হবে।</p>
+                <h4 class="font-bold text-gray-800 mb-2">
+                    <span data-lang="bn">সম্মান ও মর্যাদা</span>
+                    <span data-lang="en" class="hidden">Respect and Dignity</span>
+                </h4>
+                <p class="text-sm text-gray-600">
+                    <span data-lang="bn">নারী, শিশু ও প্রান্তিক জনগোষ্ঠীর প্রতি সম্মানজনক আচরণ নিশ্চিত করা হবে।</span>
+                    <span data-lang="en" class="hidden">Respectful behavior towards women, children, and marginalized communities will be ensured.</span>
+                </p>
             </div>
         </div>
     </div>

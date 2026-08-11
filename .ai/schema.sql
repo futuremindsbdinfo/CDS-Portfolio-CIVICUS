@@ -112,8 +112,10 @@ CREATE TABLE donation_interests (
 -- 8. blogs
 CREATE TABLE blogs (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
+    title_bn VARCHAR(255) NOT NULL,
+    title_en VARCHAR(255) NULL,
+    content_bn TEXT NOT NULL,
+    content_en TEXT NULL,
     cover_image VARCHAR(255) NULL,
     published_date DATE NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP

@@ -1,7 +1,69 @@
 // assets/js/scripts.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ==========================================
+    // Language Toggle Logic (Bilingual Support)
+    // ==========================================
+    const langBtns = document.querySelectorAll('.lang-toggle-btn');
     
+    function applyLanguage(lang) {
+        document.documentElement.lang = lang;
+        localStorage.setItem('cds_lang', lang);
+
+        // Toggle data-lang elements
+        const allLangEls = document.querySelectorAll('[data-lang]');
+        allLangEls.forEach(el => {
+            if (el.getAttribute('data-lang') === lang) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+
+        // Toggle active state on buttons
+        langBtns.forEach(btn => {
+            const btnLang = btn.getAttribute('data-set-lang');
+            if (btnLang) {
+                if (btnLang === lang) {
+                    btn.classList.add('bg-primary/20', 'text-primary', 'font-bold');
+                    btn.classList.remove('text-foreground/70', 'hover:text-primary');
+                } else {
+                    btn.classList.remove('bg-primary/20', 'text-primary', 'font-bold');
+                    btn.classList.add('text-foreground/70', 'hover:text-primary');
+                }
+            }
+        });
+        
+        // Handle input placeholders
+        const inputsWithEnPlaceholder = document.querySelectorAll('[data-en-placeholder]');
+        inputsWithEnPlaceholder.forEach(input => {
+            if (lang === 'en') {
+                if (!input.hasAttribute('data-bn-placeholder')) {
+                    input.setAttribute('data-bn-placeholder', input.getAttribute('placeholder') || '');
+                }
+                input.setAttribute('placeholder', input.getAttribute('data-en-placeholder'));
+            } else {
+                if (input.hasAttribute('data-bn-placeholder')) {
+                    input.setAttribute('placeholder', input.getAttribute('data-bn-placeholder'));
+                }
+            }
+        });
+    }
+
+    // Initialize Language
+    const savedLang = localStorage.getItem('cds_lang') || 'bn';
+    applyLanguage(savedLang);
+
+    // Bind Toggle Buttons
+    if (langBtns.length > 0) {
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const langToSet = btn.getAttribute('data-set-lang');
+                if (langToSet) applyLanguage(langToSet);
+            });
+        });
+    }
+
     // ==========================================
     // Mobile Menu Toggle Logic (Lovable Header)
     // ==========================================
@@ -16,12 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const isClosed = mobileMenu.classList.contains('max-h-0');
             if (isClosed) {
                 mobileMenu.classList.remove('max-h-0');
-                mobileMenu.classList.add('max-h-96');
+                mobileMenu.classList.add('max-h-[calc(100vh-4rem)]');
+                document.body.style.overflow = 'hidden';
                 if(iconOpen) iconOpen.classList.add('hidden');
                 if(iconClose) iconClose.classList.remove('hidden');
             } else {
                 mobileMenu.classList.add('max-h-0');
-                mobileMenu.classList.remove('max-h-96');
+                mobileMenu.classList.remove('max-h-[calc(100vh-4rem)]');
+                document.body.style.overflow = '';
                 if(iconOpen) iconOpen.classList.remove('hidden');
                 if(iconClose) iconClose.classList.add('hidden');
             }
@@ -29,9 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Close menu on Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('max-h-96')) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('max-h-[calc(100vh-4rem)]')) {
                 mobileMenu.classList.add('max-h-0');
-                mobileMenu.classList.remove('max-h-96');
+                mobileMenu.classList.remove('max-h-[calc(100vh-4rem)]');
+                document.body.style.overflow = '';
                 if(iconOpen) iconOpen.classList.remove('hidden');
                 if(iconClose) iconClose.classList.add('hidden');
             }
@@ -40,9 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close when clicking outside
         document.addEventListener('mousedown', (e) => {
             if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                if (mobileMenu.classList.contains('max-h-96')) {
+                if (mobileMenu.classList.contains('max-h-[calc(100vh-4rem)]')) {
                     mobileMenu.classList.add('max-h-0');
-                    mobileMenu.classList.remove('max-h-96');
+                    mobileMenu.classList.remove('max-h-[calc(100vh-4rem)]');
+                    document.body.style.overflow = '';
                     if(iconOpen) iconOpen.classList.remove('hidden');
                     if(iconClose) iconClose.classList.add('hidden');
                 }

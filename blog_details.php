@@ -14,7 +14,16 @@ if ($db && $id > 0) {
 }
 
 if (!$blog) {
-    echo "<div class='py-20 text-center'><h2 class='text-2xl font-bold text-gray-700'>ব্লগটি পাওয়া যায়নি।</h2><a href='blog.php' class='text-primary hover:underline mt-4 inline-block'>ফিরে যান</a></div>";
+    echo "<div class='py-20 text-center'>
+            <h2 class='text-2xl font-bold text-gray-700'>
+                <span data-lang='bn'>ব্লগটি পাওয়া যায়নি।</span>
+                <span data-lang='en' class='hidden'>Blog not found.</span>
+            </h2>
+            <a href='blog.php' class='text-primary hover:underline mt-4 inline-block'>
+                <span data-lang='bn'>ফিরে যান</span>
+                <span data-lang='en' class='hidden'>Go back</span>
+            </a>
+          </div>";
     require_once 'includes/footer.php';
     exit;
 }
@@ -24,7 +33,8 @@ if (!$blog) {
 <div class="bg-cds-blue py-12 text-white text-center">
     <div class="container mx-auto px-4">
         <h1 class="text-3xl md:text-5xl font-serif font-bold mb-4 max-w-4xl mx-auto leading-tight">
-            <?php echo e($blog['title']); ?>
+            <span data-lang="bn"><?php echo e($blog['title']); ?></span>
+            <span data-lang="en" class="hidden"><?php echo !empty($blog['title_en']) ? e($blog['title_en']) : e($blog['title']); ?></span>
         </h1>
         <div class="flex items-center justify-center gap-4 text-sm text-gray-300">
             <span class="flex items-center gap-1">
@@ -50,14 +60,20 @@ if (!$blog) {
                 <div class="prose prose-lg max-w-none text-gray-700 font-sans-bn leading-relaxed">
                     <?php 
                     // Content is HTML from TinyMCE
-                    echo $blog['content']; 
                     ?>
+                    <div data-lang="bn">
+                        <?php echo $blog['content']; ?>
+                    </div>
+                    <div data-lang="en" class="hidden">
+                        <?php echo !empty($blog['content_en']) ? $blog['content_en'] : $blog['content']; ?>
+                    </div>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-100 flex justify-between items-center">
                     <a href="blog.php" class="inline-flex items-center gap-2 text-primary font-semibold hover:text-cds-blue transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path></svg>
-                        সব ব্লগে ফিরে যান
+                        <span data-lang="bn">সব ব্লগে ফিরে যান</span>
+                        <span data-lang="en" class="hidden">Back to all blogs</span>
                     </a>
                 </div>
             </div>

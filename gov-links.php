@@ -6,10 +6,18 @@ $db = Database::getConnection();
 $links = [];
 $categories = [];
 if ($db) {
-    $links = $db->query("SELECT * FROM gov_links ORDER BY title ASC")->fetchAll();
-    $cats = $db->query("SELECT DISTINCT category FROM gov_links WHERE category IS NOT NULL AND category != ''")->fetchAll(PDO::FETCH_COLUMN);
-    $categories = $cats ? $cats : [];
+    try {
+        $links = $db->query("SELECT * FROM gov_links ORDER BY title ASC")->fetchAll();
+        $cats = $db->query("SELECT DISTINCT category FROM gov_links WHERE category IS NOT NULL AND category != ''")->fetchAll(PDO::FETCH_COLUMN);
+        $categories = $cats ? $cats : [];
+    } catch (PDOException $e) {
+        $links = [];
+        $categories = [];
+    }
 }
+
+$page_title = "জরুরী সরকারি লিংকসমূহ (Important Govt Links)";
+$meta_description = "সরকারি বিভিন্ন গুরুত্বপূর্ণ ওয়েবসাইট, ই-সেবা, এবং সেবামূলক লিংকসমূহ খুব সহজেই এক জায়গা থেকে খুঁজে নিন।";
 
 include 'includes/header.php'; 
 ?>
@@ -32,16 +40,23 @@ include 'includes/header.php';
             <div class="pl-4 text-slate-400">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="text" id="gov-link-search" placeholder="সরকারি ওয়েবসাইটের নাম দিয়ে খুঁজুন..." class="w-full bg-transparent border-none focus:ring-0 px-4 py-2 text-slate-700 outline-none">
+            <input type="text" id="gov-link-search"
+              placeholder="সরকারি ওয়েবসাইটের নাম দিয়ে খুঁজুন..."
+              data-bn-placeholder="সরকারি ওয়েবসাইটের নাম দিয়ে খুঁজুন..."
+              data-en-placeholder="Search government website name..."
+              class="w-full bg-transparent border-none focus:ring-0 px-4 py-2 text-slate-700 outline-none">
             <button class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors shadow-sm whitespace-nowrap">
-                খুঁজুন <span class="ml-1">›</span>
+                <span data-lang="bn">খুঁজুন <span class="ml-1">›</span></span>
+                <span data-lang="en" class="hidden">Search <span class="ml-1">›</span></span>
             </button>
         </div>
         
         <!-- Category Filter Chips -->
         <?php if(!empty($categories)): ?>
         <div class="flex flex-wrap justify-center gap-2 mt-6" id="category-filters">
-            <span class="category-btn active px-4 py-1.5 rounded-full bg-orange-500 text-white text-xs font-semibold shadow-sm cursor-pointer transition" data-category="all">সব</span>
+            <span class="category-btn active px-4 py-1.5 rounded-full bg-orange-500 text-white text-xs font-semibold shadow-sm cursor-pointer transition" data-category="all">
+              <span data-lang="bn">সব</span><span data-lang="en" class="hidden">All</span>
+            </span>
             <?php foreach($categories as $cat): ?>
                 <span class="category-btn px-4 py-1.5 rounded-full bg-white text-slate-600 border border-slate-200 text-xs font-semibold shadow-sm hover:border-orange-300 cursor-pointer transition" data-category="<?php echo e($cat); ?>"><?php echo e($cat); ?></span>
             <?php endforeach; ?>
@@ -56,7 +71,8 @@ include 'includes/header.php';
         <div id="gov-links-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             <?php if(empty($links)): ?>
                 <div class="col-span-full text-center py-12 text-slate-500">
-                    কোনো লিংক পাওয়া যায়নি।
+                    <span data-lang="bn">কোনো লিংক পাওয়া যায়নি।</span>
+                    <span data-lang="en" class="hidden">No links found.</span>
                 </div>
             <?php else: ?>
                 <?php foreach($links as $link): ?>
@@ -81,7 +97,8 @@ include 'includes/header.php';
         </div>
         
         <div id="no-results" class="hidden text-center py-12 text-slate-500 font-medium">
-            আপনার অনুসন্ধানের সাথে মিল পাওয়া যায়নি।
+            <span data-lang="bn">আপনার অনুসন্ধানের সাথে মিল পাওয়া যায়নি।</span>
+            <span data-lang="en" class="hidden">No results found matching your search.</span>
         </div>
     </div>
 </section>
@@ -95,27 +112,39 @@ include 'includes/header.php';
         </div>
         <div class="space-y-4">
             <div class="border border-orange-200 rounded-lg overflow-hidden">
-                <button class="w-full px-5 py-4 text-left bg-orange-50 hover:bg-orange-100 flex justify-between items-center font-bold text-slate-800 transition">
-                    সরকারি ওয়েবসাইটগুলো কি নিরাপদ?
-                    <span class="text-orange-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></span>
+                <button class="faq-toggle w-full px-5 py-4 text-left bg-orange-50 hover:bg-orange-100 flex justify-between items-center font-bold text-slate-800 transition">
+                    <span data-lang="bn">সরকারি ওয়েবসাইটগুলো কি নিরাপদ?</span>
+                    <span data-lang="en" class="hidden">Are government websites safe?</span>
+                    <span class="text-orange-500"><svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></span>
                 </button>
                 <div class="px-5 py-4 text-slate-600 text-sm bg-white border-t border-orange-100 leading-relaxed">
-                    হ্যাঁ, বাংলাদেশ সরকারের ওয়েবসাইটসমূহ অত্যন্ত নিরাপদ। এসব ওয়েবসাইট সরকারি সার্ভারে হোস্ট করা থাকে এবং এখানে দেওয়া তথ্য সম্পূর্ণ নির্ভরযোগ্য।
+                    <span data-lang="bn">হ্যাঁ, বাংলাদেশ সরকারের ওয়েবসাইটসমূহ অত্যন্ত নিরাপদ। এসব ওয়েবসাইট সরকারি সার্ভারে হোস্ট করা থাকে এবং এখানে দেওয়া তথ্য সম্পূর্ণ নির্ভরযোগ্য।</span>
+                    <span data-lang="en" class="hidden">Yes, the websites of the Government of Bangladesh are very secure. These websites are hosted on government servers and the information provided here is completely reliable.</span>
                 </div>
             </div>
             
             <div class="border border-slate-200 rounded-lg overflow-hidden">
-                <button class="w-full px-5 py-4 text-left bg-white hover:bg-slate-50 flex justify-between items-center font-bold text-slate-700 transition">
-                    সরকারি ওয়েবসাইটে কি আমার ব্যক্তিগত তথ্য নিরাপদ?
-                    <span class="text-slate-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></span>
+                <button class="faq-toggle w-full px-5 py-4 text-left bg-white hover:bg-slate-50 flex justify-between items-center font-bold text-slate-700 transition">
+                    <span data-lang="bn">সরকারি ওয়েবসাইটে কি আমার ব্যক্তিগত তথ্য নিরাপদ?</span>
+                    <span data-lang="en" class="hidden">Is my personal information safe on government websites?</span>
+                    <span class="text-slate-400"><svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></span>
                 </button>
+                <div class="hidden px-5 py-4 text-slate-600 text-sm bg-white border-t border-orange-100 leading-relaxed">
+                    <span data-lang="bn">অবশ্যই। সরকারি ওয়েবসাইটগুলো ন্যাশনাল ডাটা সেন্টারে সংরক্ষিত থাকে এবং উন্নত সাইবার নিরাপত্তা ব্যবস্থা দ্বারা সুরক্ষিত থাকে।</span>
+                    <span data-lang="en" class="hidden">Absolutely. Government websites are stored in the National Data Center and protected by advanced cyber security measures.</span>
+                </div>
             </div>
             
             <div class="border border-slate-200 rounded-lg overflow-hidden">
-                <button class="w-full px-5 py-4 text-left bg-white hover:bg-slate-50 flex justify-between items-center font-bold text-slate-700 transition">
-                    আমি কি এই ওয়েবসাইটগুলো থেকে সরাসরি সেবা পেতে পারি?
-                    <span class="text-slate-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></span>
+                <button class="faq-toggle w-full px-5 py-4 text-left bg-white hover:bg-slate-50 flex justify-between items-center font-bold text-slate-700 transition">
+                    <span data-lang="bn">আমি কি এই ওয়েবসাইটগুলো থেকে সরাসরি সেবা পেতে পারি?</span>
+                    <span data-lang="en" class="hidden">Can I get services directly from these websites?</span>
+                    <span class="text-slate-400"><svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></span>
                 </button>
+                <div class="hidden px-5 py-4 text-slate-600 text-sm bg-white border-t border-orange-100 leading-relaxed">
+                    <span data-lang="bn">হ্যাঁ, বেশিরভাগ ওয়েবসাইট থেকেই আপনি সরাসরি অনলাইন আবেদন, ই-চালান পেমেন্ট, অথবা অন্যান্য ডিজিটাল সেবা গ্রহণ করতে পারবেন।</span>
+                    <span data-lang="en" class="hidden">Yes, from most websites you can directly apply online, make e-challan payments, or receive other digital services.</span>
+                </div>
             </div>
         </div>
     </div>
@@ -175,6 +204,43 @@ include 'includes/header.php';
             });
         });
     }
+    // FAQ Accordion Logic
+    const faqButtons = document.querySelectorAll('.faq-toggle');
+    faqButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            const isExpanded = content.classList.contains('hidden');
+
+            // Close all others
+            faqButtons.forEach(btn => {
+                const otherContent = btn.nextElementSibling;
+                const otherIcon = btn.querySelector('.faq-icon');
+                if (otherContent && otherContent !== content) {
+                    otherContent.classList.add('hidden');
+                    btn.classList.remove('bg-orange-50', 'text-slate-800');
+                    btn.classList.add('bg-white', 'text-slate-700');
+                    if(otherIcon) otherIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>';
+                    if(otherIcon) otherIcon.parentElement.classList.replace('text-orange-500', 'text-slate-400');
+                }
+            });
+
+            // Toggle current
+            if (isExpanded) {
+                content.classList.remove('hidden');
+                button.classList.remove('bg-white', 'text-slate-700');
+                button.classList.add('bg-orange-50', 'text-slate-800');
+                if(icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
+                if(icon) icon.parentElement.classList.replace('text-slate-400', 'text-orange-500');
+            } else {
+                content.classList.add('hidden');
+                button.classList.remove('bg-orange-50', 'text-slate-800');
+                button.classList.add('bg-white', 'text-slate-700');
+                if(icon) icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>';
+                if(icon) icon.parentElement.classList.replace('text-orange-500', 'text-slate-400');
+            }
+        });
+    });
 </script>
 
 <?php include 'includes/footer.php'; ?>

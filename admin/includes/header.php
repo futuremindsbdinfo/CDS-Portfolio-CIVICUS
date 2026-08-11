@@ -22,6 +22,7 @@ $nav_items = [
     ['key' => 'gov_links_admin.php', 'label' => 'Gov Links', 'icon' => '<path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round"/>'],
     ['key' => 'contact_messages.php', 'label' => 'Contact Messages', 'icon' => '<rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" />'],
     ['key' => 'donation_interests.php', 'label' => 'Donation Interests', 'icon' => '<path d="M12 21s-7-4.5-7-10a4 4 0 017-2.7A4 4 0 0119 11c0 5.5-7 10-7 10z" />'],
+    ['key' => 'feedback_admin.php', 'label' => 'Feedback', 'icon' => '<path d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round"/>'],
     ['key' => 'settings.php', 'label' => 'Site Settings', 'icon' => '<circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z" />']
 ];
 
@@ -39,7 +40,7 @@ foreach($nav_items as $item) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - CDS</title>
-    <link rel="icon" type="image/png" href="/assets/img/cds-logo.png">
+    <link rel="icon" type="image/png" href="assets/img/cds-logo.png">
     <!-- Bengali Fonts: Kalpurush + SolaimanLipi -->
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">

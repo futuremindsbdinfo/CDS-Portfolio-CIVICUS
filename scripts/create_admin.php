@@ -25,6 +25,17 @@ if (empty($username) || empty($password) || empty($email) || empty($full_name)) 
     die("Error: All fields are required.\n");
 }
 
+// Password strength validation
+if (strlen($password) < 8) {
+    die("Error: Password must be at least 8 characters long.\n");
+}
+if (!preg_match("#[0-9]+#", $password)) {
+    die("Error: Password must include at least one number.\n");
+}
+if (!preg_match("#[a-zA-Z]+#", $password)) {
+    die("Error: Password must include at least one letter.\n");
+}
+
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 try {

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Validate CSRF
     if (!verify_csrf_token($csrf_token)) {
-        $error_message = "নিরাপত্তা ত্রুটি (CSRF)। দয়া করে আবার চেষ্টা করুন।";
+        $error_message = '<span data-lang="bn">নিরাপত্তা ত্রুটি (CSRF)। দয়া করে আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">Security Error (CSRF). Please try again.</span>';
     } else {
         $ip_address = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
         $pdo = Database::getConnection();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_check = $pdo->prepare("SELECT COUNT(*) FROM donation_interests WHERE ip_address = ? AND created_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)");
         $stmt_check->execute([$ip_address]);
         if ($stmt_check->fetchColumn() >= 5) {
-            $error_message = "আপনি অনেক বেশিবার চেষ্টা করেছেন। দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।";
+            $error_message = '<span data-lang="bn">আপনি অনেক বেশিবার চেষ্টা করেছেন। দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">You have tried too many times. Please try again later.</span>';
         } else {
             $form_data['donor_name'] = clean_input($_POST['donor_name'] ?? '');
             $form_data['donor_phone'] = clean_input($_POST['donor_phone'] ?? '');
@@ -43,17 +43,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $amount = floatval($form_data['donation_amount']);
 
             if (empty($form_data['donor_name']) || empty($form_data['donor_phone']) || empty($form_data['donation_amount']) || empty($form_data['payment_method']) || empty($form_data['transaction_id'])) {
-                $error_message = "দয়া করে সব আবশ্যক ফিল্ড পূরণ করুন।";
+                $error_message = '<span data-lang="bn">দয়া করে সব আবশ্যক ফিল্ড পূরণ করুন।</span><span data-lang="en" class="hidden">Please fill in all required fields.</span>';
             } elseif ($amount < 100) {
-                $error_message = "ন্যূনতম অনুদানের পরিমাণ ১০০ টাকা।";
+                $error_message = '<span data-lang="bn">ন্যূনতম অনুদানের পরিমাণ ১০০ টাকা।</span><span data-lang="en" class="hidden">The minimum donation amount is 100 Tk.</span>';
             } else {
                 $stmt = $pdo->prepare("INSERT INTO donation_interests (donor_name, donor_phone, donor_email, donation_amount, payment_method, transaction_id, ip_address) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 if ($stmt->execute([$form_data['donor_name'], $form_data['donor_phone'], $form_data['donor_email'], $amount, $form_data['payment_method'], $form_data['transaction_id'], $ip_address])) {
-                    $success_message = "ধন্যবাদ, " . e($form_data['donor_name']) . "! আপনার অনুদানের তথ্য সফলভাবে জমা হয়েছে। ৭২ ঘণ্টার মধ্যে ইমেইলে রশিদ পাঠানো হবে।";
+                    $success_message = '<span data-lang="bn">ধন্যবাদ, ' . e($form_data['donor_name']) . '! আপনার অনুদানের তথ্য সফলভাবে জমা হয়েছে। ৭২ ঘণ্টার মধ্যে ইমেইলে রশিদ পাঠানো হবে।</span><span data-lang="en" class="hidden">Thank you, ' . e($form_data['donor_name']) . '! Your donation information has been successfully submitted. A receipt will be sent via email within 72 hours.</span>';
                     // Reset form
                     $form_data = array_fill_keys(array_keys($form_data), '');
                 } else {
-                    $error_message = "একটি ত্রুটি ঘটেছে। দয়া করে আবার চেষ্টা করুন।";
+                    $error_message = '<span data-lang="bn">একটি ত্রুটি ঘটেছে। দয়া করে আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">An error occurred. Please try again.</span>';
                 }
             }
         }
@@ -65,12 +65,20 @@ require_once __DIR__ . '/includes/header.php';
 <div class="bg-warm-grain min-h-screen font-sans-bn text-foreground">
   <div class="bg-secondary px-4 py-12 text-center sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
-      <h1 class="font-serif-bn text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">ডোনেশন</h1>
-      <p class="mt-4 text-base text-white/80 sm:text-lg">আপনার প্রতিটি অবদান একটি শিশুর হাতে বই, একটি মায়ের হাতে সেবা তুলে দেয়।</p>
+      <h1 class="font-serif-bn text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">
+        <span data-lang="bn">ডোনেশন</span>
+        <span data-lang="en" class="hidden">Donation</span>
+      </h1>
+      <p class="mt-4 text-base text-white/80 sm:text-lg">
+        <span data-lang="bn">আপনার প্রতিটি অবদান একটি শিশুর হাতে বই, একটি মায়ের হাতে সেবা তুলে দেয়।</span>
+        <span data-lang="en" class="hidden">Your every contribution puts a book in a child's hand, and care in a mother's hands.</span>
+      </p>
       <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm text-white/80">
-        <a href="/index.php" class="hover:text-white hover:underline">হোম</a>
+        <a href="index.php" class="hover:text-white hover:underline">
+          <span data-lang="bn">হোম</span><span data-lang="en" class="hidden">Home</span>
+        </a>
         <span class="opacity-50">/</span>
-        <span>ডোনেশন</span>
+        <span><span data-lang="bn">ডোনেশন</span><span data-lang="en" class="hidden">Donation</span></span>
       </div>
     </div>
   </div>
@@ -84,20 +92,29 @@ require_once __DIR__ . '/includes/header.php';
         <div>
           <span class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
             <span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
-            আপনি পাশে থাকলে সম্ভব
+            <span data-lang="bn">আপনি পাশে থাকলে সম্ভব</span>
+            <span data-lang="en" class="hidden">Possible if you're with us</span>
           </span>
           <h2 class="mt-4 font-serif-bn text-3xl font-bold leading-tight sm:text-4xl">
-            একটি ছোট অনুদান, <span class="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">বদলে দিতে পারে একটি জীবন</span>
+            <span data-lang="bn">একটি ছোট অনুদান, <span class="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">বদলে দিতে পারে একটি জীবন</span></span>
+            <span data-lang="en" class="hidden">A small donation, <span class="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">can change a life</span></span>
           </h2>
           <p class="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-            আপনার অনুদানে চলে গ্রামীণ পাঠাগার, মাতৃস্বাস্থ্য ক্যাম্প, তরুণদের প্রশিক্ষণ ও
+            <span data-lang="bn">আপনার অনুদানে চলে গ্রামীণ পাঠাগার, মাতৃস্বাস্থ্য ক্যাম্প, তরুণদের প্রশিক্ষণ ও
             শীতবস্ত্র বিতরণের মতো কর্মসূচি। প্রতিটি টাকা কোথায় গেল — আমরা প্রতি বছর
-            নিরীক্ষিত প্রতিবেদনে জানাই।
+            নিরীক্ষিত প্রতিবেদনে জানাই।</span>
+            <span data-lang="en" class="hidden">Your donation funds rural libraries, maternal health camps, youth training, and winter clothing distribution programs. Every taka's use is disclosed in our annual audited report.</span>
           </p>
           <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
-            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">৭৫% প্রকল্পে</span>
-            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">১৫% সরাসরি উপকারভোগীতে</span>
-            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">বার্ষিক নিরীক্ষিত</span>
+            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">
+              <span data-lang="bn">৭৫% প্রকল্পে</span><span data-lang="en" class="hidden">75% to Projects</span>
+            </span>
+            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">
+              <span data-lang="bn">১৫% সরাসরি উপকারভোগীতে</span><span data-lang="en" class="hidden">15% Direct to Beneficiaries</span>
+            </span>
+            <span class="rounded-full border border-border bg-surface px-3 py-1.5 text-foreground/80">
+              <span data-lang="bn">বার্ষিক নিরীক্ষিত</span><span data-lang="en" class="hidden">Annually Audited</span>
+            </span>
           </div>
         </div>
         <div class="relative hidden aspect-square lg:block">
@@ -121,8 +138,12 @@ require_once __DIR__ . '/includes/header.php';
   <!-- Trust Band -->
   <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div class="mb-8 text-center">
-      <div class="text-xs font-semibold uppercase tracking-widest text-primary">স্বচ্ছতা ও ভরসা</div>
-      <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">আমাদের প্রতি কেন ভরসা রাখবেন</h2>
+      <div class="text-xs font-semibold uppercase tracking-widest text-primary">
+        <span data-lang="bn">স্বচ্ছতা ও ভরসা</span><span data-lang="en" class="hidden">Transparency & Trust</span>
+      </div>
+      <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">
+        <span data-lang="bn">আমাদের প্রতি কেন ভরসা রাখবেন</span><span data-lang="en" class="hidden">Why you should trust us</span>
+      </h2>
     </div>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <div class="rounded-2xl border border-border bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-card">
@@ -131,8 +152,12 @@ require_once __DIR__ . '/includes/header.php';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 class="mt-4 font-serif-bn text-lg font-bold">স্বাধীন নিরীক্ষা</h3>
-        <p class="mt-2 text-xs text-muted-foreground">প্রতি বছর সরকার অনুমোদিত ফার্ম দ্বারা হিসাব নিরীক্ষা করা হয়।</p>
+        <h3 class="mt-4 font-serif-bn text-lg font-bold">
+            <span data-lang="bn">স্বাধীন নিরীক্ষা</span><span data-lang="en" class="hidden">Independent Audit</span>
+        </h3>
+        <p class="mt-2 text-xs text-muted-foreground">
+            <span data-lang="bn">প্রতি বছর সরকার অনুমোদিত ফার্ম দ্বারা হিসাব নিরীক্ষা করা হয়।</span><span data-lang="en" class="hidden">Accounts are audited annually by government-approved firms.</span>
+        </p>
       </div>
       <div class="rounded-2xl border border-border bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-card">
         <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary">
@@ -140,8 +165,12 @@ require_once __DIR__ . '/includes/header.php';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 class="mt-4 font-serif-bn text-lg font-bold">১০০% ব্যবহার</h3>
-        <p class="mt-2 text-xs text-muted-foreground">আপনার দেওয়া প্রতিটি পয়সা সরাসরি উন্নয়নমূলক কাজে ব্যয় করা হয়।</p>
+        <h3 class="mt-4 font-serif-bn text-lg font-bold">
+            <span data-lang="bn">১০০% ব্যবহার</span><span data-lang="en" class="hidden">100% Utilization</span>
+        </h3>
+        <p class="mt-2 text-xs text-muted-foreground">
+            <span data-lang="bn">আপনার দেওয়া প্রতিটি পয়সা সরাসরি উন্নয়নমূলক কাজে ব্যয় করা হয়।</span><span data-lang="en" class="hidden">Every penny you donate is spent directly on development work.</span>
+        </p>
       </div>
       <div class="rounded-2xl border border-border bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-card">
         <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary">
@@ -149,8 +178,12 @@ require_once __DIR__ . '/includes/header.php';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         </div>
-        <h3 class="mt-4 font-serif-bn text-lg font-bold">নিয়মিত রিপোর্ট</h3>
-        <p class="mt-2 text-xs text-muted-foreground">বার্ষিক প্রতিবেদন ও নিয়মিত আপডেটের মাধ্যমে সব তথ্য প্রকাশ করা হয়।</p>
+        <h3 class="mt-4 font-serif-bn text-lg font-bold">
+            <span data-lang="bn">নিয়মিত রিপোর্ট</span><span data-lang="en" class="hidden">Regular Reports</span>
+        </h3>
+        <p class="mt-2 text-xs text-muted-foreground">
+            <span data-lang="bn">বার্ষিক প্রতিবেদন ও নিয়মিত আপডেটের মাধ্যমে সব তথ্য প্রকাশ করা হয়।</span><span data-lang="en" class="hidden">All information is published through annual reports and regular updates.</span>
+        </p>
       </div>
       <div class="rounded-2xl border border-border bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-card">
         <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary">
@@ -158,8 +191,12 @@ require_once __DIR__ . '/includes/header.php';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
-        <h3 class="mt-4 font-serif-bn text-lg font-bold">নিরাপদ লেনদেন</h3>
-        <p class="mt-2 text-xs text-muted-foreground">আপনার তথ্য ও লেনদেন সম্পূর্ণ সুরক্ষিত এবং গোপন রাখা হয়।</p>
+        <h3 class="mt-4 font-serif-bn text-lg font-bold">
+            <span data-lang="bn">নিরাপদ লেনদেন</span><span data-lang="en" class="hidden">Secure Transactions</span>
+        </h3>
+        <p class="mt-2 text-xs text-muted-foreground">
+            <span data-lang="bn">আপনার তথ্য ও লেনদেন সম্পূর্ণ সুরক্ষিত এবং গোপন রাখা হয়।</span><span data-lang="en" class="hidden">Your information and transactions are completely secure and kept confidential.</span>
+        </p>
       </div>
     </div>
   </section>
@@ -167,16 +204,21 @@ require_once __DIR__ . '/includes/header.php';
   <!-- Payment methods -->
   <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="mb-8 text-center">
-      <div class="text-xs font-semibold uppercase tracking-widest text-primary">পেমেন্ট মেথড</div>
-      <h2 class="mt-2 font-serif-bn text-3xl font-bold sm:text-4xl">যেকোনো একটি মাধ্যমে অনুদান পাঠান</h2>
+      <div class="text-xs font-semibold uppercase tracking-widest text-primary">
+        <span data-lang="bn">পেমেন্ট মেথড</span><span data-lang="en" class="hidden">Payment Methods</span>
+      </div>
+      <h2 class="mt-2 font-serif-bn text-3xl font-bold sm:text-4xl">
+        <span data-lang="bn">যেকোনো একটি মাধ্যমে অনুদান পাঠান</span>
+        <span data-lang="en" class="hidden">Send Donation via Any Method</span>
+      </h2>
     </div>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <?php
       $methods = [
-        ["name" => "বিকাশ", "type" => "মার্চেন্ট", "number" => get_setting('donation_bkash', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
-        ["name" => "নগদ", "type" => "মার্চেন্ট", "number" => get_setting('donation_nagad', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
-        ["name" => "রকেট", "type" => "মার্চেন্ট", "number" => get_setting('donation_rocket', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
-        ["name" => "সোনালী ব্যাংক", "type" => "চলতি হিসাব", "number" => "0000 1234 5678", "ref" => "Routing: 123456789 (Motijheel)", "instructions" => "ব্যাংক ট্রান্সফার বা BEFTN এর মাধ্যমে সরাসরি একাউন্টে টাকা পাঠাতে পারেন।", "accent" => "linear-gradient(135deg, #0f766e, #0e5e58)"]
+        ["name" => "বিকাশ", "name_en" => "bKash", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_bkash', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "instructions_en" => "Send money to the number above using the Payment option. Use DONATION in reference.", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
+        ["name" => "নগদ", "name_en" => "Nagad", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_nagad', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "instructions_en" => "Send money to the number above using Merchant Pay option. Use DONATION in reference.", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
+        ["name" => "রকেট", "name_en" => "Rocket", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_rocket', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "instructions_en" => "Send money to the number above using Merchant Pay option.", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
+        ["name" => "সোনালী ব্যাংক", "name_en" => "Sonali Bank", "type" => "চলতি হিসাব", "type_en" => "Current A/C", "number" => "0000 1234 5678", "ref" => "Routing: 123456789 (Motijheel)", "instructions" => "ব্যাংক ট্রান্সফার বা BEFTN এর মাধ্যমে সরাসরি একাউন্টে টাকা পাঠাতে পারেন।", "instructions_en" => "You can send money directly to the account via Bank Transfer or BEFTN.", "accent" => "linear-gradient(135deg, #0f766e, #0e5e58)"]
       ];
       foreach ($methods as $m):
       ?>
@@ -185,13 +227,22 @@ require_once __DIR__ . '/includes/header.php';
           <div class="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10"></div>
           <div class="absolute -bottom-8 -left-4 h-16 w-16 rounded-full bg-black/10"></div>
           <div class="relative">
-            <div class="text-[10px] font-semibold uppercase tracking-widest text-white/80"><?php echo $m['type']; ?></div>
-            <div class="mt-1 font-serif-bn text-xl font-bold"><?php echo $m['name']; ?></div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-white/80">
+                <span data-lang="bn"><?php echo $m['type']; ?></span>
+                <span data-lang="en" class="hidden"><?php echo $m['type_en'] ?? $m['type']; ?></span>
+            </div>
+            <div class="mt-1 font-serif-bn text-xl font-bold">
+                <span data-lang="bn"><?php echo $m['name']; ?></span>
+                <span data-lang="en" class="hidden"><?php echo $m['name_en'] ?? $m['name']; ?></span>
+            </div>
           </div>
           <div class="relative mt-4 space-y-2">
             <div class="flex items-center justify-between gap-3 rounded-xl bg-white/15 px-3 py-2 text-white backdrop-blur">
               <div class="min-w-0">
-                <div class="text-[10px] font-semibold uppercase tracking-widest text-white/70">নম্বর / A/C</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-white/70">
+                    <span data-lang="bn">নম্বর / A/C</span>
+                    <span data-lang="en" class="hidden">Number / A/C</span>
+                </div>
                 <div class="truncate font-mono text-sm font-bold"><?php echo $m['number']; ?></div>
               </div>
               <button type="button" onclick="copyToClipboard('<?php echo $m['number']; ?>', this)" class="flex shrink-0 items-center justify-center rounded-lg bg-white/20 px-2 py-1.5 transition hover:bg-white/30" title="কপি করুন">
@@ -200,14 +251,20 @@ require_once __DIR__ . '/includes/header.php';
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                   </svg>
                 </span>
-                <span class="text-wrap hidden ml-1 text-[10px] font-semibold">কপি হয়েছে!</span>
+                <span class="text-wrap hidden ml-1 text-[10px] font-semibold">
+                    <span data-lang="bn">কপি হয়েছে!</span>
+                    <span data-lang="en" class="hidden">Copied!</span>
+                </span>
               </button>
             </div>
             <div class="text-[11px] font-medium text-white/80"><?php echo $m['ref']; ?></div>
           </div>
         </div>
         <div class="p-5">
-          <p class="text-xs leading-relaxed text-muted-foreground"><?php echo $m['instructions']; ?></p>
+          <p class="text-xs leading-relaxed text-muted-foreground">
+              <span data-lang="bn"><?php echo $m['instructions']; ?></span>
+              <span data-lang="en" class="hidden"><?php echo $m['instructions_en'] ?? $m['instructions']; ?></span>
+          </p>
         </div>
       </div>
       <?php endforeach; ?>
@@ -218,10 +275,17 @@ require_once __DIR__ . '/includes/header.php';
   <section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="rounded-3xl border border-border bg-surface p-6 shadow-card sm:p-10" id="donate-form">
       <div class="mb-6">
-        <div class="text-xs font-semibold uppercase tracking-widest text-primary">ডোনেশন-ইন্টারেস্ট ফর্ম</div>
-        <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">অনুদান তথ্য নিবন্ধন করুন</h2>
+        <div class="text-xs font-semibold uppercase tracking-widest text-primary">
+          <span data-lang="bn">ডোনেশন-ইন্টারেস্ট ফর্ম</span><span data-lang="en" class="hidden">Donation Interest Form</span>
+        </div>
+        <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">
+          <span data-lang="bn">অনুদান তথ্য নিবন্ধন করুন</span>
+          <span data-lang="en" class="hidden">Register Donation Information</span>
+        </h2>
         <p class="mt-2 rounded-xl border border-warning/30 bg-warning/10 p-3 text-xs leading-relaxed text-warning-foreground">
-          <strong>নোট:</strong> এই ফর্মটি শুধুমাত্র আপনার অনুদানের তথ্য নিবন্ধন করে — এখানে সরাসরি অনলাইন পেমেন্ট প্রসেস হয় না। উপরের যেকোনো পেমেন্ট মেথডে অনুদান পাঠানোর পর নিচের ট্রানজেকশন আইডি সংযুক্ত করে ফর্মটি পূরণ করুন।
+          <strong><span data-lang="bn">নোট:</span><span data-lang="en" class="hidden">Note:</span></strong>
+          <span data-lang="bn"> এই ফর্মটি শুধুমাত্র আপনার অনুদানের তথ্য নিবন্ধন করে — এখানে সরাসরি অনলাইন পেমেন্ট প্রসেস হয় না। উপরের যেকোনো পেমেন্ট মেথডে অনুদান পাঠানোর পর নিচের ট্রানজেকশন আইডি সংযুক্ত করে ফর্মটি পূরণ করুন।</span>
+          <span data-lang="en" class="hidden"> This form only registers your donation information — it does not process online payments directly. After sending the donation via any of the payment methods above, fill in the form with the Transaction ID below.</span>
         </p>
       </div>
 
@@ -233,8 +297,8 @@ require_once __DIR__ . '/includes/header.php';
             </svg>
           </span>
           <h3 class="mt-3 font-serif-bn text-xl font-bold"><?php echo $success_message; ?></h3>
-          <a href="/donation.php#donate-form" class="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2 text-sm font-semibold hover:bg-primary-soft hover:text-primary">
-            নতুন ফর্ম
+          <a href="donation.php#donate-form" class="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-5 py-2 text-sm font-semibold hover:bg-primary-soft hover:text-primary">
+            <span data-lang="bn">নতুন ফর্ম</span><span data-lang="en" class="hidden">New Form</span>
           </a>
         </div>
       <?php else: ?>
@@ -248,51 +312,79 @@ require_once __DIR__ . '/includes/header.php';
           <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">পূর্ণ নাম <span class="text-destructive">*</span></label>
-            <input type="text" name="donor_name" value="<?php echo e($form_data['donor_name']); ?>" required placeholder="আব্দুল করিম" class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">পূর্ণ নাম <span class="text-destructive">*</span></span>
+              <span data-lang="en" class="hidden">Full Name <span class="text-destructive">*</span></span>
+            </label>
+            <input type="text" name="donor_name" value="<?php echo e($form_data['donor_name']); ?>" required
+              placeholder="আব্দুল করিম"
+              data-en-placeholder="Abdul Karim"
+              class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
           </div>
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">ফোন নম্বর <span class="text-destructive">*</span></label>
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">ফোন নম্বর <span class="text-destructive">*</span></span>
+              <span data-lang="en" class="hidden">Phone Number <span class="text-destructive">*</span></span>
+            </label>
             <input type="text" name="donor_phone" value="<?php echo e($form_data['donor_phone']); ?>" required placeholder="01700-000000" class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
           </div>
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">ইমেইল (ঐচ্ছিক)</label>
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">ইমেইল (ঐচ্ছিক)</span>
+              <span data-lang="en" class="hidden">Email (Optional)</span>
+            </label>
             <input type="email" name="donor_email" value="<?php echo e($form_data['donor_email']); ?>" placeholder="you@example.com" class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
           </div>
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">ডোনেশনের পরিমাণ (৳) <span class="text-destructive">*</span></label>
-            <input type="number" name="donation_amount" value="<?php echo e($form_data['donation_amount']); ?>" required min="100" placeholder="১০০০" class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">ডোনেশনের পরিমাণ (৳) <span class="text-destructive">*</span></span>
+              <span data-lang="en" class="hidden">Donation Amount (৳) <span class="text-destructive">*</span></span>
+            </label>
+            <input type="number" name="donation_amount" value="<?php echo e($form_data['donation_amount']); ?>" required min="100"
+              placeholder="১০০০"
+              data-en-placeholder="1000"
+              class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
           </div>
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">পেমেন্ট মেথড <span class="text-destructive">*</span></label>
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">পেমেন্ট মেথড <span class="text-destructive">*</span></span>
+              <span data-lang="en" class="hidden">Payment Method <span class="text-destructive">*</span></span>
+            </label>
             <select name="payment_method" required class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
-              <option value="">নির্বাচন করুন</option>
-              <option value="bkash" <?php echo $form_data['payment_method'] === 'bkash' ? 'selected' : ''; ?>>বিকাশ</option>
-              <option value="nagad" <?php echo $form_data['payment_method'] === 'nagad' ? 'selected' : ''; ?>>নগদ</option>
-              <option value="rocket" <?php echo $form_data['payment_method'] === 'rocket' ? 'selected' : ''; ?>>রকেট</option>
-              <option value="bank" <?php echo $form_data['payment_method'] === 'bank' ? 'selected' : ''; ?>>সোনালী ব্যাংক</option>
-              <option value="cash" <?php echo $form_data['payment_method'] === 'cash' ? 'selected' : ''; ?>>অফিসে ক্যাশ</option>
+              <option value=""><span data-lang="bn">নির্বাচন করুন</span><span data-lang="en" class="hidden">Select</span></option>
+              <option value="bkash" <?php echo $form_data['payment_method'] === 'bkash' ? 'selected' : ''; ?>>bKash</option>
+              <option value="nagad" <?php echo $form_data['payment_method'] === 'nagad' ? 'selected' : ''; ?>>Nagad</option>
+              <option value="rocket" <?php echo $form_data['payment_method'] === 'rocket' ? 'selected' : ''; ?>>Rocket</option>
+              <option value="bank" <?php echo $form_data['payment_method'] === 'bank' ? 'selected' : ''; ?>>Sonali Bank</option>
+              <option value="cash" <?php echo $form_data['payment_method'] === 'cash' ? 'selected' : ''; ?>>
+                <span data-lang="bn">অফিসে ক্যাশ</span><span data-lang="en" class="hidden">Cash at Office</span>
+              </option>
             </select>
           </div>
           
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-foreground">ট্রানজেকশন আইডি <span class="text-destructive">*</span></label>
+            <label class="text-xs font-semibold text-foreground">
+              <span data-lang="bn">ট্রানজেকশন আইডি <span class="text-destructive">*</span></span>
+              <span data-lang="en" class="hidden">Transaction ID <span class="text-destructive">*</span></span>
+            </label>
             <input type="text" name="transaction_id" value="<?php echo e($form_data['transaction_id']); ?>" required placeholder="TX9A82K1Z" class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
           </div>
 
           <div class="sm:col-span-2 mt-2 flex flex-wrap items-center justify-between gap-3">
             <p class="text-xs text-muted-foreground">
-              ফর্ম জমা দিয়ে আপনি আমাদের <a href="#" class="font-semibold text-primary hover:underline">গোপনীয়তা নীতিমালা</a> মেনে নিচ্ছেন।
+              <span data-lang="bn">ফর্ম জমা দিয়ে আপনি আমাদের <a href="#" class="font-semibold text-primary hover:underline">গোপনীয়তা নীতিমালা</a> মেনে নিচ্ছেন।</span>
+              <span data-lang="en" class="hidden">By submitting the form, you agree to our <a href="#" class="font-semibold text-primary hover:underline">Privacy Policy</a>.</span>
             </p>
             <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
               <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
                 <path d="M12 21s-7-4.5-7-10a4 4 0 017-2.7A4 4 0 0119 11c0 5.5-7 10-7 10z" />
               </svg>
-              ফর্ম জমা দিন
+              <span data-lang="bn">ফর্ম জমা দিন</span>
+              <span data-lang="en" class="hidden">Submit Form</span>
             </button>
           </div>
         </form>
@@ -303,21 +395,28 @@ require_once __DIR__ . '/includes/header.php';
   <!-- Donation FAQ -->
   <section class="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
     <div class="mb-8 text-center">
-      <div class="text-xs font-semibold uppercase tracking-widest text-primary">প্রশ্নোত্তর</div>
-      <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">ডোনেশন সংক্রান্ত সাধারণ প্রশ্ন</h2>
+      <div class="text-xs font-semibold uppercase tracking-widest text-primary">
+          <span data-lang="bn">প্রশ্নোত্তর</span><span data-lang="en" class="hidden">FAQ</span>
+      </div>
+      <h2 class="mt-2 font-serif-bn text-2xl font-bold sm:text-3xl">
+          <span data-lang="bn">ডোনেশন সংক্রান্ত সাধারণ প্রশ্ন</span><span data-lang="en" class="hidden">Common Questions about Donation</span>
+      </h2>
     </div>
     <div class="space-y-3">
       <?php
       $faqs = [
-        ["q" => "আমার অনুদানের টাকা কোথায় ব্যয় হবে?", "a" => "CDS-এর মূল ৫টি স্তম্ভ (সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক, উন্নত বাংলাদেশ) ভিত্তিক বিভিন্ন প্রকল্পে আপনার অনুদান ব্যয় হবে।"],
-        ["q" => "আমি কি অনুদানের রশিদ পাব?", "a" => "হ্যাঁ, আপনার অনুদানটি যাচাই হওয়ার পর ৭২ ঘণ্টার মধ্যে ইমেইলে সরকারি নিয়ম অনুযায়ী একটি রশিদ পাঠানো হবে।"],
-        ["q" => "বিকাশ বা নগদে টাকা পাঠানোর পর কী করতে হবে?", "a" => "টাকা পাঠানোর পর প্রাপ্ত Transaction ID (TrxID) দিয়ে উপরের ফর্মটি পূরণ করে জমা দিন।"],
-        ["q" => "নির্দিষ্ট প্রকল্পে অনুদান দেওয়া যাবে কি?", "a" => "হ্যাঁ, ফর্মে মন্তব্যের ঘরে (যদি থাকে, অথবা ইমেইল করে) প্রকল্পের নাম উল্লেখ করলে আপনার অনুদান শুধুমাত্র সেই প্রকল্পে ব্যবহৃত হবে।"]
+        ["q" => "আমার অনুদানের টাকা কোথায় ব্যয় হবে?", "q_en" => "Where will my donation be spent?", "a" => "CDS-এর মূল ৫টি স্তম্ভ (সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক, উন্নত বাংলাদেশ) ভিত্তিক বিভিন্ন প্রকল্পে আপনার অনুদান ব্যয় হবে।", "a_en" => "Your donation will be spent on various projects based on CDS's 5 pillars (Quality Education, Good Governance, Health and Well-being, Active Citizenships, Prosperous Bangladesh)."],
+        ["q" => "আমি কি অনুদানের রশিদ পাব?", "q_en" => "Will I receive a receipt for my donation?", "a" => "হ্যাঁ, আপনার অনুদানটি যাচাই হওয়ার পর ৭২ ঘণ্টার মধ্যে ইমেইলে সরকারি নিয়ম অনুযায়ী একটি রশিদ পাঠানো হবে।", "a_en" => "Yes, after your donation is verified, a receipt will be sent to your email within 72 hours as per government regulations."],
+        ["q" => "বিকাশ বা নগদে টাকা পাঠানোর পর কী করতে হবে?", "q_en" => "What to do after sending money via bKash or Nagad?", "a" => "টাকা পাঠানোর পর প্রাপ্ত Transaction ID (TrxID) দিয়ে উপরের ফর্মটি পূরণ করে জমা দিন।", "a_en" => "After sending the money, fill in and submit the form above with the Transaction ID (TrxID) you received."],
+        ["q" => "নির্দিষ্ট প্রকল্পে অনুদান দেওয়া যাবে কি?", "q_en" => "Can I donate to a specific project?", "a" => "হ্যাঁ, ফর্মে মন্তব্যের ঘরে (যদি থাকে, অথবা ইমেইল করে) প্রকল্পের নাম উল্লেখ করলে আপনার অনুদান শুধুমাত্র সেই প্রকল্পে ব্যবহৃত হবে।", "a_en" => "Yes, if you mention the project name in the comment box in the form (or via email), your donation will be used only for that project."]
       ];
       foreach($faqs as $i => $f): ?>
       <div class="faq-item overflow-hidden rounded-2xl border bg-surface transition border-border">
           <button class="faq-btn flex w-full items-center justify-between gap-4 px-5 py-4 text-left" aria-expanded="false">
-          <span class="font-serif-bn text-base font-semibold"><?php echo $f['q']; ?></span>
+      <span class="font-serif-bn text-base font-semibold">
+          <span data-lang="bn"><?php echo $f['q']; ?></span>
+          <span data-lang="en" class="hidden"><?php echo $f['q_en'] ?? $f['q']; ?></span>
+      </span>
           <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary-soft text-primary transition">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="h-4 w-4 faq-icon-open">
               <path d="M12 5v14M5 12h14" stroke-linecap="round" />
@@ -329,7 +428,10 @@ require_once __DIR__ . '/includes/header.php';
           </button>
           <div class="faq-content grid transition-[grid-template-rows] duration-300 grid-rows-[0fr] opacity-0">
           <div class="overflow-hidden">
-              <p class="px-5 pb-5 text-sm leading-relaxed text-muted-foreground"><?php echo $f['a']; ?></p>
+              <p class="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
+                  <span data-lang="bn"><?php echo $f['a']; ?></span>
+                  <span data-lang="en" class="hidden"><?php echo $f['a_en'] ?? $f['a']; ?></span>
+              </p>
           </div>
           </div>
       </div>
