@@ -274,11 +274,11 @@ function isActiveLink($page, $current_page) {
                       <span data-lang="bn">অংশগ্রহণ করুন</span><span data-lang="en" class="hidden">Engage & Act</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
-                  <div class="absolute left-0 top-full pt-1 custom-dropdown z-50" style="min-width:180px">
-                      <div class="bg-white shadow-2xl border border-gray-100">
-                          <a href="gov-links.php" class="mega-link px-5 py-2.5"><span data-lang="bn">সরকারি লিংকসমূহ</span><span data-lang="en" class="hidden">Govt Links</span></a>
-                          <a href="forms.php" class="mega-link px-5 py-2.5"><span data-lang="bn">আবেদন ফরম</span><span data-lang="en" class="hidden">Application Forms</span></a>
-                          <a href="contact.php" class="mega-link px-5 py-2.5"><span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span></a>
+                  <div class="absolute left-0 top-full pt-1 custom-dropdown z-50">
+                      <div class="sub-panel border-t-[3px] border-t-primary" style="min-width:180px;">
+                          <a href="gov-links.php"><span data-lang="bn">সরকারি লিংকসমূহ</span><span data-lang="en" class="hidden">Govt Links</span></a>
+                          <a href="forms.php"><span data-lang="bn">আবেদন ফরম</span><span data-lang="en" class="hidden">Application Forms</span></a>
+                          <a href="contact.php"><span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span></a>
                       </div>
                   </div>
               </div>
