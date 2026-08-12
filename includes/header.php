@@ -33,29 +33,61 @@ function isActiveLink($page, $current_page) {
 
             <!-- Dropdown Animation Styles -->
     <style>
-      .custom-dropdown {
-        display: none;
-      }
+      .custom-dropdown { display: none; }
       .group:hover .custom-dropdown {
         display: block;
-        animation: dropdownFadeIn 0.2s ease-out forwards;
+        animation: dropdownFadeIn 0.18s ease-out forwards;
       }
       @keyframes dropdownFadeIn {
-        from { opacity: 0; transform: translateY(4px); }
-        to { opacity: 1; transform: translateY(0); }
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
-      .sub-dropdown {
-        display: none;
-      }
+      .sub-dropdown { display: none; }
       .group-sub:hover > .sub-dropdown {
         display: block;
-        animation: subDropdownFadeIn 0.2s ease-out forwards;
+        animation: subDropdownFadeIn 0.15s ease-out forwards;
       }
       @keyframes subDropdownFadeIn {
         from { opacity: 0; transform: translateX(-4px); }
-        to { opacity: 1; transform: translateX(0); }
+        to   { opacity: 1; transform: translateX(0); }
       }
-      /* Ensure header is positioned for absolute mega menus */
+      /* Mega menu column heading style – like CIVICUS */
+      .mega-col-heading {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 2px solid #e2e8f0;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      /* Sub-item link style */
+      .mega-link {
+        display: block;
+        font-size: 0.82rem;
+        color: #475569;
+        padding: 0.3rem 0;
+        transition: color 0.15s;
+      }
+      .mega-link:hover { color: var(--color-primary, #1a6b3c); }
+      /* Sub-dropdown panel */
+      .sub-panel {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        min-width: 200px;
+      }
+      .sub-panel a {
+        display: block;
+        padding: 0.45rem 1rem;
+        font-size: 0.82rem;
+        color: #475569;
+        transition: color 0.15s;
+      }
+      .sub-panel a:hover { color: var(--color-primary, #1a6b3c); background: transparent; }
+      /* Column divider */
+      .mega-col + .mega-col { border-left: 1px solid #e2e8f0; padding-left: 1.5rem; }
       header.sticky { position: sticky; }
     </style>
 
@@ -78,59 +110,52 @@ function isActiveLink($page, $current_page) {
 
                     <nav class="hidden items-center gap-0.5 xl:gap-1 lg:flex relative">
               <a href="index.php" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('index.php', $current_page); ?>">
-                  <span data-lang="bn">Home</span><span data-lang="en" class="hidden">Home</span>
+                  <span data-lang="bn">হোম</span><span data-lang="en" class="hidden">Home</span>
               </a>
               
               <!-- Who We Are Mega Menu -->
               <div class="group relative">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
-                      <span data-lang="bn">Who We Are</span><span data-lang="en" class="hidden">Who We Are</span>
+                      <span data-lang="bn">আমাদের সম্পর্কে</span><span data-lang="en" class="hidden">Who We Are</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
-                  
-                  <div class="absolute left-0 top-full pt-2 w-max custom-dropdown z-50">
-                      <div class="bg-white shadow-xl ring-1 ring-black/5 rounded-2xl p-6 flex gap-8">
-                          <!-- Column 1 -->
-                          <div class="w-48">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Our Impact Stories</span><span data-lang="en" class="hidden">Our Impact Stories</span></h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">General Comment 37</span><span data-lang="en" class="hidden">General Comment 37</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Co-Creation</span><span data-lang="en" class="hidden">Co-Creation</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Zambia: 15+ year campaign for rights</span><span data-lang="en" class="hidden">Zambia: 15+ year campaign for rights</span></a></li>
-                              </ul>
+
+                  <div class="absolute left-0 top-full pt-1 custom-dropdown z-50" style="min-width:680px">
+                      <div class="bg-white shadow-2xl border border-gray-100 flex gap-0 overflow-hidden">
+                          <!-- Col 1 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">আমাদের প্রভাব</span><span data-lang="en" class="hidden">Our Impact Stories</span></div>
+                              <a href="#" class="mega-link"><span data-lang="bn">জেনারেল কমেন্ট ৩৭</span><span data-lang="en" class="hidden">General Comment 37</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">সহ-সৃষ্টি</span><span data-lang="en" class="hidden">Co-Creation</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">জাম্বিয়া: ১৫+ বছরের অধিকার আন্দোলন</span><span data-lang="en" class="hidden">Zambia: 15+ year campaign</span></a>
                           </div>
-                          <!-- Column 2 -->
-                          <div class="w-48">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Values and accountability</span><span data-lang="en" class="hidden">Values and accountability</span></h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Diversity and Inclusion</span><span data-lang="en" class="hidden">Diversity and Inclusion</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Hold Us to Account</span><span data-lang="en" class="hidden">Hold Us to Account</span></a></li>
-                              </ul>
+                          <!-- Col 2 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">মূল্যবোধ ও জবাবদিহিতা</span><span data-lang="en" class="hidden">Values & Accountability</span></div>
+                              <a href="#" class="mega-link"><span data-lang="bn">বৈচিত্র্য ও অন্তর্ভুক্তি</span><span data-lang="en" class="hidden">Diversity and Inclusion</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">আমাদের জবাবদিহি করুন</span><span data-lang="en" class="hidden">Hold Us to Account</span></a>
                           </div>
-                          <!-- Column 3 -->
-                          <div class="w-48">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Organization</span><span data-lang="en" class="hidden">Organization</span></h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Annual Reports</span><span data-lang="en" class="hidden">Annual Reports</span></a></li>
-                                  <li class="relative group-sub">
-                                      <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Board</span><span data-lang="en" class="hidden">Board</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 w-48 sub-dropdown z-50 -mt-2">
-                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Board Elections 2026</span><span data-lang="en" class="hidden">Board Elections 2026</span></a>
-                                          </div>
-                                      </div>
-                                  </li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Members</span><span data-lang="en" class="hidden">Members</span></a></li>
-                              </ul>
+                          <!-- Col 3 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">সংগঠন</span><span data-lang="en" class="hidden">Organization</span></div>
+                              <a href="#" class="mega-link"><span data-lang="bn">বার্ষিক প্রতিবেদন</span><span data-lang="en" class="hidden">Annual Reports</span></a>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">বোর্ড</span><span data-lang="en" class="hidden">Board</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                                  <div class="absolute left-full top-0 sub-dropdown z-50" style="min-width:190px">
+                                      <div class="sub-panel"><a href="#"><span data-lang="bn">বোর্ড নির্বাচন ২০২৬</span><span data-lang="en" class="hidden">Board Elections 2026</span></a></div>
+                                  </div>
+                              </div>
+                              <a href="#" class="mega-link"><span data-lang="bn">সদস্যবৃন্দ</span><span data-lang="en" class="hidden">Members</span></a>
                           </div>
-                          <!-- Column 4 -->
-                          <div class="w-48">
-                              <h4 class="font-bold text-foreground mb-4 text-sm opacity-0 hidden lg:block">Spacer</h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Networks</span><span data-lang="en" class="hidden">Networks</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Staff</span><span data-lang="en" class="hidden">Staff</span></a></li>
-                                  <li><a href="contact.php" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Contact Us</span><span data-lang="en" class="hidden">Contact Us</span></a></li>
-                              </ul>
+                          <!-- Col 4 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading opacity-0">x</div>
+                              <a href="#" class="mega-link"><span data-lang="bn">নেটওয়ার্ক</span><span data-lang="en" class="hidden">Networks</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">কর্মকর্তাবৃন্দ</span><span data-lang="en" class="hidden">Staff</span></a>
+                              <a href="contact.php" class="mega-link"><span data-lang="bn">যোগাযোগ করুন</span><span data-lang="en" class="hidden">Contact Us</span></a>
                           </div>
                       </div>
                   </div>
@@ -139,72 +164,88 @@ function isActiveLink($page, $current_page) {
               <!-- What We Do Mega Menu -->
               <div class="group relative">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
-                      <span data-lang="bn">What We Do</span><span data-lang="en" class="hidden">What We Do</span>
+                      <span data-lang="bn">কার্যক্রম সমূহ</span><span data-lang="en" class="hidden">What We Do</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                   
-                  <div class="absolute left-1/2 -translate-x-1/3 xl:-translate-x-1/2 top-full pt-2 w-max custom-dropdown z-50">
-                      <div class="bg-white shadow-xl ring-1 ring-black/5 rounded-2xl p-6 flex gap-8">
-                          <!-- Column 1 -->
-                          <div class="w-56">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Co-creating Knowledge</span><span data-lang="en" class="hidden">Co-creating Knowledge</span></h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Monitor Ratings</span><span data-lang="en" class="hidden">CDS Monitor Ratings</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Lens Analysis</span><span data-lang="en" class="hidden">CDS Lens Analysis</span></a></li>
-                                  <li class="relative group-sub">
-                                      <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Our Reports</span><span data-lang="en" class="hidden">Our Reports</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 w-56 sub-dropdown z-50 -mt-2">
-                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">State of Civil Society Reports</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">People Power Under Attack</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Other Publications</span><span data-lang="en" class="hidden">Other Publications</span></a>
-                                          </div>
+                  <div class="absolute left-1/2 -translate-x-1/3 xl:-translate-x-1/2 top-full pt-1 custom-dropdown z-50" style="min-width:860px">
+                      <div class="bg-white shadow-2xl border border-gray-100 flex gap-0 overflow-hidden">
+                          <!-- Col 1 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">গবেষণা ও তথ্য</span><span data-lang="en" class="hidden">Co-creating Knowledge</span></div>
+                              <a href="#" class="mega-link"><span data-lang="bn">সিডিএস মনিটর রেটিং</span><span data-lang="en" class="hidden">CDS Monitor Ratings</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">সিডিএস লেন্স বিশ্লেষণ</span><span data-lang="en" class="hidden">CDS Lens Analysis</span></a>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">আমাদের প্রতিবেদন</span><span data-lang="en" class="hidden">Our Reports</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                                  <div class="absolute left-full top-0 sub-dropdown z-50" style="min-width:220px">
+                                      <div class="sub-panel">
+                                          <a href="#"><span data-lang="bn">সিভিল সোসাইটি রিপোর্ট</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
+                                          <a href="#"><span data-lang="bn">পিপল পাওয়ার আন্ডার অ্যাটাক</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
+                                          <a href="#"><span data-lang="bn">অন্যান্য প্রকাশনা</span><span data-lang="en" class="hidden">Other Publications</span></a>
                                       </div>
-                                  </li>
-                              </ul>
+                                  </div>
+                              </div>
                           </div>
-                          <!-- Column 2 -->
-                          <div class="w-56">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Advocating for Change</span><span data-lang="en" class="hidden">Advocating for Change</span></h4>
-                              <ul class="space-y-3">
-                                  <li class="relative group-sub">
-                                      <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Campaigns</span><span data-lang="en" class="hidden">Campaigns</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                  </li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS at the UN</span><span data-lang="en" class="hidden">CDS at the UN</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Civic Space Project in Central America (ES)</span><span data-lang="en" class="hidden">Civic Space Project in Central America (ES)</span></a></li>
-                              </ul>
+                          <!-- Col 2 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">পরিবর্তনের জন্য সংগ্রাম</span><span data-lang="en" class="hidden">Advocating for Change</span></div>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">ক্যাম্পেইনসমূহ</span><span data-lang="en" class="hidden">Campaigns</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                              </div>
+                              <a href="#" class="mega-link"><span data-lang="bn">জাতিসংঘে সিডিএস</span><span data-lang="en" class="hidden">CDS at the UN</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">নাগরিক স্থান প্রকল্প (মধ্য আমেরিকা)</span><span data-lang="en" class="hidden">Civic Space Project in Central America</span></a>
                           </div>
-                          <!-- Column 3 -->
-                          <div class="w-56">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Enabling and Resourcing</span><span data-lang="en" class="hidden">Enabling and Resourcing</span></h4>
-                              <ul class="space-y-3">
-                                  <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Local Leadership Labs</span><span data-lang="en" class="hidden">Local Leadership Labs</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
-                                  <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Digital Democracy Initiative</span><span data-lang="en" class="hidden">Digital Democracy Initiative</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CHARM Africa</span><span data-lang="en" class="hidden">CHARM Africa</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">FoPA</span><span data-lang="en" class="hidden">FoPA</span></a></li>
-                                  <li class="relative group-sub">
-                                      <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 w-56 sub-dropdown z-50 -mt-2">
-                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Stand As My Witness</span><span data-lang="en" class="hidden">Stand As My Witness</span></a>
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Donor Challenge</span><span data-lang="en" class="hidden">Donor Challenge</span></a>
-                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">International Civil Society Week 2025</span><span data-lang="en" class="hidden">International Civil Society Week 2025</span></a>
-                                          </div>
+                          <!-- Col 3 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">সক্ষমতা বৃদ্ধি</span><span data-lang="en" class="hidden">Enabling and Resourcing</span></div>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">লোকাল লিডারশিপ ল্যাবস</span><span data-lang="en" class="hidden">Local Leadership Labs</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                              </div>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">ডিজিটাল ডেমোক্রেসি ইনিশিয়েটিভ</span><span data-lang="en" class="hidden">Digital Democracy Initiative</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                              </div>
+                              <a href="#" class="mega-link"><span data-lang="bn">সিডিএস যুব</span><span data-lang="en" class="hidden">CDS Youth</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">CHARM Africa</span><span data-lang="en" class="hidden">CHARM Africa</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">FoPA</span><span data-lang="en" class="hidden">FoPA</span></a>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">সম্পন্ন প্রকল্পসমূহ</span><span data-lang="en" class="hidden">Completed Projects</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                                  <div class="absolute left-full top-0 sub-dropdown z-50" style="min-width:240px">
+                                      <div class="sub-panel">
+                                          <a href="#"><span data-lang="bn">Stand As My Witness</span><span data-lang="en" class="hidden">Stand As My Witness</span></a>
+                                          <a href="#"><span data-lang="bn">Donor Challenge</span><span data-lang="en" class="hidden">Donor Challenge</span></a>
+                                          <a href="#"><span data-lang="bn">আন্তর্জাতিক সিভিল সোসাইটি সপ্তাহ ২০২৫</span><span data-lang="en" class="hidden">International Civil Society Week 2025</span></a>
                                       </div>
-                                  </li>
-                              </ul>
+                                  </div>
+                              </div>
                           </div>
-                          <!-- Column 4 -->
-                          <div class="w-56">
-                              <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Building Networks</span><span data-lang="en" class="hidden">Building Networks</span></h4>
-                              <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Vuka! Coalition for Civic Action</span><span data-lang="en" class="hidden">Vuka! Coalition for Civic Action</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">AGNA</span><span data-lang="en" class="hidden">AGNA</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Innovation for Change</span><span data-lang="en" class="hidden">Innovation for Change</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a></li>
-                                  <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
-                              </ul>
+                          <!-- Col 4 -->
+                          <div class="mega-col flex-1 px-6 py-5">
+                              <div class="mega-col-heading"><span data-lang="bn">নেটওয়ার্ক গঠন</span><span data-lang="en" class="hidden">Building Networks</span></div>
+                              <a href="#" class="mega-link"><span data-lang="bn">ভুকা! সিভিক অ্যাকশন কোয়ালিশন</span><span data-lang="en" class="hidden">Vuka! Coalition for Civic Action</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">AGNA</span><span data-lang="en" class="hidden">AGNA</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">পরিবর্তনের জন্য উদ্ভাবন</span><span data-lang="en" class="hidden">Innovation for Change</span></a>
+                              <a href="#" class="mega-link"><span data-lang="bn">সিডিএস যুব</span><span data-lang="en" class="hidden">CDS Youth</span></a>
+                              <div class="relative group-sub">
+                                  <a href="#" class="mega-link flex items-center justify-between">
+                                      <span><span data-lang="bn">সম্পন্ন প্রকল্পসমূহ</span><span data-lang="en" class="hidden">Completed Projects</span></span>
+                                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3 ml-2 shrink-0"><path d="M9 5l7 7-7 7"/></svg>
+                                  </a>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -213,32 +254,26 @@ function isActiveLink($page, $current_page) {
               <!-- Engage & Act -->
               <div class="relative group">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
-                      <span data-lang="bn">Engage & Act</span><span data-lang="en" class="hidden">Engage & Act</span>
+                      <span data-lang="bn">অংশগ্রহণ করুন</span><span data-lang="en" class="hidden">Engage & Act</span>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
-                  <div class="absolute left-0 top-full pt-2 w-48 custom-dropdown z-50">
-                      <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
-                          <a href="gov-links.php" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
-                              <div class="font-semibold text-sm"><span data-lang="bn">Govt Links</span><span data-lang="en" class="hidden">Govt Links</span></div>
-                          </a>
-                          <a href="forms.php" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
-                              <div class="font-semibold text-sm"><span data-lang="bn">Application Forms</span><span data-lang="en" class="hidden">Application Forms</span></div>
-                          </a>
-                          <a href="contact.php" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
-                              <div class="font-semibold text-sm"><span data-lang="bn">Contact</span><span data-lang="en" class="hidden">Contact</span></div>
-                          </a>
+                  <div class="absolute left-0 top-full pt-1 custom-dropdown z-50" style="min-width:180px">
+                      <div class="bg-white shadow-2xl border border-gray-100">
+                          <a href="gov-links.php" class="mega-link px-5 py-2.5"><span data-lang="bn">সরকারি লিংকসমূহ</span><span data-lang="en" class="hidden">Govt Links</span></a>
+                          <a href="forms.php" class="mega-link px-5 py-2.5"><span data-lang="bn">আবেদন ফরম</span><span data-lang="en" class="hidden">Application Forms</span></a>
+                          <a href="contact.php" class="mega-link px-5 py-2.5"><span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span></a>
                       </div>
                   </div>
               </div>
 
               <!-- Publications -->
               <a href="#" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
-                  <span data-lang="bn">Publications</span><span data-lang="en" class="hidden">Publications</span>
+                  <span data-lang="bn">প্রতিবেদন ও প্রকাশনা</span><span data-lang="en" class="hidden">Publications</span>
               </a>
 
               <!-- News & Stories -->
               <a href="#" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
-                  <span data-lang="bn">News & Stories</span><span data-lang="en" class="hidden">News & Stories</span>
+                  <span data-lang="bn">সংবাদ ও অভিজ্ঞতা</span><span data-lang="en" class="hidden">News & Stories</span>
               </a>
 
               <!-- Desktop Search Bar (Right aligned) -->
