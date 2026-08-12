@@ -53,21 +53,25 @@ function isActiveLink($page, $current_page) {
       }
       /* Mega menu column heading style */
       .mega-col-heading {
-        font-size: 0.78rem;
+        font-size: 1rem;
         font-weight: 700;
         color: #111827;
-        padding-bottom: 0.5rem;
-        margin-bottom: 0.6rem;
-        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 2px solid #e5e7eb;
       }
       /* Sub-item link style */
       .mega-link {
         display: block;
-        font-size: 0.82rem;
+        font-size: 0.9rem;
+        font-weight: 500;
         color: #4b5563;
-        padding: 0.28rem 0;
+        padding: 0.45rem 0;
         transition: color 0.15s;
         background: transparent !important;
+      }
+      .mega-link.flex {
+        display: flex;
       }
       .mega-link:hover { color: var(--color-primary, #1a6b3c); }
       /* Sub-dropdown panel */
@@ -80,10 +84,14 @@ function isActiveLink($page, $current_page) {
       .sub-panel a {
         display: block;
         padding: 0.45rem 1.2rem;
-        font-size: 0.82rem;
+        font-size: 0.9rem;
+        font-weight: 500;
         color: #4b5563;
         transition: color 0.15s;
         background: transparent !important;
+      }
+      .mega-link.flex {
+        display: flex;
       }
       .sub-panel a:hover { color: var(--color-primary, #1a6b3c); }
       /* Full-width mega panel */
@@ -130,7 +138,7 @@ function isActiveLink($page, $current_page) {
                   </button>
 
                   <div class="mega-full-panel custom-dropdown">
-                      <div class="mx-auto max-w-7xl px-8 py-7 flex">
+                      <div class="mx-auto max-w-7xl px-12 py-10 flex">
                           <!-- Col 1 -->
                           <div class="flex-1 pr-8">
                               <div class="mega-col-heading"><span data-lang="bn">আমাদের প্রভাব</span><span data-lang="en" class="hidden">Our Impact Stories</span></div>
@@ -139,7 +147,7 @@ function isActiveLink($page, $current_page) {
                               <a href="#" class="mega-link"><span data-lang="bn">জাম্বিয়া: ১৫+ বছরের অধিকার আন্দোলন</span><span data-lang="en" class="hidden">Zambia: 15+ year campaign</span></a>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 2 -->
                           <div class="flex-1 px-8">
                               <div class="mega-col-heading"><span data-lang="bn">মূল্যবোধ ও জবাবদিহিতা</span><span data-lang="en" class="hidden">Values & Accountability</span></div>
@@ -147,7 +155,7 @@ function isActiveLink($page, $current_page) {
                               <a href="#" class="mega-link"><span data-lang="bn">আমাদের জবাবদিহি করুন</span><span data-lang="en" class="hidden">Hold Us to Account</span></a>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 3 -->
                           <div class="flex-1 px-8">
                               <div class="mega-col-heading"><span data-lang="bn">সংগঠন</span><span data-lang="en" class="hidden">Organization</span></div>
@@ -164,7 +172,7 @@ function isActiveLink($page, $current_page) {
                               <a href="#" class="mega-link"><span data-lang="bn">সদস্যবৃন্দ</span><span data-lang="en" class="hidden">Members</span></a>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 4 -->
                           <div class="flex-1 pl-8">
                               <div class="mega-col-heading opacity-0">x</div>
@@ -184,7 +192,7 @@ function isActiveLink($page, $current_page) {
                   </button>
 
                   <div class="mega-full-panel custom-dropdown">
-                      <div class="mx-auto max-w-7xl px-8 py-7 flex">
+                      <div class="mx-auto max-w-7xl px-12 py-10 flex">
                           <!-- Col 1 -->
                           <div class="flex-1 pr-8">
                               <div class="mega-col-heading"><span data-lang="bn">গবেষণা ও তথ্য</span><span data-lang="en" class="hidden">Co-creating Knowledge</span></div>
@@ -205,7 +213,7 @@ function isActiveLink($page, $current_page) {
                               </div>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 2 -->
                           <div class="flex-1 px-8">
                               <div class="mega-col-heading"><span data-lang="bn">পরিবর্তনের জন্য সংগ্রাম</span><span data-lang="en" class="hidden">Advocating for Change</span></div>
@@ -219,7 +227,7 @@ function isActiveLink($page, $current_page) {
                               <a href="#" class="mega-link"><span data-lang="bn">নাগরিক স্থান প্রকল্প</span><span data-lang="en" class="hidden">Civic Space Project in Central America</span></a>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 3 -->
                           <div class="flex-1 px-8">
                               <div class="mega-col-heading"><span data-lang="bn">সক্ষমতা বৃদ্ধি</span><span data-lang="en" class="hidden">Enabling and Resourcing</span></div>
@@ -244,7 +252,7 @@ function isActiveLink($page, $current_page) {
                               </div>
                           </div>
                           <!-- divider -->
-                          <div class="w-px bg-gray-100 mx-2"></div>
+                          <div class="w-px bg-gray-200 mx-6"></div>
                           <!-- Col 4 -->
                           <div class="flex-1 pl-8">
                               <div class="mega-col-heading"><span data-lang="bn">নেটওয়ার্ক গঠন</span><span data-lang="en" class="hidden">Building Networks</span></div>
