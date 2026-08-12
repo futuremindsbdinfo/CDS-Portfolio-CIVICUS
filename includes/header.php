@@ -114,9 +114,9 @@ function isActiveLink($page, $current_page) {
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Annual Reports</span><span data-lang="en" class="hidden">Annual Reports</span></a></li>
                                   <li class="relative group-sub">
                                       <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Board</span><span data-lang="en" class="hidden">Board</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 pl-2 w-48 sub-dropdown z-50">
-                                          <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                                              <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Board Elections 2026</span><span data-lang="en" class="hidden">Board Elections 2026</span></a>
+                                      <div class="absolute left-full top-0 w-48 sub-dropdown z-50 -mt-2">
+                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Board Elections 2026</span><span data-lang="en" class="hidden">Board Elections 2026</span></a>
                                           </div>
                                       </div>
                                   </li>
@@ -149,15 +149,15 @@ function isActiveLink($page, $current_page) {
                           <div class="w-56">
                               <h4 class="font-bold text-foreground mb-4 text-sm"><span data-lang="bn">Co-creating Knowledge</span><span data-lang="en" class="hidden">Co-creating Knowledge</span></h4>
                               <ul class="space-y-3">
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CIVICUS Monitor Ratings</span><span data-lang="en" class="hidden">CIVICUS Monitor Ratings</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CIVICUS Lens Analysis</span><span data-lang="en" class="hidden">CIVICUS Lens Analysis</span></a></li>
+                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Monitor Ratings</span><span data-lang="en" class="hidden">CDS Monitor Ratings</span></a></li>
+                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Lens Analysis</span><span data-lang="en" class="hidden">CDS Lens Analysis</span></a></li>
                                   <li class="relative group-sub">
                                       <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Our Reports</span><span data-lang="en" class="hidden">Our Reports</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 pl-2 w-56 sub-dropdown z-50">
-                                          <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                                              <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">State of Civil Society Reports</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
-                                              <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">People Power Under Attack</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
-                                              <a href="#" class="block rounded-lg p-2 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Other Publications</span><span data-lang="en" class="hidden">Other Publications</span></a>
+                                      <div class="absolute left-full top-0 w-56 sub-dropdown z-50 -mt-2">
+                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">State of Civil Society Reports</span><span data-lang="en" class="hidden">State of Civil Society Reports</span></a>
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">People Power Under Attack</span><span data-lang="en" class="hidden">People Power Under Attack</span></a>
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Other Publications</span><span data-lang="en" class="hidden">Other Publications</span></a>
                                           </div>
                                       </div>
                                   </li>
@@ -170,7 +170,7 @@ function isActiveLink($page, $current_page) {
                                   <li class="relative group-sub">
                                       <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Campaigns</span><span data-lang="en" class="hidden">Campaigns</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
                                   </li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CIVICUS at the UN</span><span data-lang="en" class="hidden">CIVICUS at the UN</span></a></li>
+                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS at the UN</span><span data-lang="en" class="hidden">CDS at the UN</span></a></li>
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Civic Space Project in Central America (ES)</span><span data-lang="en" class="hidden">Civic Space Project in Central America (ES)</span></a></li>
                               </ul>
                           </div>
@@ -180,16 +180,16 @@ function isActiveLink($page, $current_page) {
                               <ul class="space-y-3">
                                   <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Local Leadership Labs</span><span data-lang="en" class="hidden">Local Leadership Labs</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
                                   <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Digital Democracy Initiative</span><span data-lang="en" class="hidden">Digital Democracy Initiative</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CIVICUS Youth</span><span data-lang="en" class="hidden">CIVICUS Youth</span></a></li>
+                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a></li>
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CHARM Africa</span><span data-lang="en" class="hidden">CHARM Africa</span></a></li>
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">FoPA</span><span data-lang="en" class="hidden">FoPA</span></a></li>
                                   <li class="relative group-sub">
                                       <a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a>
-                                      <div class="absolute left-full top-0 pl-2 w-56 sub-dropdown z-50">
-                                          <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
-                                              <a href="#" class="block rounded-lg p-2.5 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Stand As My Witness</span><span data-lang="en" class="hidden">Stand As My Witness</span></a>
-                                              <a href="#" class="block rounded-lg p-2.5 text-sm hover:bg-primary-soft transition"><span data-lang="bn">Donor Challenge</span><span data-lang="en" class="hidden">Donor Challenge</span></a>
-                                              <a href="#" class="block rounded-lg p-2.5 text-sm hover:bg-primary-soft transition"><span data-lang="bn">International Civil Society Week 2025</span><span data-lang="en" class="hidden">International Civil Society Week 2025</span></a>
+                                      <div class="absolute left-full top-0 w-56 sub-dropdown z-50 -mt-2">
+                                          <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Stand As My Witness</span><span data-lang="en" class="hidden">Stand As My Witness</span></a>
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">Donor Challenge</span><span data-lang="en" class="hidden">Donor Challenge</span></a>
+                                              <a href="#" class="block px-5 py-2 text-sm text-foreground/80 hover:text-primary transition"><span data-lang="bn">International Civil Society Week 2025</span><span data-lang="en" class="hidden">International Civil Society Week 2025</span></a>
                                           </div>
                                       </div>
                                   </li>
@@ -202,7 +202,7 @@ function isActiveLink($page, $current_page) {
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Vuka! Coalition for Civic Action</span><span data-lang="en" class="hidden">Vuka! Coalition for Civic Action</span></a></li>
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">AGNA</span><span data-lang="en" class="hidden">AGNA</span></a></li>
                                   <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">Innovation for Change</span><span data-lang="en" class="hidden">Innovation for Change</span></a></li>
-                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CIVICUS Youth</span><span data-lang="en" class="hidden">CIVICUS Youth</span></a></li>
+                                  <li><a href="#" class="text-sm text-foreground/70 hover:text-primary transition block"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a></li>
                                   <li class="relative group-sub"><a href="#" class="text-sm text-foreground/70 hover:text-primary transition flex items-center justify-between"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M9 5l7 7-7 7" /></svg></a></li>
                               </ul>
                           </div>
@@ -217,7 +217,7 @@ function isActiveLink($page, $current_page) {
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                   <div class="absolute left-0 top-full pt-2 w-48 custom-dropdown z-50">
-                      <div class="p-2 rounded-xl bg-white shadow-xl ring-1 ring-black/5 flex flex-col gap-1">
+                      <div class="py-2 bg-white shadow-lg border border-border/50 flex flex-col">
                           <a href="gov-links.php" class="block rounded-lg p-2.5 hover:bg-primary-soft transition text-foreground">
                               <div class="font-semibold text-sm"><span data-lang="bn">Govt Links</span><span data-lang="en" class="hidden">Govt Links</span></div>
                           </a>
@@ -361,8 +361,8 @@ function isActiveLink($page, $current_page) {
                               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                           </summary>
                           <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
-                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Monitor Ratings</span><span data-lang="en" class="hidden">CIVICUS Monitor Ratings</span></a>
-                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Lens Analysis</span><span data-lang="en" class="hidden">CIVICUS Lens Analysis</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CDS Monitor Ratings</span><span data-lang="en" class="hidden">CDS Monitor Ratings</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CDS Lens Analysis</span><span data-lang="en" class="hidden">CDS Lens Analysis</span></a>
                               <!-- Our Reports Nested -->
                               <details class="group">
                                   <summary class="flex cursor-pointer list-none items-center justify-between rounded-md px-3 py-1.5 text-sm font-medium hover:bg-primary-soft hover:text-primary text-foreground/70 [&::-webkit-details-marker]:hidden">
@@ -386,7 +386,7 @@ function isActiveLink($page, $current_page) {
                           </summary>
                           <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Campaigns</span><span data-lang="en" class="hidden">Campaigns</span></a>
-                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS at the UN</span><span data-lang="en" class="hidden">CIVICUS at the UN</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CDS at the UN</span><span data-lang="en" class="hidden">CDS at the UN</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Civic Space Project in Central America (ES)</span><span data-lang="en" class="hidden">Civic Space Project in Central America (ES)</span></a>
                           </div>
                       </details>
@@ -400,7 +400,7 @@ function isActiveLink($page, $current_page) {
                           <div class="pl-4 border-l-2 border-primary/20 ml-3 mb-1 space-y-1">
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Local Leadership Labs</span><span data-lang="en" class="hidden">Local Leadership Labs</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Digital Democracy Initiative</span><span data-lang="en" class="hidden">Digital Democracy Initiative</span></a>
-                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Youth</span><span data-lang="en" class="hidden">CIVICUS Youth</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CHARM Africa</span><span data-lang="en" class="hidden">CHARM Africa</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">FoPA</span><span data-lang="en" class="hidden">FoPA</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span></a>
@@ -417,7 +417,7 @@ function isActiveLink($page, $current_page) {
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Vuka! Coalition for Civic Action</span><span data-lang="en" class="hidden">Vuka! Coalition for Civic Action</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">AGNA</span><span data-lang="en" class="hidden">AGNA</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Innovation for Change</span><span data-lang="en" class="hidden">Innovation for Change</span></a>
-                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CIVICUS Youth</span><span data-lang="en" class="hidden">CIVICUS Youth</span></a>
+                              <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">CDS Youth</span><span data-lang="en" class="hidden">CDS Youth</span></a>
                               <a href="#" class="block rounded-md px-3 py-1.5 text-sm font-medium hover:text-primary text-foreground/70"><span data-lang="bn">Completed Projects</span><span data-lang="en" class="hidden">Completed Projects</span></a>
                           </div>
                       </details>
