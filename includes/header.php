@@ -33,8 +33,12 @@ function isActiveLink($page, $current_page) {
 
             <!-- Dropdown Animation Styles -->
     <style>
+            .group.active-menu > button svg,
+      .group-sub.active-menu > a svg {
+        transform: rotate(180deg);
+      }
       .custom-dropdown { display: none; }
-      .group:hover .custom-dropdown {
+      .group.active-menu .custom-dropdown {
         display: block;
         animation: dropdownFadeIn 0.18s ease-out forwards;
       }
@@ -43,7 +47,7 @@ function isActiveLink($page, $current_page) {
         to   { opacity: 1; transform: translateY(0); }
       }
       .sub-dropdown { display: none; }
-      .group-sub:hover > .sub-dropdown {
+      .group-sub.active-menu > .sub-dropdown {
         display: block;
         animation: subDropdownFadeIn 0.15s ease-out forwards;
       }
@@ -134,7 +138,7 @@ function isActiveLink($page, $current_page) {
               <div class="group">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
                       <span data-lang="bn">আমাদের সম্পর্কে</span><span data-lang="en" class="hidden">Who We Are</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
 
                   <div class="mega-full-panel custom-dropdown">
@@ -188,7 +192,7 @@ function isActiveLink($page, $current_page) {
               <div class="group">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
                       <span data-lang="bn">কার্যক্রম সমূহ</span><span data-lang="en" class="hidden">What We Do</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
 
                   <div class="mega-full-panel custom-dropdown">
@@ -272,7 +276,7 @@ function isActiveLink($page, $current_page) {
               <div class="relative group">
                   <button class="flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
                       <span data-lang="bn">অংশগ্রহণ করুন</span><span data-lang="en" class="hidden">Engage & Act</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-hover:rotate-180"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                   <div class="absolute left-0 top-full pt-1 custom-dropdown z-50">
                       <div class="sub-panel border-t-[3px] border-t-primary" style="min-width:180px;">
@@ -504,4 +508,24 @@ function isActiveLink($page, $current_page) {
               </div>
           </nav>
         </div>
-    </header>
+    
+<script>
+// Mega menu hover delay logic
+document.addEventListener('DOMContentLoaded', () => {
+    const menus = document.querySelectorAll('.group, .group-sub');
+    menus.forEach(menu => {
+        let timeoutId;
+        menu.addEventListener('mouseenter', () => {
+            clearTimeout(timeoutId);
+            menu.classList.add('active-menu');
+        });
+        menu.addEventListener('mouseleave', () => {
+            timeoutId = setTimeout(() => {
+                menu.classList.remove('active-menu');
+            }, 300); // 300ms delay prevents accidental closes
+        });
+    });
+});
+</script>
+
+</header>
