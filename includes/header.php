@@ -114,8 +114,20 @@ function isActiveLink($page, $current_page) {
 
             <!-- HEADER -->
     <header class="sticky relative top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur-md">
-        <div class="mx-auto flex justify-between max-w-[1400px] items-center gap-2 px-4 py-3 sm:px-6 lg:px-8">
-          <a href="index.php" class="flex min-w-0 items-center gap-3">
+        <div class="mx-auto flex justify-between max-w-[1400px] items-center gap-2 px-4 py-3 sm:px-6 lg:px-8 relative">
+          
+          <!-- MOBILE JOIN (Left side) -->
+          <div class="flex lg:hidden flex-1 justify-start">
+            <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M8.5 7a4 4 0 100 8 4 4 0 000-8zM20 8v6M23 11h-6"></path>
+              </svg>
+              <span data-lang="bn">যোগদান</span>
+              <span data-lang="en" class="hidden">JOIN</span>
+            </a>
+          </div>
+
+          <a href="index.php" class="flex min-w-0 items-center gap-3 lg:flex-none justify-center">
             <img src="assets/img/cds-logo.png" alt="CDS Logo" class="h-10 w-auto shrink-0 drop-shadow-sm">
             <span class="min-w-0 hidden sm:block">
               <div class="truncate font-serif-bn text-base font-bold leading-tight sm:text-lg">
@@ -129,7 +141,7 @@ function isActiveLink($page, $current_page) {
             </span>
           </a>
 
-                    <nav class="hidden items-center gap-0.5 xl:gap-1 lg:flex">
+                    <nav class="hidden items-center gap-0.5 xl:gap-1 lg:flex flex-1 justify-center">
               <a href="index.php" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('index.php', $current_page); ?>">
                   <span data-lang="bn">হোম</span><span data-lang="en" class="hidden">Home</span>
               </a>
@@ -309,14 +321,14 @@ function isActiveLink($page, $current_page) {
               </a>
           </nav>
 
-          <div class="flex items-center gap-2 sm:gap-3">
+          <div class="flex items-center gap-2 sm:gap-3 flex-1 lg:flex-none justify-end">
             <!-- Language Switcher -->
-            <div class="hidden sm:flex shrink-0 items-center rounded-full border border-border bg-surface p-0.5 shadow-sm">
+            <div class="flex shrink-0 items-center rounded-full border border-border bg-surface p-0.5 shadow-sm">
               <button data-set-lang="bn" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition bg-primary/20 text-primary font-bold">BN</button>
               <button data-set-lang="en" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition text-foreground/70 hover:text-primary">EN</button>
             </div>
 
-            <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-1.5 sm:px-5 sm:py-2 text-sm font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
+            <a href="https://membership.fuminds.com/" target="_blank" class="hidden lg:inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-1.5 sm:px-5 sm:py-2 text-sm font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M8.5 7a4 4 0 100 8 4 4 0 000-8zM20 8v6M23 11h-6"></path>
               </svg>
@@ -501,11 +513,7 @@ function isActiveLink($page, $current_page) {
                   <span data-lang="bn">সংবাদ ও অভিজ্ঞতা</span><span data-lang="en" class="hidden">News & Stories</span>
               </a>
 
-              <!-- Mobile Language Switcher -->
-              <div class="mt-4 mb-2 flex sm:hidden shrink-0 items-center justify-center rounded-full border border-border bg-surface p-1 shadow-sm">
-                <button data-set-lang="bn" class="lang-toggle-btn w-1/2 rounded-full px-4 py-2 text-sm font-bold transition bg-primary/20 text-primary">BN</button>
-                <button data-set-lang="en" class="lang-toggle-btn w-1/2 rounded-full px-4 py-2 text-sm font-medium transition text-foreground/70 hover:text-primary">EN</button>
-              </div>
+
           </nav>
         </div>
     
