@@ -322,10 +322,24 @@ function isActiveLink($page, $current_page) {
           </nav>
 
           <div class="flex items-center gap-2 sm:gap-3 flex-1 lg:flex-none justify-end">
-            <!-- Language Switcher -->
-            <div class="flex shrink-0 items-center rounded-full border border-border bg-surface p-0.5 shadow-sm">
-              <button data-set-lang="bn" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition bg-primary/20 text-primary font-bold">BN</button>
-              <button data-set-lang="en" class="lang-toggle-btn rounded-full px-3 py-1.5 text-xs font-medium transition text-foreground/70 hover:text-primary">EN</button>
+            <!-- Language Dropdown -->
+            <div class="relative group/lang z-50">
+                <button class="flex items-center gap-1.5 rounded-full border border-border bg-surface px-2.5 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-bold text-primary shadow-sm hover:border-primary/30 transition">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span class="uppercase">BN</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="h-3 w-3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div class="absolute right-0 top-full pt-1 opacity-0 invisible group-hover/lang:opacity-100 group-hover/lang:visible transition-all duration-200 transform translate-y-2 group-hover/lang:translate-y-0">
+                    <div class="bg-white rounded-lg border border-slate-200 shadow-xl py-1.5 min-w-[120px]">
+                        <button data-set-lang="bn" class="lang-toggle-btn w-full text-left px-4 py-2 text-xs font-bold text-primary bg-primary/5 flex items-center justify-between">
+                            বাংলা 
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                        <button data-set-lang="en" class="lang-toggle-btn w-full text-left px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-primary transition flex items-center justify-between">
+                            English
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <a href="https://membership.fuminds.com/" target="_blank" class="hidden lg:inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-primary px-4 py-1.5 sm:px-5 sm:py-2 text-sm font-semibold text-primary-foreground shadow-card transition hover:brightness-110">
