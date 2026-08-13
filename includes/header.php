@@ -288,7 +288,7 @@ function isActiveLink($page, $current_page) {
               </div>
 
               <!-- Publications -->
-              <a href="#" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary text-foreground/80">
+              <a href="publications.php" class="whitespace-nowrap rounded-full px-2 xl:px-3 py-2 text-sm font-medium transition hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('publications.php', $current_page); ?>">
                   <span data-lang="bn">প্রতিবেদন ও প্রকাশনা</span><span data-lang="en" class="hidden">Publications</span>
               </a>
 
@@ -493,8 +493,8 @@ function isActiveLink($page, $current_page) {
                   </div>
               </details>
               
-              <a href="#" class="rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary">
-                  <span data-lang="bn">Publications</span><span data-lang="en" class="hidden">Publications</span>
+              <a href="publications.php" class="rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary <?php echo isActiveLink('publications.php', $current_page); ?>">
+                  <span data-lang="bn">প্রতিবেদন ও প্রকাশনা</span><span data-lang="en" class="hidden">Publications</span>
               </a>
 
               <a href="#" class="rounded-md px-3 py-3 text-sm font-medium hover:bg-primary-soft hover:text-primary">
