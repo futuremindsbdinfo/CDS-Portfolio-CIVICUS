@@ -358,6 +358,7 @@ function isActiveLink($page, $current_page) {
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5 xl:h-4 xl:w-4 nav-arrow transition-transform duration-200"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                   <div class="simple-dropdown">
+                      <a href="notice.php" class="sub-menu-link"><span data-lang="bn">নোটিশ বোর্ড</span><span data-lang="en" class="hidden">Notice Board</span></a>
                       <a href="gov-links.php" class="sub-menu-link"><span data-lang="bn">সরকারি লিংকসমূহ</span><span data-lang="en" class="hidden">Govt Links</span></a>
                       <a href="forms.php" class="sub-menu-link"><span data-lang="bn">আবেদন ফরম</span><span data-lang="en" class="hidden">Application Forms</span></a>
                       <a href="contact.php" class="sub-menu-link"><span data-lang="bn">যোগাযোগ করুন</span><span data-lang="en" class="hidden">Contact Us</span></a>
@@ -487,6 +488,7 @@ function isActiveLink($page, $current_page) {
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform group-open:rotate-180 text-slate-500"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </summary>
                   <div class="pl-4 border-l-2 border-[#0e1b64]/20 ml-3 mb-2 mt-1 space-y-1">
+                      <a href="notice.php" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0e1b64]"><span data-lang="bn">নোটিশ বোর্ড</span><span data-lang="en" class="hidden">Notice Board</span></a>
                       <a href="gov-links.php" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0e1b64]"><span data-lang="bn">সরকারি লিংকসমূহ</span><span data-lang="en" class="hidden">Govt Links</span></a>
                       <a href="forms.php" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0e1b64]"><span data-lang="bn">আবেদন ফরম</span><span data-lang="en" class="hidden">Application Forms</span></a>
                       <a href="contact.php" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0e1b64]"><span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span></a>

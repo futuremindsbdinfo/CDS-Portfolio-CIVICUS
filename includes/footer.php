@@ -48,7 +48,7 @@
               <ul class="mt-4 space-y-2 text-sm text-white/85">
                   <li><a href="gov-links.php" class="hover:text-white hover:underline"><span data-lang="bn">সরকারি লিংক</span><span data-lang="en" class="hidden">Govt Links</span></a></li>
                   <li><a href="forms.php" class="hover:text-white hover:underline"><span data-lang="bn">আবেদন ফরমসমূহ</span><span data-lang="en" class="hidden">Application Forms</span></a></li>
-                  <li><a href="blog.php" class="hover:text-white hover:underline"><span data-lang="bn">নিউজ ও ব্লগ</span><span data-lang="en" class="hidden">News & Blogs</span></a></li>
+                  <li><a href="news-and-stories.php" class="hover:text-white hover:underline"><span data-lang="bn">সংবাদ ও গল্প</span><span data-lang="en" class="hidden">News & Stories</span></a></li>
                   <li><a href="publications.php" class="hover:text-white hover:underline"><span data-lang="bn">প্রকাশনা ও ম্যাগাজিন</span><span data-lang="en" class="hidden">Publications</span></a></li>
               </ul>
             </div>

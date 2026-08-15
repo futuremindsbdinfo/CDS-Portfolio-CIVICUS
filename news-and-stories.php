@@ -78,25 +78,34 @@ include 'includes/header.php';
                     $date_str = date('d M, Y', strtotime($article['created_at'] ?? 'now'));
                 ?>
                 <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-200 transition-all group flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-slate-200">
-                        <img src="<?php echo e($image_src); ?>" alt="<?php echo e($article['title_bn']); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <a href="blog_details.php?id=<?php echo $article['id']; ?>" class="block relative h-56 overflow-hidden bg-slate-200">
+                        <img src="<?php echo e($image_src); ?>" alt="<?php echo e($article['title_bn'] ?? ($article['title'] ?? 'News')); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 <?php echo $cat_badge_color; ?> text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
                             <span><?php echo $cat_label; ?></span>
                         </div>
-                    </div>
+                    </a>
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex items-center text-slate-400 text-xs font-medium mb-3 gap-4">
                             <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <?php echo $date_str; ?></span>
                             <span class="flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> <?php echo e($author); ?></span>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                            <span data-lang="bn"><?php echo e($article['title_bn']); ?></span>
-                            <span data-lang="en" class="hidden"><?php echo e(!empty($article['title_en']) ? $article['title_en'] : $article['title_bn']); ?></span>
+                            <a href="blog_details.php?id=<?php echo $article['id']; ?>">
+                                <span data-lang="bn"><?php echo e(!empty($article['title_bn']) ? $article['title_bn'] : ($article['title'] ?? '')); ?></span>
+                                <span data-lang="en" class="hidden"><?php echo e(!empty($article['title_en']) ? $article['title_en'] : (!empty($article['title_bn']) ? $article['title_bn'] : ($article['title'] ?? ''))); ?></span>
+                            </a>
                         </h3>
                         <p class="text-slate-600 text-sm mb-6 line-clamp-3">
-                            <span data-lang="bn"><?php echo strip_tags(mb_substr($article['content_bn'] ?? '', 0, 180)); ?>...</span>
-                            <span data-lang="en" class="hidden"><?php echo strip_tags(mb_substr(!empty($article['content_en']) ? $article['content_en'] : $article['content_bn'], 0, 180)); ?>...</span>
+                            <span data-lang="bn"><?php echo strip_tags(mb_substr($article['content_bn'] ?? ($article['content'] ?? ''), 0, 180)); ?>...</span>
+                            <span data-lang="en" class="hidden"><?php echo strip_tags(mb_substr(!empty($article['content_en']) ? $article['content_en'] : ($article['content_bn'] ?? ($article['content'] ?? '')), 0, 180)); ?>...</span>
                         </p>
+                        <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <a href="blog_details.php?id=<?php echo $article['id']; ?>" class="text-primary hover:text-cds-blue text-xs font-bold flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                                <span data-lang="bn">বিস্তারিত পড়ুন</span>
+                                <span data-lang="en" class="hidden">Read Full Story</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            </a>
+                        </div>
                     </div>
                 </article>
                 <?php endforeach; ?>

@@ -65,9 +65,13 @@ function handle_pdf_upload($file, $destination_dir = '../uploads/notices/', $max
     // Generate safe random filename
     $random_bytes = random_bytes(16);
     $safe_filename = bin2hex($random_bytes) . '.pdf';
-    $save_path = rtrim($destination_dir, '/') . '/' . $safe_filename;
     
-    // Return relative path for DB
+    // Ensure destination directory exists
+    if (!is_dir($destination_dir)) {
+        @mkdir($destination_dir, 0755, true);
+    }
+
+    $save_path = rtrim($destination_dir, '/') . '/' . $safe_filename;
     $db_path = str_replace('../', '', $save_path);
 
     if (move_uploaded_file($file['tmp_name'], $save_path)) {

@@ -4,6 +4,7 @@ init_secure_session();
 require_once __DIR__ . '/includes/csrf.php';
 require_once __DIR__ . '/includes/sanitize.php';
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/mailer.php';
 
 $success_message = '';
 $error_message = '';
@@ -11,7 +12,7 @@ $error_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $csrf_token = $_POST['csrf_token'] ?? '';
     if (!verify_csrf_token($csrf_token)) {
-        $error_message = "CSRF token validation failed.";
+        $error_message = '<span data-lang="bn">নিরাপত্তা টোকেন সঠিক নয়। দয়া করে পৃষ্ঠাটি রিফ্রেশ দিয়ে আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">CSRF security validation failed. Please refresh and try again.</span>';
     } else {
         $ip_address = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
         $pdo = Database::getConnection();
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_check = $pdo->prepare("SELECT COUNT(*) FROM contact_messages WHERE ip_address = ? AND created_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)");
         $stmt_check->execute([$ip_address]);
         if ($stmt_check->fetchColumn() >= 5) {
-            $error_message = "You have submitted too many messages. Please try again later.";
+            $error_message = '<span data-lang="bn">আপনি অল্প সময়ে অনেকগুলো বার্তা পাঠিয়েছেন। দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">You have submitted too many messages. Please try again later.</span>';
         } else {
             $name = clean_input($_POST['name'] ?? '');
             $email = clean_input($_POST['email'] ?? '');
@@ -29,13 +30,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = clean_input($_POST['message'] ?? '');
 
             if (empty($name) || empty($email) || empty($phone) || empty($subject) || empty($message)) {
-                $error_message = "Please fill in all required fields.";
+                $error_message = '<span data-lang="bn">অনুগ্রহ করে সব আবশ্যক ঘর পূরণ করুন।</span><span data-lang="en" class="hidden">Please fill in all required fields.</span>';
+            } elseif (!validate_email($email)) {
+                $error_message = '<span data-lang="bn">সঠিক ইমেইল ঠিকানা প্রদান করুন।</span><span data-lang="en" class="hidden">Please provide a valid email address.</span>';
             } else {
                 $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, phone, subject, message, ip_address) VALUES (?, ?, ?, ?, ?, ?)");
                 if ($stmt->execute([$name, $email, $phone, $subject, $message, $ip_address])) {
-                    $success_message = "Thank you! Your message has been sent successfully.";
+                    $success_message = '<span data-lang="bn">ধন্যবাদ! আপনার বার্তাটি সফলভাবে জমা হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।</span><span data-lang="en" class="hidden">Thank you! Your message has been sent successfully. We will get in touch with you shortly.</span>';
+                    
+                    // Send notification to Admin
+                    $admin_email = get_setting('site_email', 'info@cds.org.bd');
+                    if (!empty($admin_email)) {
+                        $mail_sub = "ওয়েবসাইটে নতুন বার্তা: " . $subject;
+                        $mail_body = "<div style='font-family:sans-serif; padding:20px; line-height:1.6; color:#333;'>
+                            <h3 style='color:#0e1b64;'>সিডিএস ওয়েবসাইটে নতুন যোগাযোগের বার্তা</h3>
+                            <p><strong>প্রেরক:</strong> {$name}</p>
+                            <p><strong>ইমেইল:</strong> {$email}</p>
+                            <p><strong>ফোন:</strong> {$phone}</p>
+                            <p><strong>বিষয়:</strong> {$subject}</p>
+                            <div style='background:#f1f5f9; padding:15px; border-radius:8px; margin-top:10px;'>
+                                <strong>বার্তা:</strong><br>" . nl2br(htmlspecialchars($message)) . "
+                            </div>
+                        </div>";
+                        send_cds_email($admin_email, $mail_sub, $mail_body, 'CDS Admin');
+                    }
                 } else {
-                    $error_message = "An error occurred while sending your message. Please try again.";
+                    $error_message = '<span data-lang="bn">বার্তা পাঠাতে সমস্যা হয়েছে। দয়া করে কিছুক্ষণ পর আবার চেষ্টা করুন।</span><span data-lang="en" class="hidden">An error occurred while sending your message. Please try again.</span>';
                 }
             }
         }
