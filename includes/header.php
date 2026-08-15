@@ -211,12 +211,12 @@ function isActiveLink($page, $current_page) {
           <!-- LOGO (Centered on Mobile, Left on Desktop) -->
           <a href="index.php" class="flex min-w-0 items-center gap-2.5 mx-auto lg:mx-0">
             <img src="assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
-            <span class="min-w-0 text-left">
-              <div class="truncate font-serif-bn text-sm sm:text-base lg:text-lg font-bold leading-tight text-[#0e1b64]">
+            <span class="min-w-0 text-left hidden lg:block">
+              <div class="truncate font-serif-bn text-base lg:text-lg font-bold leading-tight text-[#0e1b64]">
                 <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
                 <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
               </div>
-              <div class="truncate text-[10px] sm:text-xs font-medium text-slate-500 hidden sm:block">
+              <div class="truncate text-xs font-medium text-slate-500">
                 <span data-lang="bn"><?php echo htmlspecialchars($site_slogan); ?></span>
                 <span data-lang="en" class="hidden">Quality Education • Good Governance • Health & Well-being • Active Citizenship</span>
               </div>
