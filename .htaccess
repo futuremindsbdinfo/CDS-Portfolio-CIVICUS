@@ -5,6 +5,15 @@
     RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)(:\d+)?$ [NC]
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Handle /admin or /admin/
+    RewriteRule ^admin/?$ admin/login.php [L,QSA]
+
+    # Handle extensionless URLs (/about -> about.php, /admin/login -> admin/login.php)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php [L,QSA]
 </IfModule>
 
 <IfModule mod_php.c>
@@ -20,3 +29,4 @@ Options -Indexes
 
 # Custom Error Pages
 ErrorDocument 404 /404.php
+

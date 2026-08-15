@@ -17,7 +17,7 @@
           <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
             <div>
               <div class="flex items-center gap-3">
-                <img src="assets/img/cds-logo.png" alt="CDS Logo" class="h-10 w-auto shrink-0 drop-shadow-sm">
+                <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-10 w-auto shrink-0 drop-shadow-sm">
                 <div class="font-serif-bn text-lg font-bold">
                   <span data-lang="bn"><?php echo htmlspecialchars(get_setting('site_title', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি')); ?></span>
                   <span data-lang="en" class="hidden">Citizen Development Society</span>
@@ -102,6 +102,6 @@
       </footer>
       
     <!-- Vanilla JS Scripts -->
-    <script src="assets/js/scripts.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/scripts.js'); ?>"></script>
+    <script src="/assets/js/scripts.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/scripts.js'); ?>"></script>
 </body>
 </html>

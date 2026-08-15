@@ -22,12 +22,12 @@ function isActiveLink($page, $current_page) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? htmlspecialchars($page_title . ' | ' . $site_title) : htmlspecialchars($site_title); ?></title>
-    <link rel="icon" type="image/png" href="assets/img/cds-logo.png">
+    <link rel="icon" type="image/png" href="/assets/img/cds-logo.png">
     <meta name="description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description) : htmlspecialchars($site_desc); ?>">
     <!-- Google Fonts for Bengali -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
     <!-- Compiled Tailwind CSS -->
-    <link href="assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>" rel="stylesheet">
+    <link href="/assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 <body class="bg-warm-grain min-h-screen font-sans-bn text-foreground flex flex-col">
 
@@ -209,8 +209,8 @@ function isActiveLink($page, $current_page) {
           </div>
 
           <!-- LOGO (Centered on Mobile, Left on Desktop) -->
-          <a href="index.php" class="flex min-w-0 items-center gap-2.5 mx-auto lg:mx-0">
-            <img src="assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
+          <a href="/index.php" class="flex min-w-0 items-center gap-2.5 mx-auto lg:mx-0">
+            <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
             <span class="min-w-0 text-left hidden lg:block">
               <div class="truncate font-serif-bn text-base lg:text-lg font-bold leading-tight text-[#0e1b64]">
                 <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>

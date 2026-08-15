@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>এডমিন লগইন — সিডিএস পোর্টফোলিও</title>
-    <link rel="icon" type="image/png" href="../assets/img/cds-logo.png">
+    <link rel="icon" type="image/png" href="/assets/img/cds-logo.png">
     
     <!-- Bengali Fonts: Kalpurush + SolaimanLipi -->
     <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
@@ -106,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <!-- Logo & Title -->
             <div class="text-center">
-                <a href="../index.php" class="inline-block transition-transform hover:scale-105">
-                    <img src="../assets/img/cds-logo.png" alt="CDS Logo" class="mx-auto h-16 w-auto drop-shadow-md">
+                <a href="/index.php" class="inline-block transition-transform hover:scale-105">
+                    <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="mx-auto h-16 w-auto drop-shadow-md">
                 </a>
                 <h1 class="mt-4 font-serif-bn text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
                     এডমিন প্যানেল

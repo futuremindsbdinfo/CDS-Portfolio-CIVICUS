@@ -32,7 +32,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
         
         <div class="mt-8 flex justify-center">
-            <a href="" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:brightness-110 shadow-sm transition-all duration-200">
+            <a href="/index.php" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:brightness-110 shadow-sm transition-all duration-200">
                 <svg class="mr-2 -ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
