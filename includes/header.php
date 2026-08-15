@@ -183,19 +183,19 @@ function isActiveLink($page, $current_page) {
 
     <!-- HEADER -->
     <header class="cds-main-header">
-        <div class="mx-auto flex justify-between max-w-[1680px] items-center gap-2 sm:gap-4 px-3 sm:px-6 lg:px-8 relative w-full">
+        <div class="mx-auto flex justify-between max-w-[1680px] items-center gap-3 sm:gap-5 px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4 relative w-full">
           
           <!-- LOGO (Left on Desktop, Far Left on Mobile with Lang Button) -->
-          <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+          <div class="flex items-center gap-2.5 sm:gap-3 shrink-0 min-w-0">
             <!-- Logo -->
-            <a href="/index.php" class="flex min-w-0 items-center gap-2 sm:gap-2.5 shrink-0">
-              <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
+            <a href="/index.php" class="flex min-w-0 items-center gap-2.5 sm:gap-3 shrink-0">
+              <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-11 sm:h-12 lg:h-14 w-auto shrink-0 drop-shadow-sm">
               <span class="min-w-0 text-left hidden lg:block">
-                <div class="truncate font-serif-bn text-sm xl:text-base 2xl:text-lg font-bold leading-tight text-[#0e1b64]">
+                <div class="truncate font-serif-bn text-base sm:text-lg xl:text-xl font-black leading-tight text-[#0e1b64]">
                   <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
                   <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
                 </div>
-                <div class="truncate text-[11px] 2xl:text-xs font-medium text-slate-500 hidden xl:block">
+                <div class="truncate text-xs 2xl:text-[13px] font-medium text-slate-500 hidden xl:block mt-0.5">
                   <span data-lang="bn"><?php echo htmlspecialchars($site_slogan); ?></span>
                   <span data-lang="en" class="hidden">Quality Education • Good Governance • Health & Well-being • Active Citizenship</span>
                 </div>
