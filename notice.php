@@ -52,12 +52,16 @@ require_once __DIR__ . '/includes/header.php';
 
 <div class="bg-warm-grain min-h-screen font-sans-bn text-foreground">
   <?php if ($active): ?>
+    <?php 
+        $active_title = get_bilingual_title($active);
+        $active_content = get_bilingual_content($active);
+    ?>
     <!-- Single Notice View -->
     <div class="bg-secondary px-4 py-12 text-center sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <h1 class="font-serif-bn text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">
-          <span data-lang="bn"><?php echo e($active['title_bn']); ?></span>
-          <span data-lang="en" class="hidden"><?php echo e($active['title_en']); ?></span>
+          <span data-lang="bn"><?php echo e($active_title['bn']); ?></span>
+          <span data-lang="en" class="hidden"><?php echo e($active_title['en']); ?></span>
         </h1>
         <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-sm text-white/80">
           <a href="index.php" class="hover:text-white hover:underline">
@@ -69,8 +73,8 @@ require_once __DIR__ . '/includes/header.php';
           </a>
           <span class="opacity-50">/</span>
           <span>
-              <span data-lang="bn"><?php echo mb_substr(e($active['title_bn']), 0, 30) . '...'; ?></span>
-              <span data-lang="en" class="hidden"><?php echo mb_substr(e($active['title_en']), 0, 30) . '...'; ?></span>
+              <span data-lang="bn"><?php echo mb_substr(e($active_title['bn']), 0, 30) . '...'; ?></span>
+              <span data-lang="en" class="hidden"><?php echo mb_substr(e($active_title['en']), 0, 30) . '...'; ?></span>
           </span>
         </div>
       </div>
@@ -86,15 +90,16 @@ require_once __DIR__ . '/includes/header.php';
           <?php if (!empty($active['file_path'])): ?>
             <span class="inline-flex items-center gap-1 rounded-full border border-warning/40 bg-warning/15 px-2 py-0.5 text-[10px] font-semibold text-warning-foreground">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M14 3H6v18h12V7z M14 3v4h4" stroke-linejoin="round" /></svg>
-              PDF সংযুক্ত
+              <span data-lang="bn">PDF সংযুক্ত</span>
+              <span data-lang="en" class="hidden">PDF Attached</span>
             </span>
           <?php endif; ?>
         </div>
         
         <div class="mt-6 rounded-2xl border border-border bg-surface p-6 shadow-card sm:p-8">
           <div class="font-serif-bn text-base leading-[1.9] text-foreground sm:text-lg whitespace-pre-wrap">
-            <span data-lang="bn"><?php echo e($active['content_bn']); ?></span>
-            <span data-lang="en" class="hidden"><?php echo e($active['content_en']); ?></span>
+            <span data-lang="bn"><?php echo e($active_content['bn']); ?></span>
+            <span data-lang="en" class="hidden"><?php echo e($active_content['en']); ?></span>
           </div>
           
           <?php if (!empty($active['file_path'])): ?>
@@ -104,7 +109,7 @@ require_once __DIR__ . '/includes/header.php';
               </span>
               <div class="min-w-0 flex-1">
                 <div class="truncate font-serif-bn text-sm font-bold"><?php echo basename($active['file_path']); ?></div>
-                <div class="text-xs text-muted-foreground">PDF নথি</div>
+                <div class="text-xs text-muted-foreground"><span data-lang="bn">PDF নথি</span><span data-lang="en" class="hidden">PDF Document</span></div>
               </div>
               <div class="flex gap-2">
                 <a href="<?php echo e($active['file_path']); ?>" target="_blank" class="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold hover:bg-primary-soft hover:text-primary">
@@ -132,11 +137,12 @@ require_once __DIR__ . '/includes/header.php';
           </h3>
           <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <?php foreach($related_notices as $rn): ?>
+            <?php $rn_title = get_bilingual_title($rn); ?>
             <a href="notice.php?id=<?php echo $rn['id']; ?>" class="group block rounded-2xl border border-border bg-surface p-4 shadow-card transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card-hover">
               <div class="text-[10px] font-semibold text-primary bg-primary-soft w-max px-2 py-0.5 rounded-full mb-2"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
               <h4 class="font-serif-bn text-sm font-bold leading-snug group-hover:text-primary">
-                  <span data-lang="bn"><?php echo e($rn['title_bn']); ?></span>
-                  <span data-lang="en" class="hidden"><?php echo e($rn['title_en']); ?></span>
+                  <span data-lang="bn"><?php echo e($rn_title['bn']); ?></span>
+                  <span data-lang="en" class="hidden"><?php echo e($rn_title['en']); ?></span>
               </h4>
             </a>
             <?php endforeach; ?>
@@ -158,12 +164,13 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <ul class="mt-3 space-y-3">
             <?php foreach($recent_notices as $rn): ?>
+              <?php $rn_title = get_bilingual_title($rn); ?>
               <li>
                 <a href="notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition <?php echo (isset($active) && $active['id'] == $rn['id']) ? 'text-primary' : 'text-foreground/85 hover:text-primary'; ?>">
                   <div class="text-xs font-semibold text-primary"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
                   <div class="mt-1 font-serif-bn text-sm font-bold leading-snug">
-                      <span data-lang="bn"><?php echo e($rn['title_bn']); ?></span>
-                      <span data-lang="en" class="hidden"><?php echo e($rn['title_en']); ?></span>
+                      <span data-lang="bn"><?php echo e($rn_title['bn']); ?></span>
+                      <span data-lang="en" class="hidden"><?php echo e($rn_title['en']); ?></span>
                   </div>
                 </a>
               </li>
@@ -181,10 +188,10 @@ require_once __DIR__ . '/includes/header.php';
             </h3>
           </div>
           <ul class="mt-3 space-y-2">
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>বার্ষিক প্রতিবেদন ২০২৫</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>সাংগঠনিক গঠনতন্ত্র</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বেচ্ছাসেবক নীতিমালা</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বচ্ছতা ও নিরীক্ষা</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">বার্ষিক প্রতিবেদন ২০২৫</span><span data-lang="en" class="hidden">Annual Report 2025</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">সাংগঠনিক গঠনতন্ত্র</span><span data-lang="en" class="hidden">Organizational Constitution</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">স্বেচ্ছাসেবক নীতিমালা</span><span data-lang="en" class="hidden">Volunteer Policy</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">স্বচ্ছতা ও নিরীক্ষা</span><span data-lang="en" class="hidden">Transparency & Audit</span></a></li>
           </ul>
         </div>
       </aside>
@@ -216,6 +223,10 @@ require_once __DIR__ . '/includes/header.php';
     <section class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
       <div class="space-y-4">
         <?php foreach ($paged as $n): ?>
+          <?php 
+              $n_title = get_bilingual_title($n);
+              $n_content = get_bilingual_content($n);
+          ?>
           <article class="group rounded-2xl border border-border bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card-hover sm:p-6">
             <div class="flex flex-wrap items-center gap-2 text-xs">
               <span class="rounded-full bg-primary-soft px-2.5 py-1 font-semibold text-primary">
@@ -224,17 +235,18 @@ require_once __DIR__ . '/includes/header.php';
               <?php if (!empty($n['file_path'])): ?>
                 <span class="inline-flex items-center gap-1 rounded-full border border-warning/40 bg-warning/15 px-2 py-0.5 text-[10px] font-semibold text-warning-foreground">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path d="M14 3H6v18h12V7z M14 3v4h4" stroke-linejoin="round" /></svg>
-                  PDF সংযুক্ত
+                  <span data-lang="bn">PDF সংযুক্ত</span>
+                  <span data-lang="en" class="hidden">PDF Attached</span>
                 </span>
               <?php endif; ?>
             </div>
             <h3 class="mt-3 font-serif-bn text-lg font-bold leading-snug group-hover:text-primary sm:text-xl">
-              <span data-lang="bn"><?php echo e($n['title_bn']); ?></span>
-              <span data-lang="en" class="hidden"><?php echo e($n['title_en']); ?></span>
+              <span data-lang="bn"><?php echo e($n_title['bn']); ?></span>
+              <span data-lang="en" class="hidden"><?php echo e($n_title['en']); ?></span>
             </h3>
             <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                <span data-lang="bn"><?php echo mb_substr(e($n['content_bn']), 0, 120) . '...'; ?></span>
-                <span data-lang="en" class="hidden"><?php echo mb_substr(e($n['content_en']), 0, 120) . '...'; ?></span>
+                <span data-lang="bn"><?php echo mb_substr(e($n_content['bn']), 0, 120) . '...'; ?></span>
+                <span data-lang="en" class="hidden"><?php echo mb_substr(e($n_content['en']), 0, 120) . '...'; ?></span>
             </p>
             <a href="notice.php?id=<?php echo $n['id']; ?>" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline">
               <span data-lang="bn">বিস্তারিত দেখুন</span><span data-lang="en" class="hidden">Read more</span>
@@ -244,7 +256,10 @@ require_once __DIR__ . '/includes/header.php';
         <?php endforeach; ?>
 
         <?php if(empty($paged)): ?>
-            <div class="p-8 text-center text-muted-foreground">কোন নোটিশ পাওয়া যায়নি।</div>
+            <div class="p-8 text-center text-muted-foreground">
+              <span data-lang="bn">কোন নোটিশ পাওয়া যায়নি।</span>
+              <span data-lang="en" class="hidden">No notices found.</span>
+            </div>
         <?php endif; ?>
 
         <!-- Pagination -->
@@ -276,12 +291,13 @@ require_once __DIR__ . '/includes/header.php';
           </div>
           <ul class="mt-3 space-y-3">
             <?php foreach($recent_notices as $rn): ?>
+              <?php $rn_title = get_bilingual_title($rn); ?>
               <li>
                 <a href="notice.php?id=<?php echo $rn['id']; ?>" class="block w-full text-left transition <?php echo (isset($active) && $active['id'] == $rn['id']) ? 'text-primary' : 'text-foreground/85 hover:text-primary'; ?>">
                   <div class="text-xs font-semibold text-primary"><?php echo date('d M, Y', strtotime($rn['created_at'])); ?></div>
                   <div class="mt-1 font-serif-bn text-sm font-bold leading-snug">
-                      <span data-lang="bn"><?php echo e($rn['title_bn']); ?></span>
-                      <span data-lang="en" class="hidden"><?php echo e($rn['title_en']); ?></span>
+                      <span data-lang="bn"><?php echo e($rn_title['bn']); ?></span>
+                      <span data-lang="en" class="hidden"><?php echo e($rn_title['en']); ?></span>
                   </div>
                 </a>
               </li>
@@ -299,10 +315,10 @@ require_once __DIR__ . '/includes/header.php';
             </h3>
           </div>
           <ul class="mt-3 space-y-2">
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>বার্ষিক প্রতিবেদন ২০২৫</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>সাংগঠনিক গঠনতন্ত্র</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বেচ্ছাসেবক নীতিমালা</a></li>
-            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span>স্বচ্ছতা ও নিরীক্ষা</a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">বার্ষিক প্রতিবেদন ২০২৫</span><span data-lang="en" class="hidden">Annual Report 2025</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">সাংগঠনিক গঠনতন্ত্র</span><span data-lang="en" class="hidden">Organizational Constitution</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">স্বেচ্ছাসেবক নীতিমালা</span><span data-lang="en" class="hidden">Volunteer Policy</span></a></li>
+            <li><a href="#" class="flex items-center gap-2 text-sm font-serif-bn font-medium text-foreground/85 transition hover:text-primary"><span class="h-1.5 w-1.5 rounded-full bg-primary/40"></span><span data-lang="bn">স্বচ্ছতা ও নিরীক্ষা</span><span data-lang="en" class="hidden">Transparency & Audit</span></a></li>
           </ul>
         </div>
       </aside>

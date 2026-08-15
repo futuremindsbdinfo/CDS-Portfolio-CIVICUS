@@ -584,9 +584,10 @@ require_once __DIR__ . '/includes/header.php';
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     <?php echo date('d M, Y', strtotime($p['created_at'])); ?>
                                 </p>
+                                <?php $p_title = get_bilingual_title($p); ?>
                                 <h3 class="font-serif-bn font-bold text-lg text-[#0e1b64] group-hover:text-[#0345bf] transition line-clamp-2 mb-3">
-                                    <span data-lang="bn"><?php echo e($p['title_bn'] ?? ''); ?></span>
-                                    <span data-lang="en" class="hidden"><?php echo e(!empty($p['title_en']) ? $p['title_en'] : ($p['title_bn'] ?? '')); ?></span>
+                                    <span data-lang="bn"><?php echo e($p_title['bn']); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e($p_title['en']); ?></span>
                                 </h3>
                                 <span class="mt-auto text-xs font-bold text-[#3A7D5C] group-hover:underline flex items-center gap-1">
                                     <span data-lang="bn">বিস্তারিত দেখুন</span>
@@ -608,6 +609,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="lg:col-span-5 flex flex-col gap-4">
                 <?php if (!empty($latest_notices)): ?>
                     <?php foreach ($latest_notices as $n): ?>
+                        <?php $n_title = get_bilingual_title($n); ?>
                         <a href="/notice.php" class="group flex gap-4 bg-slate-50 hover:bg-slate-100 p-4 rounded-xl transition duration-200 border border-slate-200 shadow-sm items-center">
                             <div class="w-20 h-20 shrink-0 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200/60 flex items-center justify-center text-[#0e1b64]">
                                 <svg class="w-9 h-9 opacity-80 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -623,8 +625,8 @@ require_once __DIR__ . '/includes/header.php';
                                     </span>
                                 </div>
                                 <h4 class="font-serif-bn font-bold text-base text-[#0e1b64] group-hover:text-[#0345bf] transition line-clamp-2">
-                                    <span data-lang="bn"><?php echo e($n['title_bn'] ?? ''); ?></span>
-                                    <span data-lang="en" class="hidden"><?php echo e(!empty($n['title_en']) ? $n['title_en'] : ($n['title_bn'] ?? '')); ?></span>
+                                    <span data-lang="bn"><?php echo e($n_title['bn']); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e($n_title['en']); ?></span>
                                 </h4>
                             </div>
                             <svg class="w-5 h-5 text-slate-400 group-hover:text-[#0e1b64] group-hover:translate-x-1 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
