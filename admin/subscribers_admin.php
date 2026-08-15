@@ -72,9 +72,13 @@ if ($db) {
             <p class="text-sm text-slate-500">হোমপেজ ও সাইট থেকে সাবস্ক্রাইব করা ইমেইলের তালিকা ও এক্সপোর্ট</p>
         </div>
         <div class="flex items-center gap-3">
+            <a href="newsletter_broadcast.php" class="px-4 py-2 bg-primary hover:brightness-110 text-white rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                নিউজলেটার পাঠান (Compose)
+            </a>
             <a href="subscribers_admin.php?export=csv" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                CSV এক্সপোর্ট করুন
+                CSV এক্সপোর্ট
             </a>
         </div>
     </div>
@@ -126,9 +130,11 @@ if ($db) {
                                 <td class="py-3.5 px-4 text-xs font-mono text-slate-400"><?php echo $index + 1; ?></td>
                                 <td class="py-3.5 px-4 font-semibold text-slate-800"><?php echo e($sub['email']); ?></td>
                                 <td class="py-3.5 px-4">
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-                                        <?php echo ucfirst($sub['status']); ?>
-                                    </span>
+                                    <?php if ($sub['status'] === 'active'): ?>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Active</span>
+                                    <?php else: ?>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">Unsubscribed</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="py-3.5 px-4 text-xs text-slate-500"><?php echo date('d M, Y h:i A', strtotime($sub['subscribed_at'])); ?></td>
                                 <td class="py-3.5 px-4 text-xs font-mono text-slate-400"><?php echo e($sub['ip_address']); ?></td>

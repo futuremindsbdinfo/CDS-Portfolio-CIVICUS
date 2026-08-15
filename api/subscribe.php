@@ -4,6 +4,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/sanitize.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
@@ -25,15 +26,29 @@ if (!$db) {
 try {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     // Check if already subscribed
-    $checkStmt = $db->prepare("SELECT id FROM newsletter_subscribers WHERE email = ?");
+    $checkStmt = $db->prepare("SELECT id, status FROM newsletter_subscribers WHERE email = ?");
     $checkStmt->execute([$email]);
-    if ($checkStmt->fetch()) {
+    $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($existing) {
+        if ($existing['status'] === 'unsubscribed') {
+            // Reactivate
+            $reactivateStmt = $db->prepare("UPDATE newsletter_subscribers SET status = 'active', subscribed_at = CURRENT_TIMESTAMP WHERE id = ?");
+            $reactivateStmt->execute([$existing['id']]);
+            send_newsletter_welcome_email($email);
+            echo json_encode(['success' => true, 'message' => 'আপনাকে পুনরায় নিউজলেটারে সক্রিয় করা হয়েছে! ধন্যবাদ।']);
+            exit;
+        }
+
         echo json_encode(['success' => true, 'message' => 'আপনি ইতিমধ্যেই আমাদের নিউজলেটারে সাবস্ক্রাইব করেছেন!']);
         exit;
     }
 
     $stmt = $db->prepare("INSERT INTO newsletter_subscribers (email, ip_address) VALUES (?, ?)");
     $stmt->execute([$email, $ip]);
+
+    // Send automated welcome email
+    send_newsletter_welcome_email($email);
 
     echo json_encode(['success' => true, 'message' => 'ধন্যবাদ! সফলভাবে নিউজলেটারে যুক্ত হয়েছেন।']);
 } catch (PDOException $e) {

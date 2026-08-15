@@ -20,7 +20,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $action = $_POST['action'] ?? 'update_settings';
 
-    if ($action === 'change_password') {
+    if ($action === 'test_smtp') {
+        require_once __DIR__ . '/../includes/mailer.php';
+        $test_recipient = clean_input($_POST['test_recipient'] ?? '');
+        if (empty($test_recipient) || !filter_var($test_recipient, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['flash_message'] = "অনুগ্রহ করে একটি সঠিক টেস্ট ইমেইল ঠিকানা দিন।";
+            $_SESSION['flash_type'] = "error";
+        } else {
+            $test_subject = "সিডিএস টেস্ট ইমেইল কনফিগারেশন | CDS SMTP Test Successful";
+            $test_body = "<div style='font-family:sans-serif; padding:20px; color:#333; line-height:1.6;'>
+                <h2 style='color:#0e1b64;'>সিডিএস মেইল কনফিগারেশন সফল হয়েছে! 🎉</h2>
+                <p>এটি একটি স্বয়ংক্রিয় পরীক্ষা ইমেইল। আপনার সিডিএস ওয়েবসাইটের SMTP এবং মেইল ডিসপ্যাচার সফলভাবে কাজ করছে।</p>
+                <p style='font-size:12px; color:#777;'>তারিখ ও সময়: " . date('Y-m-d H:i:s') . "</p>
+            </div>";
+            
+            $res = send_cds_email($test_recipient, $test_subject, $test_body, 'Admin Test');
+            if ($res['success']) {
+                $_SESSION['flash_message'] = "টেস্ট ইমেইল সফলভাবে পাঠানো হয়েছে: {$test_recipient}";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_message'] = "টেস্ট ইমেইল ব্যর্থ হয়েছে: " . $res['message'];
+                $_SESSION['flash_type'] = "error";
+            }
+        }
+        header("Location: settings.php?tab=email");
+        exit;
+    } elseif ($action === 'change_password') {
         $admin_id = $_SESSION['admin_id'];
         $current_password = $_POST['current_password'] ?? '';
         $new_password = $_POST['new_password'] ?? '';
@@ -109,7 +134,7 @@ include 'includes/header.php';
     </div>
 
     <!-- AlpineJS for Tab Switching -->
-    <div x-data="{ tab: 'general' }" class="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div x-data="{ tab: '<?php echo e($_GET['tab'] ?? 'general'); ?>' }" class="rounded-xl border border-slate-200 bg-white shadow-sm">
         
         <!-- Tabs Header -->
         <div class="flex overflow-x-auto border-b border-slate-200 hide-scrollbar">
@@ -117,6 +142,7 @@ include 'includes/header.php';
             <button @click="tab = 'contact'" :class="tab === 'contact' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors">Contact Info</button>
             <button @click="tab = 'social'" :class="tab === 'social' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors">Social Media</button>
             <button @click="tab = 'donation'" :class="tab === 'donation' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors">Donation & Payment</button>
+            <button @click="tab = 'email'" :class="tab === 'email' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors text-indigo-700">Email & SMTP</button>
             <button @click="tab = 'advanced'" :class="tab === 'advanced' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors">Advanced</button>
             <button @click="tab = 'security'" :class="tab === 'security' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'" class="whitespace-nowrap border-b-2 px-6 py-4 font-semibold text-sm transition-colors text-rose-600">Security (Password)</button>
         </div>
@@ -257,6 +283,66 @@ include 'includes/header.php';
                 </div>
             </div>
 
+            <!-- Email & SMTP Settings Tab -->
+            <div x-show="tab === 'email'" class="space-y-6" style="display: none;">
+                <div class="mb-4 border-b border-slate-100 pb-3">
+                    <h3 class="font-serif-bn text-base font-bold text-slate-800">মেইল ও এসএমটিপি কনফিগারেশন (Email & SMTP Settings)</h3>
+                    <p class="text-xs text-slate-500">নিউজলেটার ও অটোমেটিক ইমেইল প্রেরণের জন্য আপনার মেইল সার্ভার সেটিংস প্রদান করুন।</p>
+                </div>
+
+                <label class="flex items-center gap-3 rounded-xl border border-indigo-200 bg-indigo-50/70 p-4">
+                    <input type="hidden" name="smtp_enabled" value="0">
+                    <input type="checkbox" name="smtp_enabled" value="1" <?php echo (isset($settings['smtp_enabled']) && $settings['smtp_enabled'] === '1') ? 'checked' : ''; ?> class="h-5 w-5 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500">
+                    <div>
+                        <span class="block text-sm font-bold text-indigo-950">SMTP মেইল সার্ভার সক্রিয় করুন (Enable Custom SMTP)</span>
+                        <span class="block text-xs text-indigo-700 mt-0.5">চেক করা থাকলে নিচের কাস্টম SMTP সার্ভার দিয়ে মেইল যাবে; আনচেক থাকলে পিএইচপি ডিফল্ট mail() ব্যবহার হবে।</span>
+                    </div>
+                </label>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">SMTP Host (যেমন: smtp.hostinger.com / smtp.gmail.com)</span>
+                        <input type="text" name="smtp_host" value="<?php echo e($settings['smtp_host'] ?? 'smtp.hostinger.com'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 font-mono outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">SMTP Port (SSL: 465 / TLS: 587)</span>
+                        <input type="number" name="smtp_port" value="<?php echo e($settings['smtp_port'] ?? '465'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 font-mono outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">SMTP Encryption</span>
+                        <select name="smtp_secure" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                            <option value="ssl" <?php echo (($settings['smtp_secure'] ?? 'ssl') === 'ssl') ? 'selected' : ''; ?>>SSL (Port 465 - Recommended)</option>
+                            <option value="tls" <?php echo (($settings['smtp_secure'] ?? '') === 'tls') ? 'selected' : ''; ?>>TLS / STARTTLS (Port 587)</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Sender Email (From Email)</span>
+                        <input type="email" name="smtp_from_email" value="<?php echo e($settings['smtp_from_email'] ?? 'contact@cds.fuminds.com'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 font-mono outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">SMTP Username (Email Address)</span>
+                        <input type="text" name="smtp_user" value="<?php echo e($settings['smtp_user'] ?? 'contact@cds.fuminds.com'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 font-mono outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">SMTP Password (পাসওয়ার্ড)</span>
+                        <input type="password" name="smtp_pass" value="<?php echo e($settings['smtp_pass'] ?? ''); ?>" placeholder="Enter SMTP password" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 font-mono outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                </div>
+
+                <div>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Sender Display Name (From Name)</span>
+                        <input type="text" name="smtp_from_name" value="<?php echo e($settings['smtp_from_name'] ?? 'Citizen Development Society (CDS)'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                </div>
+            </div>
+
             <!-- Advanced Tab -->
             <div x-show="tab === 'advanced'" class="space-y-6" style="display: none;">
                 <label class="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
@@ -277,6 +363,21 @@ include 'includes/header.php';
                 </button>
             </div>
         </form>
+
+        <!-- Test Email Sender (Shown only on email tab) -->
+        <div x-show="tab === 'email'" class="p-6 border-t border-slate-100 bg-slate-50/70 rounded-b-xl" style="display: none;">
+            <h4 class="text-sm font-bold text-slate-800 mb-1">টেস্ট ইমেইল পাঠান (Test SMTP Connection)</h4>
+            <p class="text-xs text-slate-500 mb-4">উপরের সেটিংস সংরক্ষণ করার পর আপনার নিজস্ব ইমেইলে একটি টেস্ট মেসেজ পাঠিয়ে কানেকশন যাচাই করুন।</p>
+            <form action="settings.php" method="POST" class="flex flex-wrap items-center gap-3">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
+                <input type="hidden" name="action" value="test_smtp">
+                <input type="email" name="test_recipient" required placeholder="আপনার টেস্ট ইমেইল ঠিকানা..." class="flex-grow max-w-md rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-800 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 text-sm font-bold shadow-sm transition">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Send Test Mail
+                </button>
+            </form>
+        </div>
 
         <!-- Security / Change Password Tab -->
         <form x-show="tab === 'security'" action="settings.php" method="POST" class="p-6 space-y-6" style="display: none;">

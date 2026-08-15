@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{SUBJECT}}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; color: #334155; -webkit-font-smoothing: antialiased;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f4f6f9; padding: 30px 15px;">
+    <tr>
+      <td align="center">
+        <!-- Main Card Container -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(14, 27, 100, 0.08); border: 1px solid #e2e8f0;">
+          
+          <!-- Top Brand Header -->
+          <tr>
+            <td style="background-color: #0e1b64; padding: 26px 30px; text-align: center;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center">
+                    <img src="{{SITE_URL}}/assets/img/cds-logo.png" alt="CDS Logo" style="height: 48px; width: auto; display: block; margin: 0 auto 10px auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+                    <h1 style="color: #ffffff; font-size: 18px; font-weight: 700; margin: 0; line-height: 1.3;">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</h1>
+                    <p style="color: #93c5fd; font-size: 12px; margin: 4px 0 0 0;">Citizen Development Society (CDS)</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Optional Hero Banner / Title -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 30px 30px 10px 30px;">
+              <h2 style="color: #0e1b64; font-size: 22px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.35;">{{TITLE}}</h2>
+              <div style="height: 3px; width: 45px; background-color: #3A7D5C; border-radius: 2px;"></div>
+            </td>
+          </tr>
+
+          <!-- Email Dynamic Content Body -->
+          <tr>
+            <td style="padding: 15px 30px 30px 30px; line-height: 1.75; font-size: 15px; color: #334155;">
+              {{CONTENT}}
+
+              <!-- Optional Action Button -->
+              {{BUTTON_BLOCK}}
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #f8fafc; padding: 24px 30px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #64748b; line-height: 1.6;">
+              <p style="margin: 0 0 8px 0; font-weight: 600; color: #475569;">
+                সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)
+              </p>
+              <p style="margin: 0 0 12px 0;">
+                প্রধান কার্যালয়: কুমিল্লা ও ঢাকা, বাংলাদেশ | ওয়েবসাইট: <a href="{{SITE_URL}}" style="color: #0e1b64; text-decoration: none; font-weight: 600;">{{SITE_URL}}</a>
+              </p>
+              <p style="margin: 0; font-size: 11px; color: #94a3b8;">
+                আপনি এই ইমেইলটি পেয়েছেন কারণ আপনি সিডিএস নিউজলেটারে সাবস্ক্রাইব করেছেন।
+                <br>
+                ভবিষ্যতে এই ধরনের ইমেইল পেতে না চাইলে <a href="{{UNSUBSCRIBE_URL}}" style="color: #e11d48; text-decoration: underline;">আনসাবস্ক্রাইব করুন</a>।
+              </p>
+              <p style="margin: 10px 0 0 0; font-size: 11px; color: #cbd5e1;">
+                &copy; {{YEAR}} Citizen Development Society (CDS). All Rights Reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
