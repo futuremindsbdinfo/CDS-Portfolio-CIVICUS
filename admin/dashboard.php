@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // admin/dashboard.php
 require_once __DIR__ . '/includes/header.php';
 
@@ -12,6 +12,10 @@ $stats = [
     'unread_messages' => $pdo->query("SELECT COUNT(*) FROM contact_messages WHERE is_read = 0")->fetchColumn() ?: 0,
     'pending_donations' => $pdo->query("SELECT COUNT(*) FROM donation_interests WHERE status = 'pending'")->fetchColumn() ?: 0,
     'admins' => $pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn() ?: 0,
+    'subscribers' => $pdo->query("SELECT COUNT(*) FROM newsletter_subscribers")->fetchColumn() ?: 0,
+    'team' => $pdo->query("SELECT COUNT(*) FROM team_members")->fetchColumn() ?: 0,
+    'forms' => $pdo->query("SELECT COUNT(*) FROM downloadable_forms")->fetchColumn() ?: 0,
+    'sliders' => $pdo->query("SELECT COUNT(*) FROM hero_sliders")->fetchColumn() ?: 0,
 ];
 
 // Fetch recent activity
@@ -188,6 +192,28 @@ foreach ($chart_dates as $d => $data) {
                 <?php if($stats['pending_donations'] > 0): ?><span class="ml-1.5 inline-block h-2 w-2 rounded-full bg-violet-500 align-middle"></span><?php endif; ?>
             </div>
             <div class="mt-1 text-[11px] font-medium"><?php echo $stats['pending_donations'] > 0 ? 'মনোযোগ প্রয়োজন' : 'কোনো পেন্ডিং নেই'; ?></div>
+        </div>
+
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-500/10 to-indigo-500/0 text-indigo-700 ring-indigo-500/20 bg-white p-4 shadow-sm ring-1">
+            <div class="flex items-center justify-between">
+                <div class="text-xs font-medium text-slate-500">Subscribers</div>
+                <span class="grid h-7 w-7 place-items-center rounded-md bg-white/70 text-slate-600 ring-1 ring-slate-200">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+            </div>
+            <div class="mt-2 font-serif-bn text-3xl font-bold text-slate-900"><?php echo $stats['subscribers']; ?></div>
+            <div class="mt-1 text-[11px] font-medium">নিউজলেটার গ্রাহক</div>
+        </div>
+
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-teal-500/10 to-teal-500/0 text-teal-700 ring-teal-500/20 bg-white p-4 shadow-sm ring-1">
+            <div class="flex items-center justify-between">
+                <div class="text-xs font-medium text-slate-500">Team & Committee</div>
+                <span class="grid h-7 w-7 place-items-center rounded-md bg-white/70 text-slate-600 ring-1 ring-slate-200">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </span>
+            </div>
+            <div class="mt-2 font-serif-bn text-3xl font-bold text-slate-900"><?php echo $stats['team']; ?></div>
+            <div class="mt-1 text-[11px] font-medium">মোট সদস্য ও কর্মী</div>
         </div>
 
         <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-500/10 to-slate-500/0 text-slate-700 ring-slate-500/20 bg-white p-4 shadow-sm ring-1">

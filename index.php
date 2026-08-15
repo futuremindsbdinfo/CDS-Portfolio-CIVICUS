@@ -17,6 +17,17 @@ $stmt = $pdo->prepare("SELECT * FROM notices ORDER BY created_at DESC LIMIT 3");
 $stmt->execute();
 $latest_notices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Fetch active hero sliders
+$hero_sliders = [];
+if ($pdo) {
+    try {
+        $sliderStmt = $pdo->query("SELECT * FROM hero_sliders WHERE is_active = 1 ORDER BY display_order ASC, id ASC");
+        $hero_sliders = $sliderStmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        $hero_sliders = [];
+    }
+}
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -198,124 +209,136 @@ require_once __DIR__ . '/includes/header.php';
 <!-- 1. HERO SLIDER SECTION -->
 <section class="cds-hero-slider">
     <div class="cds-hero-track" id="heroTrack">
-        <!-- Slide 1: Welcome & Mission -->
-        <div class="cds-hero-slide bg-[#c7edf3]">
-            <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                    <div class="space-y-6 text-left">
-                        <div class="inline-flex items-center gap-2 bg-[#0e1b64]/10 text-[#0e1b64] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
-                            <span class="w-2 h-2 rounded-full bg-[#0e1b64] animate-pulse"></span>
-                            <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি</span>
-                            <span data-lang="en" class="hidden">Citizen Development Society</span>
-                        </div>
-                        <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
-                            <span data-lang="bn">নাগরিক ক্ষমতায়নে একটি সমৃদ্ধ ও মানবিক সমাজ বিনির্মাণে</span>
-                            <span data-lang="en" class="hidden">Empowering Citizens to Build an Inclusive & Just Society</span>
-                        </h1>
-                        <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
-                            <span data-lang="bn">সিডিএস একটি অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী সামাজিক সংস্থা। সুশিক্ষা, সুশাসন, সুস্বাস্থ্য ও সুনাগরিক গড়ে তোলাই আমাদের অঙ্গীকার।</span>
-                            <span data-lang="en" class="hidden">CDS is a non-political, non-profit and voluntary civil society organization dedicated to quality education, good governance, and active citizenship.</span>
-                        </p>
-                        <div class="pt-2 flex flex-wrap gap-4 items-center">
-                            <a href="https://membership.fuminds.com/" target="_blank" class="cds-btn-primary">
-                                <span data-lang="bn">সদস্য হোন</span>
-                                <span data-lang="en" class="hidden">JOIN CDS</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </a>
-                            <a href="#about" class="cds-btn-outline">
-                                <span data-lang="bn">আমাদের লক্ষ্য</span>
-                                <span data-lang="en" class="hidden">OUR MISSION</span>
-                            </a>
+        <?php if (!empty($hero_sliders)): ?>
+            <?php 
+                $bg_colors = ['bg-[#c7edf3]', 'bg-[#d7f1e5]', 'bg-[#e3e8f8]', 'bg-[#fef3c7]', 'bg-[#ede9fe]'];
+                foreach ($hero_sliders as $idx => $slide): 
+                    $bg_class = $bg_colors[$idx % count($bg_colors)];
+                    $btn_url = !empty($slide['button_url']) ? $slide['button_url'] : '/about.php';
+                    $btn_txt_bn = !empty($slide['button_text_bn']) ? $slide['button_text_bn'] : 'আমাদের কার্যক্রম';
+                    $btn_txt_en = !empty($slide['button_text_en']) ? $slide['button_text_en'] : 'Our Activities';
+                    $img_src = !empty($slide['image_path']) ? '/' . ltrim($slide['image_path'], '/') : '/assets/img/hero-slide-1.jpg';
+            ?>
+                <div class="cds-hero-slide <?php echo $bg_class; ?>">
+                    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+                        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+                            <div class="space-y-6 text-left">
+                                <div class="inline-flex items-center gap-2 bg-[#0e1b64]/10 text-[#0e1b64] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                                    <span class="w-2 h-2 rounded-full bg-[#0e1b64] animate-pulse"></span>
+                                    <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি</span>
+                                    <span data-lang="en" class="hidden">Citizen Development Society</span>
+                                </div>
+                                <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
+                                    <span data-lang="bn"><?php echo e($slide['title_bn']); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e(!empty($slide['title_en']) ? $slide['title_en'] : $slide['title_bn']); ?></span>
+                                </h1>
+                                <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
+                                    <span data-lang="bn"><?php echo e($slide['subtitle_bn']); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e(!empty($slide['subtitle_en']) ? $slide['subtitle_en'] : $slide['subtitle_bn']); ?></span>
+                                </p>
+                                <div class="pt-2 flex flex-wrap gap-4 items-center">
+                                    <a href="<?php echo e($btn_url); ?>" <?php echo (strpos($btn_url, 'http') === 0) ? 'target="_blank"' : ''; ?> class="cds-btn-primary">
+                                        <span data-lang="bn"><?php echo e($btn_txt_bn); ?></span>
+                                        <span data-lang="en" class="hidden"><?php echo e($btn_txt_en); ?></span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                    </a>
+                                    <a href="/about.php" class="cds-btn-outline">
+                                        <span data-lang="bn">আমাদের লক্ষ্য</span>
+                                        <span data-lang="en" class="hidden">OUR MISSION</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex justify-center lg:justify-end">
+                                <div class="relative w-full max-w-[540px]">
+                                    <div class="absolute -inset-2 bg-white/40 rounded-3xl blur-md -rotate-1"></div>
+                                    <img src="<?php echo e($img_src); ?>" alt="<?php echo e($slide['title_bn']); ?>" class="relative z-10 w-full h-[280px] sm:h-[340px] lg:h-[380px] object-cover rounded-2xl shadow-xl border-4 border-white">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex justify-center lg:justify-end">
-                        <div class="relative w-full max-w-[540px]">
-                            <div class="absolute -inset-2 bg-white/40 rounded-3xl blur-md -rotate-1"></div>
-                            <img src="/assets/img/hero-slide-1.jpg" alt="CDS Community" class="relative z-10 w-full h-[280px] sm:h-[340px] lg:h-[380px] object-cover rounded-2xl shadow-xl border-4 border-white">
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- Fallback Default Slide 1: Welcome & Mission -->
+            <div class="cds-hero-slide bg-[#c7edf3]">
+                <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+                    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+                        <div class="space-y-6 text-left">
+                            <div class="inline-flex items-center gap-2 bg-[#0e1b64]/10 text-[#0e1b64] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                                <span class="w-2 h-2 rounded-full bg-[#0e1b64] animate-pulse"></span>
+                                <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি</span>
+                                <span data-lang="en" class="hidden">Citizen Development Society</span>
+                            </div>
+                            <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
+                                <span data-lang="bn">নাগরিক ক্ষমতায়নে একটি সমৃদ্ধ ও মানবিক সমাজ বিনির্মাণে</span>
+                                <span data-lang="en" class="hidden">Empowering Citizens to Build an Inclusive & Just Society</span>
+                            </h1>
+                            <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
+                                <span data-lang="bn">সিডিএস একটি অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী সামাজিক সংস্থা। সুশিক্ষা, সুশাসন, সুস্বাস্থ্য ও সুনাগরিক গড়ে তোলাই আমাদের অঙ্গীকার।</span>
+                                <span data-lang="en" class="hidden">CDS is a non-political, non-profit and voluntary civil society organization dedicated to quality education, good governance, and active citizenship.</span>
+                            </p>
+                            <div class="pt-2 flex flex-wrap gap-4 items-center">
+                                <a href="https://membership.fuminds.com/" target="_blank" class="cds-btn-primary">
+                                    <span data-lang="bn">সদস্য হোন</span>
+                                    <span data-lang="en" class="hidden">JOIN CDS</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </a>
+                                <a href="/about.php" class="cds-btn-outline">
+                                    <span data-lang="bn">আমাদের লক্ষ্য</span>
+                                    <span data-lang="en" class="hidden">OUR MISSION</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex justify-center lg:justify-end">
+                            <div class="relative w-full max-w-[540px]">
+                                <div class="absolute -inset-2 bg-white/40 rounded-3xl blur-md -rotate-1"></div>
+                                <img src="/assets/img/hero-slide-1.jpg" alt="CDS Community" class="relative z-10 w-full h-[280px] sm:h-[340px] lg:h-[380px] object-cover rounded-2xl shadow-xl border-4 border-white">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Slide 2: Membership Open -->
-        <div class="cds-hero-slide bg-[#d7f1e5]">
-            <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                    <div class="space-y-6 text-left">
-                        <div class="inline-flex items-center gap-2 bg-[#3A7D5C]/15 text-[#245b3f] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
-                            <span class="w-2 h-2 rounded-full bg-[#3A7D5C] animate-pulse"></span>
-                            <span data-lang="bn">সদস্য নিবন্ধন চলছে</span>
-                            <span data-lang="en" class="hidden">Membership Open</span>
+            <!-- Fallback Default Slide 2: Membership Open -->
+            <div class="cds-hero-slide bg-[#d7f1e5]">
+                <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+                    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+                        <div class="space-y-6 text-left">
+                            <div class="inline-flex items-center gap-2 bg-[#3A7D5C]/15 text-[#245b3f] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                                <span class="w-2 h-2 rounded-full bg-[#3A7D5C] animate-pulse"></span>
+                                <span data-lang="bn">সদস্য নিবন্ধন চলছে</span>
+                                <span data-lang="en" class="hidden">Membership Open</span>
+                            </div>
+                            <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
+                                <span data-lang="bn">সিডিএস-এর সদস্য হয়ে সমাজের ইতিবাচক পরিবর্তনে যুক্ত হোন</span>
+                                <span data-lang="en" class="hidden">Become a Member & Drive Meaningful Social Change</span>
+                            </h1>
+                            <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
+                                <span data-lang="bn">সাধারণ, আজীবন, দাতা, উপদেষ্টা ও ছাত্র/যুব ক্যাটাগরিতে সদস্য হতে পারেন। আপনার সক্রিয় অংশগ্রহণ আমাদের শক্তি।</span>
+                                <span data-lang="en" class="hidden">Join under General, Life, Donor, Advisor or Youth categories and be a key part of our grassroots impact.</span>
+                            </p>
+                            <div class="pt-2 flex flex-wrap gap-4 items-center">
+                                <a href="https://membership.fuminds.com/" target="_blank" class="cds-btn-secondary">
+                                    <span data-lang="bn">অনলাইনে ফরম পূরণ করুন</span>
+                                    <span data-lang="en" class="hidden">APPLY ONLINE</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </a>
+                                <a href="/about.php" class="cds-btn-outline">
+                                    <span data-lang="bn">সদস্যতার নিয়মাবলী</span>
+                                    <span data-lang="en" class="hidden">MEMBERSHIP RULES</span>
+                                </a>
+                            </div>
                         </div>
-                        <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
-                            <span data-lang="bn">সিডিএস-এর সদস্য হয়ে সমাজের ইতিবাচক পরিবর্তনে যুক্ত হোন</span>
-                            <span data-lang="en" class="hidden">Become a Member & Drive Meaningful Social Change</span>
-                        </h1>
-                        <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
-                            <span data-lang="bn">সাধারণ, আজীবন, দাতা, উপদেষ্টা ও ছাত্র/যুব ক্যাটাগরিতে সদস্য হতে পারেন। আপনার সক্রিয় অংশগ্রহণ আমাদের শক্তি।</span>
-                            <span data-lang="en" class="hidden">Join under General, Life, Donor, Advisor or Youth categories and be a key part of our grassroots impact.</span>
-                        </p>
-                        <div class="pt-2 flex flex-wrap gap-4 items-center">
-                            <a href="https://membership.fuminds.com/" target="_blank" class="cds-btn-secondary">
-                                <span data-lang="bn">অনলাইনে ফরম পূরণ করুন</span>
-                                <span data-lang="en" class="hidden">APPLY ONLINE</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </a>
-                            <a href="/member-criteria.php" class="cds-btn-outline">
-                                <span data-lang="bn">সদস্যতার নিয়মাবলী</span>
-                                <span data-lang="en" class="hidden">MEMBERSHIP RULES</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="flex justify-center lg:justify-end">
-                        <div class="relative w-full max-w-[540px]">
-                            <div class="absolute -inset-2 bg-white/40 rounded-3xl blur-md rotate-1"></div>
-                            <img src="/assets/img/hero-slide-2.jpg" alt="Membership Drive" class="relative z-10 w-full h-[280px] sm:h-[340px] lg:h-[380px] object-cover rounded-2xl shadow-xl border-4 border-white">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 3: Active Initiatives -->
-        <div class="cds-hero-slide bg-[#e3e8f8]">
-            <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                    <div class="space-y-6 text-left">
-                        <div class="inline-flex items-center gap-2 bg-[#0e1b64]/10 text-[#0e1b64] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
-                            <span class="w-2 h-2 rounded-full bg-[#0e1b64] animate-pulse"></span>
-                            <span data-lang="bn">আমাদের উদ্যোগ ও প্রকল্প</span>
-                            <span data-lang="en" class="hidden">Our Projects</span>
-                        </div>
-                        <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
-                            <span data-lang="bn">শিক্ষা, স্বাস্থ্য ও সুশাসনের লক্ষ্যে মাঠপর্যায়ে বাস্তবসম্মত উদ্যোগ</span>
-                            <span data-lang="en" class="hidden">Real Grassroots Initiatives in Education, Health & Governance</span>
-                        </h1>
-                        <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
-                            <span data-lang="bn">কুমিল্লা নাঙ্গলকোট ও লালমাই উপজেলাসহ সমগ্র বাংলাদেশে প্রান্তিক জনগোষ্ঠীকে এগিয়ে নিতে আমরা নিবেদিতপ্রাণ।</span>
-                            <span data-lang="en" class="hidden">Dedicated to uplifting underprivileged communities across Nangalkot, Lalmai and all over Bangladesh.</span>
-                        </p>
-                        <div class="pt-2 flex flex-wrap gap-4 items-center">
-                            <a href="/projects.php" class="cds-btn-primary">
-                                <span data-lang="bn">চলমান প্রজেক্টসমূহ</span>
-                                <span data-lang="en" class="hidden">VIEW PROJECTS</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </a>
-                            <a href="/publications.php" class="cds-btn-outline">
-                                <span data-lang="bn">প্রকাশনা ও প্রতিবেদন</span>
-                                <span data-lang="en" class="hidden">PUBLICATIONS</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="flex justify-center lg:justify-end">
-                        <div class="relative w-full max-w-[540px] flex items-center justify-center p-8 bg-white rounded-2xl shadow-xl border-4 border-white min-h-[280px] sm:min-h-[340px] lg:min-h-[380px]">
-                            <img src="/assets/img/cds-logo.png" alt="CDS Bangladesh" class="max-h-[200px] w-auto object-contain">
+                        <div class="flex justify-center lg:justify-end">
+                            <div class="relative w-full max-w-[540px]">
+                                <div class="absolute -inset-2 bg-white/40 rounded-3xl blur-md rotate-1"></div>
+                                <img src="/assets/img/hero-slide-2.jpg" alt="Membership Drive" class="relative z-10 w-full h-[280px] sm:h-[340px] lg:h-[380px] object-cover rounded-2xl shadow-xl border-4 border-white">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 
     <!-- Navigation Arrows -->
@@ -328,9 +351,12 @@ require_once __DIR__ . '/includes/header.php';
 
     <!-- Dots Indicators -->
     <div class="cds-hero-dots" id="heroDots">
-        <button class="cds-hero-dot active" data-slide="0" aria-label="Slide 1"></button>
-        <button class="cds-hero-dot" data-slide="1" aria-label="Slide 2"></button>
-        <button class="cds-hero-dot" data-slide="2" aria-label="Slide 3"></button>
+        <?php 
+            $slide_count = !empty($hero_sliders) ? count($hero_sliders) : 2;
+            for ($i = 0; $i < $slide_count; $i++): 
+        ?>
+            <button class="cds-hero-dot <?php echo $i === 0 ? 'active' : ''; ?>" data-slide="<?php echo $i; ?>" aria-label="Slide <?php echo $i + 1; ?>"></button>
+        <?php endfor; ?>
     </div>
 </section>
 
@@ -739,13 +765,14 @@ require_once __DIR__ . '/includes/header.php';
                     <span data-lang="bn">সিডিএস-এর সর্বশেষ কার্যক্রম, প্রকল্প আপডেট, ইভেন্ট ও সমাজ উন্নয়নমূলক প্রতিবেদন সরাসরি আপনার ইনবক্সে পেতে সাবস্ক্রাইব করুন।</span>
                     <span data-lang="en" class="hidden">Get the latest updates, field reports, and publications directly in your inbox.</span>
                 </p>
-                <form action="https://membership.fuminds.com/" method="GET" class="flex flex-col sm:flex-row gap-3 max-w-md pt-2">
-                    <input type="email" placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন..." required class="flex-grow px-4 py-3.5 rounded-lg border border-amber-300 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0e1b64] text-sm shadow-sm">
-                    <button type="submit" class="cds-btn-primary whitespace-nowrap">
+                <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 max-w-md pt-2">
+                    <input type="email" id="newsletterEmail" placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন..." data-en-placeholder="Enter your email address..." required class="flex-grow px-4 py-3.5 rounded-lg border border-amber-300 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0e1b64] text-sm shadow-sm">
+                    <button type="submit" id="newsletterBtn" class="cds-btn-primary whitespace-nowrap">
                         <span data-lang="bn">সাবস্ক্রাইব</span>
                         <span data-lang="en" class="hidden">SUBSCRIBE</span>
                     </button>
                 </form>
+                <div id="newsletterMsg" class="text-xs font-bold pt-1 hidden"></div>
             </div>
             <div class="lg:col-span-5 flex justify-center lg:justify-end">
                 <div class="relative">
@@ -757,9 +784,10 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Slider JavaScript Logic -->
+<!-- Slider & Newsletter JavaScript Logic -->
 <script>
 (function() {
+    // 1. Hero Slider
     const track = document.getElementById('heroTrack');
     const dots = document.querySelectorAll('.cds-hero-dot');
     const prevBtn = document.getElementById('sliderPrev');
@@ -769,6 +797,7 @@ require_once __DIR__ . '/includes/header.php';
     let autoplayTimer;
 
     function goTo(index) {
+        if (total === 0) return;
         current = (index + total) % total;
         track.style.transform = 'translateX(-' + (current * 100) + '%)';
         dots.forEach((d, i) => {
@@ -778,9 +807,11 @@ require_once __DIR__ . '/includes/header.php';
 
     function startAutoplay() {
         stopAutoplay();
-        autoplayTimer = setInterval(() => {
-            goTo(current + 1);
-        }, 5500);
+        if (total > 1) {
+            autoplayTimer = setInterval(() => {
+                goTo(current + 1);
+            }, 5500);
+        }
     }
 
     function stopAutoplay() {
@@ -823,7 +854,54 @@ require_once __DIR__ . '/includes/header.php';
     }
 
     startAutoplay();
+
+    // 2. Newsletter AJAX Submission
+    const nForm = document.getElementById('newsletterForm');
+    const nEmail = document.getElementById('newsletterEmail');
+    const nMsg = document.getElementById('newsletterMsg');
+    const nBtn = document.getElementById('newsletterBtn');
+
+    if (nForm) {
+        nForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = nEmail.value.trim();
+            if (!email) return;
+
+            nBtn.disabled = true;
+            nBtn.style.opacity = '0.7';
+
+            const formData = new FormData();
+            formData.append('email', email);
+
+            fetch('/api/subscribe.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                nMsg.classList.remove('hidden', 'text-rose-600', 'text-emerald-700');
+                if (data.success) {
+                    nMsg.classList.add('text-emerald-700');
+                    nMsg.textContent = data.message;
+                    nEmail.value = '';
+                } else {
+                    nMsg.classList.add('text-rose-600');
+                    nMsg.textContent = data.message;
+                }
+            })
+            .catch(err => {
+                nMsg.classList.remove('hidden', 'text-emerald-700');
+                nMsg.classList.add('text-rose-600');
+                nMsg.textContent = 'ত্রুটি হয়েছে, পরে চেষ্টা করুন।';
+            })
+            .finally(() => {
+                nBtn.disabled = false;
+                nBtn.style.opacity = '1';
+            });
+        });
+    }
 })();
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
+

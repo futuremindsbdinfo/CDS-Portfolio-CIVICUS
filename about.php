@@ -144,59 +144,86 @@
     </div>
 </section>
 
-<!-- Team Section -->
+<?php
+// Query team members from database
+require_once __DIR__ . '/includes/db.php';
+$pdo = Database::getConnection();
+$governing_body = [];
+$advisors = [];
+$other_members = [];
+
+if ($pdo) {
+    try {
+        $stmt = $pdo->query("SELECT * FROM team_members WHERE is_active = 1 ORDER BY display_order ASC, id ASC");
+        $all_team = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($all_team as $tm) {
+            if ($tm['category'] === 'governing_body') {
+                $governing_body[] = $tm;
+            } elseif ($tm['category'] === 'advisors') {
+                $advisors[] = $tm;
+            } else {
+                $other_members[] = $tm;
+            }
+        }
+    } catch (PDOException $e) {
+        $governing_body = [];
+        $advisors = [];
+    }
+}
+?>
+
+<!-- Team Section (Governing Body / Executive Committee) -->
 <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-serif font-bold text-center text-cds-blue mb-4">
-            <span data-lang="bn">আমাদের টিম</span>
-            <span data-lang="en" class="hidden">Our Team</span>
+            <span data-lang="bn">আমাদের পরিচালনা পর্ষদ ও টিম</span>
+            <span data-lang="en" class="hidden">Our Governing Body & Team</span>
         </h2>
         <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            <span data-lang="bn">যাদের অক্লান্ত পরিশ্রমে CDS তার লক্ষ্যে এগিয়ে যাচ্ছে, আসুন তাদের সাথে পরিচিত হই।</span>
-            <span data-lang="en" class="hidden">Let's meet those whose tireless efforts are driving CDS towards its goal.</span>
+            <span data-lang="bn">যাদের অক্লান্ত পরিশ্রমে ও নির্দেশনায় সিডিএস তার সমাজকল্যাণমূলক লক্ষ্যে এগিয়ে যাচ্ছে।</span>
+            <span data-lang="en" class="hidden">Those under whose leadership and dedication CDS moves forward toward its social mission.</span>
         </p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            
-            <?php
-            $teamMembers = [
-                ['bn' => 'সভাপতি', 'en' => 'President'],
-                ['bn' => 'সহ-সভাপতি', 'en' => 'Vice President'],
-                ['bn' => 'সহ-সভাপতি', 'en' => 'Vice President'],
-                ['bn' => 'সাধারণ সম্পাদক', 'en' => 'General Secretary'],
-                ['bn' => 'যুগ্ম সাধারণ সম্পাদক', 'en' => 'Joint General Secretary'],
-                ['bn' => 'যুগ্ম সাধারণ সম্পাদক', 'en' => 'Joint General Secretary'],
-                ['bn' => 'সাংগঠনিক সম্পাদক', 'en' => 'Organizing Secretary'],
-                ['bn' => 'অর্থ সম্পাদক', 'en' => 'Finance Secretary'],
-                ['bn' => 'দপ্তর সম্পাদক', 'en' => 'Office Secretary'],
-                ['bn' => 'প্রচার ও প্রকাশনা সম্পাদক', 'en' => 'Publicity & Publication Secretary'],
-                ['bn' => 'শিক্ষা বিষয়ক সম্পাদক', 'en' => 'Education Secretary'],
-                ['bn' => 'স্বাস্থ্য বিষয়ক সম্পাদক', 'en' => 'Health Secretary'],
-                ['bn' => 'সুশাসন ও অধিকার বিষয়ক সম্পাদক', 'en' => 'Governance & Rights Secretary'],
-                ['bn' => 'যুব ও স্বেচ্ছাসেবক বিষয়ক সম্পাদক', 'en' => 'Youth & Volunteer Secretary'],
-                ['bn' => 'নারী ও শিশু বিষয়ক সম্পাদক', 'en' => 'Women & Child Secretary'],
-                ['bn' => 'পরিবেশ ও উন্নয়ন বিষয়ক সম্পাদক', 'en' => 'Environment & Development Secretary'],
-                ['bn' => 'আইন ও সালিশ বিষয়ক সম্পাদক', 'en' => 'Law & Arbitration Secretary']
-            ];
-            
-            foreach ($teamMembers as $index => $member):
-            ?>
-            <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
-                <img src="assets/img/team/placeholder.jpg" alt="<?php echo $member['en']; ?> - Placeholder Image" class="w-full h-64 object-cover bg-gray-200">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-1 hidden">
-                        <span data-lang="bn">নাম যুক্ত করা হবে</span>
-                        <span data-lang="en" class="hidden">Name TBA</span>
-                    </h3>
-                    <p class="text-cds-green font-semibold text-sm">
-                        <span data-lang="bn"><?php echo $member['bn']; ?></span>
-                        <span data-lang="en" class="hidden"><?php echo $member['en']; ?></span>
-                    </p>
+        <?php if (!empty($governing_body)): ?>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <?php foreach ($governing_body as $member): 
+                    $photo = !empty($member['photo_path']) ? '/' . ltrim($member['photo_path'], '/') : null;
+                ?>
+                <div class="bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition text-center border border-gray-100 flex flex-col">
+                    <div class="w-full h-60 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden relative flex items-center justify-center">
+                        <?php if ($photo): ?>
+                            <img src="<?php echo e($photo); ?>" alt="<?php echo e($member['name_bn']); ?>" class="w-full h-full object-cover">
+                        <?php else: ?>
+                            <div class="w-24 h-24 rounded-full bg-primary/10 text-primary grid place-items-center text-3xl font-bold font-serif-bn">
+                                <?php echo mb_substr($member['name_bn'], 0, 1); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">
+                            <span data-lang="bn"><?php echo e($member['name_bn']); ?></span>
+                            <span data-lang="en" class="hidden"><?php echo e(!empty($member['name_en']) ? $member['name_en'] : $member['name_bn']); ?></span>
+                        </h3>
+                        <p class="text-cds-green font-semibold text-sm mb-2">
+                            <span data-lang="bn"><?php echo e($member['designation_bn']); ?></span>
+                            <span data-lang="en" class="hidden"><?php echo e(!empty($member['designation_en']) ? $member['designation_en'] : $member['designation_bn']); ?></span>
+                        </p>
+                        <?php if (!empty($member['bio_bn'])): ?>
+                            <p class="text-xs text-gray-500 line-clamp-2 mt-auto">
+                                <span data-lang="bn"><?php echo e($member['bio_bn']); ?></span>
+                                <span data-lang="en" class="hidden"><?php echo e(!empty($member['bio_en']) ? $member['bio_en'] : $member['bio_bn']); ?></span>
+                            </p>
+                        <?php endif; ?>
+                    </div>
                 </div>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
-
-        </div>
+        <?php else: ?>
+            <div class="p-8 text-center bg-gray-50 rounded-xl text-gray-500 max-w-xl mx-auto">
+                <span data-lang="bn">পরিচালনা পর্ষদের তথ্য শীঘ্রই হালনাগাদ করা হবে।</span>
+                <span data-lang="en" class="hidden">Governing body information will be updated soon.</span>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -208,33 +235,48 @@
             <span data-lang="en" class="hidden">Our Advisory Council</span>
         </h2>
         <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            <span data-lang="bn">সমাজের সম্মানিত, অভিজ্ঞ ও বিশেষজ্ঞ ব্যক্তিবর্গ যারা আমাদের পথপ্রদর্শক হিসেবে কাজ করছেন।</span>
-            <span data-lang="en" class="hidden">The respected, experienced, and expert individuals of society who act as our guides.</span>
+            <span data-lang="bn">সমাজের সম্মানিত, অভিজ্ঞ ও বিশেষজ্ঞ ব্যক্তিবর্গ যারা আমাদের সার্বক্ষণিক পথপ্রদর্শক।</span>
+            <span data-lang="en" class="hidden">Respected and expert individuals in society who provide continuous guidance to CDS.</span>
         </p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            
-            <?php
-            // Assuming 3 placeholder advisors for now
-            for($i=1; $i<=3; $i++):
-            ?>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center p-6 border border-gray-100">
-                <div class="w-24 h-24 mx-auto bg-gray-200 rounded-full overflow-hidden mb-4">
-                    <img src="assets/img/team/placeholder.jpg" alt="Advisor Placeholder" class="w-full h-full object-cover">
+        <?php if (!empty($advisors)): ?>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <?php foreach ($advisors as $advisor): 
+                    $photo = !empty($advisor['photo_path']) ? '/' . ltrim($advisor['photo_path'], '/') : null;
+                ?>
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition text-center p-6 border border-gray-200 flex flex-col items-center">
+                    <div class="w-24 h-24 mx-auto bg-slate-100 rounded-full overflow-hidden mb-4 border-2 border-primary/20 flex items-center justify-center">
+                        <?php if ($photo): ?>
+                            <img src="<?php echo e($photo); ?>" alt="<?php echo e($advisor['name_bn']); ?>" class="w-full h-full object-cover">
+                        <?php else: ?>
+                            <span class="text-2xl font-bold text-primary font-serif-bn"><?php echo mb_substr($advisor['name_bn'], 0, 1); ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-1">
+                        <span data-lang="bn"><?php echo e($advisor['name_bn']); ?></span>
+                        <span data-lang="en" class="hidden"><?php echo e(!empty($advisor['name_en']) ? $advisor['name_en'] : $advisor['name_bn']); ?></span>
+                    </h3>
+                    <p class="text-cds-green font-semibold text-sm mb-2">
+                        <span data-lang="bn"><?php echo e($advisor['designation_bn']); ?></span>
+                        <span data-lang="en" class="hidden"><?php echo e(!empty($advisor['designation_en']) ? $advisor['designation_en'] : $advisor['designation_bn']); ?></span>
+                    </p>
+                    <?php if (!empty($advisor['bio_bn'])): ?>
+                        <p class="text-xs text-gray-500 line-clamp-2">
+                            <span data-lang="bn"><?php echo e($advisor['bio_bn']); ?></span>
+                            <span data-lang="en" class="hidden"><?php echo e(!empty($advisor['bio_en']) ? $advisor['bio_en'] : $advisor['bio_bn']); ?></span>
+                        </p>
+                    <?php endif; ?>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-1">
-                    <span data-lang="bn">উপদেষ্টার নাম</span>
-                    <span data-lang="en" class="hidden">Advisor Name</span>
-                </h3>
-                <p class="text-cds-green font-semibold text-sm">
-                    <span data-lang="bn">উপদেষ্টা সদস্য</span>
-                    <span data-lang="en" class="hidden">Advisory Member</span>
-                </p>
+                <?php endforeach; ?>
             </div>
-            <?php endfor; ?>
-
-        </div>
+        <?php else: ?>
+            <div class="p-8 text-center bg-white rounded-xl text-gray-500 max-w-xl mx-auto border border-gray-200">
+                <span data-lang="bn">উপদেষ্টা পরিষদের তালিকা শীঘ্রই সংযুক্ত করা হবে।</span>
+                <span data-lang="en" class="hidden">Advisory council list will be updated soon.</span>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
 <?php include 'includes/footer.php'; ?>
+

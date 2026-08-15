@@ -205,21 +205,54 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Donation Tab -->
+            <!-- Donation & Payment Settings Tab -->
             <div x-show="tab === 'donation'" class="space-y-6" style="display: none;">
-                <p class="text-sm text-slate-600 mb-4">ডোনেশন পেজে দেখানোর জন্য মোবাইল ব্যাংকিং নম্বরগুলো দিন।</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-b border-slate-100 pb-3">
+                    <h3 class="text-base font-bold text-slate-800">মোবাইল ব্যাংকিং অ্যাকাউন্ট</h3>
+                    <p class="text-xs text-slate-500">ডোনেশন পেজে দেখানোর জন্য বিকাশ, নগদ ও রকেট নম্বরগুলো দিন।</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <label class="block">
-                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">bKash (বিকাশ) নম্বর</span>
-                        <input type="text" name="donation_bkash" value="<?php echo e($settings['donation_bkash'] ?? ''); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">বিকাশ পার্সোনাল নম্বর</span>
+                        <input type="text" name="donation_bkash_personal" value="<?php echo e($settings['donation_bkash_personal'] ?? ($settings['donation_bkash'] ?? '')); ?>" placeholder="017xxxxxxxx" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
                     </label>
                     <label class="block">
-                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Nagad (নগদ) নম্বর</span>
-                        <input type="text" name="donation_nagad" value="<?php echo e($settings['donation_nagad'] ?? ''); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">বিকাশ মার্চেন্ট নম্বর</span>
+                        <input type="text" name="donation_bkash_merchant" value="<?php echo e($settings['donation_bkash_merchant'] ?? ''); ?>" placeholder="018xxxxxxxx" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
                     </label>
                     <label class="block">
-                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">Rocket (রকেট) নম্বর</span>
-                        <input type="text" name="donation_rocket" value="<?php echo e($settings['donation_rocket'] ?? ''); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">নগদ নম্বর</span>
+                        <input type="text" name="donation_nagad" value="<?php echo e($settings['donation_nagad'] ?? ''); ?>" placeholder="019xxxxxxxx" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">রকেট নম্বর</span>
+                        <input type="text" name="donation_rocket" value="<?php echo e($settings['donation_rocket'] ?? ''); ?>" placeholder="017xxxxxxxx9" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                </div>
+
+                <div class="border-b border-slate-100 pb-3 pt-4">
+                    <h3 class="text-base font-bold text-slate-800">অফিসিয়াল ব্যাংক অ্যাকাউন্ট তথ্য</h3>
+                    <p class="text-xs text-slate-500">ব্যাংক ট্রান্সফারের মাধ্যমে অনুদান গ্রহণের বিবরণ।</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">ব্যাংকের নাম (Bank Name)</span>
+                        <input type="text" name="donation_bank_name" value="<?php echo e($settings['donation_bank_name'] ?? 'Islami Bank Bangladesh PLC'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">অ্যাকাউন্টের নাম (Account Name)</span>
+                        <input type="text" name="donation_bank_account_name" value="<?php echo e($settings['donation_bank_account_name'] ?? 'Citizen Development Society (CDS)'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">অ্যাকাউন্ট নম্বর (Account Number)</span>
+                        <input type="text" name="donation_bank_account_no" value="<?php echo e($settings['donation_bank_account_no'] ?? '20501234567890100'); ?>" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                    </label>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-semibold text-slate-700">শাখা ও রাউটিং নম্বর (Branch & Routing)</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" name="donation_bank_branch" value="<?php echo e($settings['donation_bank_branch'] ?? 'Dhanmondi Branch, Dhaka'); ?>" placeholder="Branch Name" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                            <input type="text" name="donation_bank_routing_no" value="<?php echo e($settings['donation_bank_routing_no'] ?? '125271829'); ?>" placeholder="Routing No" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-mono text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                        </div>
                     </label>
                 </div>
             </div>

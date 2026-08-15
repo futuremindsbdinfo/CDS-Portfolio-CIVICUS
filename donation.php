@@ -214,11 +214,21 @@ require_once __DIR__ . '/includes/header.php';
     </div>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <?php
+      $bkash_p = get_setting('donation_bkash_personal', get_setting('donation_bkash', '01700-000000'));
+      $bkash_m = get_setting('donation_bkash_merchant', '');
+      $nagad = get_setting('donation_nagad', '01700-000000');
+      $rocket = get_setting('donation_rocket', '01700-000000');
+      $bank_name = get_setting('donation_bank_name', 'Islami Bank Bangladesh PLC');
+      $bank_acc_name = get_setting('donation_bank_account_name', 'Citizen Development Society (CDS)');
+      $bank_acc_no = get_setting('donation_bank_account_no', '20501234567890100');
+      $bank_branch = get_setting('donation_bank_branch', 'Dhanmondi Branch, Dhaka');
+      $bank_routing = get_setting('donation_bank_routing_no', '125271829');
+
       $methods = [
-        ["name" => "বিকাশ", "name_en" => "bKash", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_bkash', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "instructions_en" => "Send money to the number above using the Payment option. Use DONATION in reference.", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
-        ["name" => "নগদ", "name_en" => "Nagad", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_nagad', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "instructions_en" => "Send money to the number above using Merchant Pay option. Use DONATION in reference.", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
-        ["name" => "রকেট", "name_en" => "Rocket", "type" => "মার্চেন্ট", "type_en" => "Merchant", "number" => get_setting('donation_rocket', '01700-000000'), "ref" => "Reference: DONATION", "instructions" => "Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "instructions_en" => "Send money to the number above using Merchant Pay option.", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
-        ["name" => "সোনালী ব্যাংক", "name_en" => "Sonali Bank", "type" => "চলতি হিসাব", "type_en" => "Current A/C", "number" => "0000 1234 5678", "ref" => "Routing: 123456789 (Motijheel)", "instructions" => "ব্যাংক ট্রান্সফার বা BEFTN এর মাধ্যমে সরাসরি একাউন্টে টাকা পাঠাতে পারেন।", "instructions_en" => "You can send money directly to the account via Bank Transfer or BEFTN.", "accent" => "linear-gradient(135deg, #0f766e, #0e5e58)"]
+        ["name" => "বিকাশ", "name_en" => "bKash", "type" => "পার্সোনাল", "type_en" => "Personal", "number" => $bkash_p, "ref" => "Reference: DONATION", "instructions" => "Send Money বা Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান। পিন দেওয়ার আগে রেফারেন্সে DONATION লিখুন।", "instructions_en" => "Send money to the number above using Send Money. Use DONATION as reference.", "accent" => "linear-gradient(135deg, #e2136e, #be105b)"],
+        ["name" => "নগদ", "name_en" => "Nagad", "type" => "পার্সোনাল / মার্চেন্ট", "type_en" => "Personal / Merchant", "number" => $nagad, "ref" => "Reference: DONATION", "instructions" => "Send Money বা Merchant Pay অপশন থেকে উপরের নম্বরে টাকা পাঠান। রেফারেন্স হিসেবে DONATION ব্যবহার করুন।", "instructions_en" => "Send money to the number above. Use DONATION in reference.", "accent" => "linear-gradient(135deg, #ed3b25, #c8321f)"],
+        ["name" => "রকেট", "name_en" => "Rocket", "type" => "মোবাইল ব্যাংকিং", "type_en" => "Mobile Banking", "number" => $rocket, "ref" => "Reference: DONATION", "instructions" => "Send Money বা Payment অপশন থেকে উপরের নম্বরে টাকা পাঠান।", "instructions_en" => "Send money to the number above.", "accent" => "linear-gradient(135deg, #8c1e82, #6b1763)"],
+        ["name" => $bank_name, "name_en" => $bank_name, "type" => "অফিসিয়াল ব্যাংক হিসাব", "type_en" => "Official Bank A/C", "number" => $bank_acc_no, "ref" => "Routing: " . $bank_routing . " (" . $bank_branch . ")", "instructions" => "হিসাবের নাম: " . $bank_acc_name . "। ব্যাংক ট্রান্সফার, NPSB বা BEFTN এর মাধ্যমে সরাসরি একাউন্টে টাকা পাঠাতে পারেন।", "instructions_en" => "Account Name: " . $bank_acc_name . ". Transfer via BEFTN, NPSB or deposit.", "accent" => "linear-gradient(135deg, #0f766e, #0e5e58)"]
       ];
       foreach ($methods as $m):
       ?>
