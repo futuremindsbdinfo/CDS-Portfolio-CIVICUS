@@ -37,36 +37,165 @@ require_once __DIR__ . '/includes/header.php';
     }
 </style>
 
-<!-- 1. HERO SECTION -->
-<section class="bg-cyan-light pt-8 pb-16 relative overflow-hidden">
-    <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 grid items-center gap-10 lg:grid-cols-2 lg:gap-8 pt-8">
-        <div class="relative flex flex-col items-start text-left z-10">
-            <h1 class="font-serif-bn text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl text-cds-blue">
-                <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
-                <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
-            </h1>
-            <p class="mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-slate-800">
-                <span data-lang="bn">অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী সংগঠন</span>
-                <span data-lang="en" class="hidden">Non-political, Non-profit & Voluntary Organization</span>
-            </p>
-            <div class="mt-8">
-                <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex items-center gap-2 rounded-full bg-cds-blue px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-blue-800">
-                    <span data-lang="bn">সদস্য হোন</span><span data-lang="en" class="hidden">LEARN MORE</span>
-                </a>
+
+<!-- 1. HERO SLIDER (CIVICUS Style) -->
+<style>
+    /* Hero Slider */
+    .hero-slider-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+    }
+    .hero-slides-track {
+        display: flex;
+        transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+        will-change: transform;
+    }
+    .hero-slide {
+        min-width: 100%;
+        flex-shrink: 0;
+    }
+    .hero-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px 0 24px;
+    }
+    .hero-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: #1e3a8a30;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.3s;
+        padding: 0;
+    }
+    .hero-dot.active {
+        background: #1e3a8a;
+        transform: scale(1.3);
+    }
+</style>
+
+<section class="hero-slider-wrapper bg-white border-b border-slate-100">
+    <div class="hero-slides-track" id="heroTrack">
+
+        <!-- Slide 1: Main CDS Banner -->
+        <div class="hero-slide bg-[#d1f4f9]">
+            <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 grid items-center gap-8 lg:grid-cols-2 py-16 lg:py-20">
+                <div class="flex flex-col items-start text-left">
+                    <h1 class="font-serif-bn text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl text-cds-blue">
+                        <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
+                        <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
+                    </h1>
+                    <p class="mt-4 text-base sm:text-lg leading-relaxed text-slate-700 max-w-lg">
+                        <span data-lang="bn">অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী নাগরিকভিত্তিক সিভিল সোসাইটি সংগঠন।</span>
+                        <span data-lang="en" class="hidden">Non-political, non-profit and voluntary citizen-based civil society organization.</span>
+                    </p>
+                    <a href="#about" class="mt-8 inline-flex items-center gap-2 rounded-full bg-cds-blue px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-blue-800 transition">
+                        <span data-lang="bn">আরও জানুন</span><span data-lang="en" class="hidden">LEARN MORE</span>
+                    </a>
+                </div>
+                <div class="hidden lg:flex justify-end">
+                    <div class="w-[420px] h-[280px] bg-white rounded-2xl shadow-xl flex items-center justify-center p-8">
+                        <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="w-full h-full object-contain">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="relative z-10 flex justify-center lg:justify-end">
-            <!-- Featured Illustration / Image -->
-            <div class="w-full max-w-[500px] aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-white p-6 relative">
-                 <img src="/assets/img/cds-logo.png" alt="CDS Hero" class="w-full h-full object-contain">
-                 <!-- Decorative elements -->
-                 <div class="absolute -top-4 -right-4 w-24 h-24 bg-green-500 rounded-full opacity-20 blur-2xl"></div>
-                 <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-500 rounded-full opacity-20 blur-2xl"></div>
+        <!-- Slide 2: Member Drive -->
+        <div class="hero-slide bg-[#e0f2e9]">
+            <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 grid items-center gap-8 lg:grid-cols-2 py-16 lg:py-20">
+                <div class="flex flex-col items-start text-left">
+                    <h2 class="font-serif-bn text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl text-cds-blue">
+                        <span data-lang="bn">সদস্য নিবন্ধন চলছে!</span>
+                        <span data-lang="en" class="hidden">Membership Registration Open!</span>
+                    </h2>
+                    <p class="mt-4 text-base sm:text-lg leading-relaxed text-slate-700 max-w-lg">
+                        <span data-lang="bn">সাধারণ, আজীবন, দাতা, উপদেষ্টা এবং যুব/ছাত্র ক্যাটাগরিতে সদস্য হিসেবে যুক্ত হোন।</span>
+                        <span data-lang="en" class="hidden">Join as a General, Life, Donor, Advisor or Youth/Student member today.</span>
+                    </p>
+                    <a href="https://membership.fuminds.com/" target="_blank" class="mt-8 inline-flex items-center gap-2 rounded-full bg-[#15803d] px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-green-800 transition">
+                        <span data-lang="bn">এখনই যোগ দিন</span><span data-lang="en" class="hidden">JOIN NOW</span>
+                    </a>
+                </div>
+                <div class="hidden lg:flex justify-end">
+                    <div class="w-[420px] h-[280px] bg-white rounded-2xl shadow-xl flex items-center justify-center p-8">
+                        <svg viewBox="0 0 200 200" class="w-48 h-48 text-green-600" fill="none" stroke="currentColor" stroke-width="4">
+                            <circle cx="80" cy="70" r="35"/><path d="M20 180c10-40 35-60 60-60s50 20 60 60"/><path d="M130 40 l50 0 M155 15 l0 50" stroke-width="6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Slide 3: Latest Projects -->
+        <div class="hero-slide bg-[#e8eaf6]">
+            <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 grid items-center gap-8 lg:grid-cols-2 py-16 lg:py-20">
+                <div class="flex flex-col items-start text-left">
+                    <h2 class="font-serif-bn text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl text-cds-blue">
+                        <span data-lang="bn">আমাদের চলমান উদ্যোগ দেখুন</span>
+                        <span data-lang="en" class="hidden">Explore Our Active Programs</span>
+                    </h2>
+                    <p class="mt-4 text-base sm:text-lg leading-relaxed text-slate-700 max-w-lg">
+                        <span data-lang="bn">শিক্ষা, স্বাস্থ্য, পরিবেশ ও সামাজিক উন্নয়নে আমাদের বিভিন্ন কার্যক্রম জানুন।</span>
+                        <span data-lang="en" class="hidden">Discover our initiatives in education, health, environment and social development.</span>
+                    </p>
+                    <a href="/projects.php" class="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1e3a8a] px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-blue-900 transition">
+                        <span data-lang="bn">সকল প্রজেক্ট দেখুন</span><span data-lang="en" class="hidden">VIEW ALL PROJECTS</span>
+                    </a>
+                </div>
+                <div class="hidden lg:flex justify-end">
+                    <div class="w-[420px] h-[280px] bg-white rounded-2xl shadow-xl flex items-center justify-center p-8">
+                        <svg viewBox="0 0 200 200" class="w-48 h-48 text-indigo-600" fill="none" stroke="currentColor" stroke-width="4">
+                            <rect x="20" y="60" width="160" height="120" rx="8"/><path d="M60 60 V40 a40 40 0 0 1 80 0 V60"/><path d="M60 110 h80 M60 140 h50" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Dots Navigation -->
+    <div class="hero-dots" id="heroDots">
+        <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+        <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+        <button class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
     </div>
 </section>
+
+<script>
+(function() {
+    const track = document.getElementById('heroTrack');
+    const dots = document.querySelectorAll('.hero-dot');
+    let current = 0;
+    const total = dots.length;
+    let autoplayTimer;
+
+    function goTo(index) {
+        current = (index + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAutoplay() {
+        autoplayTimer = setInterval(() => goTo(current + 1), 5000);
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            clearInterval(autoplayTimer);
+            goTo(parseInt(dot.dataset.slide));
+            startAutoplay();
+        });
+    });
+
+    startAutoplay();
+})();
+</script>
+
+
 
 <!-- 2. ABOUT / MISSION SECTION -->
 <section class="py-16 sm:py-24 bg-white relative">
