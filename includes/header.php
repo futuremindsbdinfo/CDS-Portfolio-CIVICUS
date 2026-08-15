@@ -185,15 +185,31 @@ function isActiveLink($page, $current_page) {
     <header class="cds-main-header">
         <div class="mx-auto flex justify-between max-w-[1400px] items-center gap-3 px-4 py-2.5 sm:px-6 lg:px-8 relative">
           
-          <!-- MOBILE: Language Switcher (Left on Mobile) -->
-          <div class="flex lg:hidden items-center">
-            <div class="relative group/mobile-lang z-50">
-                <button id="mobile-lang-btn" class="flex items-center gap-1 rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-[#0e1b64] shadow-sm active:bg-slate-100 transition">
+          <!-- LEFT: LOGO + LANGUAGE BUTTON -->
+          <div class="flex items-center gap-2.5 sm:gap-3 shrink-0 min-w-0">
+            <!-- Logo -->
+            <a href="/index.php" class="flex min-w-0 items-center gap-2.5 shrink-0">
+              <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
+              <span class="min-w-0 text-left hidden lg:block">
+                <div class="truncate font-serif-bn text-base lg:text-lg font-bold leading-tight text-[#0e1b64]">
+                  <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
+                  <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
+                </div>
+                <div class="truncate text-xs font-medium text-slate-500">
+                  <span data-lang="bn"><?php echo htmlspecialchars($site_slogan); ?></span>
+                  <span data-lang="en" class="hidden">Quality Education • Good Governance • Health & Well-being • Active Citizenship</span>
+                </div>
+              </span>
+            </a>
+
+            <!-- Language Switcher (Right Next to Logo) -->
+            <div class="relative group/lang z-50 shrink-0">
+                <button id="main-lang-btn" class="flex items-center gap-1 sm:gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-[#0e1b64] shadow-sm hover:border-[#0e1b64]/40 active:bg-slate-100 transition">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     <span class="active-lang-text uppercase">BN</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-                <div id="mobile-lang-dropdown" class="hidden absolute left-0 top-full pt-1.5 z-50 min-w-[130px]">
+                <div id="main-lang-dropdown" class="hidden absolute left-0 top-full pt-1.5 z-50 min-w-[130px]">
                     <div class="bg-white rounded-xl border border-slate-200 shadow-xl py-1 overflow-hidden">
                         <button data-set-lang="bn" class="lang-toggle-btn w-full text-left px-4 py-2 text-xs font-bold text-[#0e1b64] hover:bg-slate-50 flex items-center justify-between">
                             বাংলা
@@ -207,21 +223,6 @@ function isActiveLink($page, $current_page) {
                 </div>
             </div>
           </div>
-
-          <!-- LOGO (Centered on Mobile, Left on Desktop) -->
-          <a href="/index.php" class="flex min-w-0 items-center gap-2.5 mx-auto lg:mx-0">
-            <img src="/assets/img/cds-logo.png" alt="CDS Logo" class="h-9 sm:h-10 w-auto shrink-0 drop-shadow-sm">
-            <span class="min-w-0 text-left hidden lg:block">
-              <div class="truncate font-serif-bn text-base lg:text-lg font-bold leading-tight text-[#0e1b64]">
-                <span data-lang="bn">সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)</span>
-                <span data-lang="en" class="hidden">Citizen Development Society (CDS)</span>
-              </div>
-              <div class="truncate text-xs font-medium text-slate-500">
-                <span data-lang="bn"><?php echo htmlspecialchars($site_slogan); ?></span>
-                <span data-lang="en" class="hidden">Quality Education • Good Governance • Health & Well-being • Active Citizenship</span>
-              </div>
-            </span>
-          </a>
 
           <!-- DESKTOP NAVIGATION -->
           <nav class="hidden lg:flex items-center gap-1 xl:gap-1.5 flex-1 justify-center">
@@ -364,27 +365,6 @@ function isActiveLink($page, $current_page) {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
                 </button>
             </form>
-
-            <!-- Desktop Language Dropdown -->
-            <div class="relative group/desktop-lang hidden lg:block z-50">
-                <button id="desktop-lang-btn" class="flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-[#0e1b64] shadow-sm hover:border-[#0e1b64]/40 transition">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    <span class="active-lang-text uppercase">BN</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3 w-3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </button>
-                <div id="desktop-lang-dropdown" class="hidden absolute right-0 top-full pt-1.5 z-50 min-w-[130px]">
-                    <div class="bg-white rounded-xl border border-slate-200 shadow-xl py-1 overflow-hidden">
-                        <button data-set-lang="bn" class="lang-toggle-btn w-full text-left px-4 py-2 text-xs font-bold text-[#0e1b64] hover:bg-slate-50 flex items-center justify-between">
-                            বাংলা
-                            <svg class="w-3.5 h-3.5 text-[#3A7D5C] check-bn" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                        </button>
-                        <button data-set-lang="en" class="lang-toggle-btn w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 flex items-center justify-between">
-                            English
-                            <svg class="w-3.5 h-3.5 text-[#3A7D5C] check-en hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
             <!-- Join Button (Desktop & Mobile) -->
             <a href="https://membership.fuminds.com/" target="_blank" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#0e1b64] hover:bg-[#0345bf] px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-bold text-white shadow-sm transition">
@@ -533,22 +513,21 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = !dropdown.classList.contains('hidden');
-            // Close all
-            document.querySelectorAll('#desktop-lang-dropdown, #mobile-lang-dropdown').forEach(d => d.classList.add('hidden'));
-            if (!isOpen) {
+            if (isOpen) {
+                dropdown.classList.add('hidden');
+            } else {
                 dropdown.classList.remove('hidden');
             }
         });
     }
 
-    setupLangDropdown('desktop-lang-btn', 'desktop-lang-dropdown');
-    setupLangDropdown('mobile-lang-btn', 'mobile-lang-dropdown');
+    setupLangDropdown('main-lang-btn', 'main-lang-dropdown');
 
-    // Close language dropdowns on click outside
+    // Close language dropdown on click outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('#desktop-lang-btn') && !e.target.closest('#desktop-lang-dropdown') &&
-            !e.target.closest('#mobile-lang-btn') && !e.target.closest('#mobile-lang-dropdown')) {
-            document.querySelectorAll('#desktop-lang-dropdown, #mobile-lang-dropdown').forEach(d => d.classList.add('hidden'));
+        const dropdown = document.getElementById('main-lang-dropdown');
+        if (dropdown && !e.target.closest('#main-lang-btn') && !e.target.closest('#main-lang-dropdown')) {
+            dropdown.classList.add('hidden');
         }
     });
 });
