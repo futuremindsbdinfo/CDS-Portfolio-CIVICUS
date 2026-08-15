@@ -585,7 +585,8 @@ require_once __DIR__ . '/includes/header.php';
                                     <?php echo date('d M, Y', strtotime($p['created_at'])); ?>
                                 </p>
                                 <h3 class="font-serif-bn font-bold text-lg text-[#0e1b64] group-hover:text-[#0345bf] transition line-clamp-2 mb-3">
-                                    <?php echo e($p['title_bn'] ?? ''); ?>
+                                    <span data-lang="bn"><?php echo e($p['title_bn'] ?? ''); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e(!empty($p['title_en']) ? $p['title_en'] : ($p['title_bn'] ?? '')); ?></span>
                                 </h3>
                                 <span class="mt-auto text-xs font-bold text-[#3A7D5C] group-hover:underline flex items-center gap-1">
                                     <span data-lang="bn">বিস্তারিত দেখুন</span>
@@ -622,7 +623,8 @@ require_once __DIR__ . '/includes/header.php';
                                     </span>
                                 </div>
                                 <h4 class="font-serif-bn font-bold text-base text-[#0e1b64] group-hover:text-[#0345bf] transition line-clamp-2">
-                                    <?php echo e($n['title_bn'] ?? ''); ?>
+                                    <span data-lang="bn"><?php echo e($n['title_bn'] ?? ''); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo e(!empty($n['title_en']) ? $n['title_en'] : ($n['title_bn'] ?? '')); ?></span>
                                 </h4>
                             </div>
                             <svg class="w-5 h-5 text-slate-400 group-hover:text-[#0e1b64] group-hover:translate-x-1 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
