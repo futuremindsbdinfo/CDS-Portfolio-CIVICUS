@@ -7,7 +7,11 @@ init_secure_session();
 require_once __DIR__ . '/../../includes/sanitize.php';
 require_once __DIR__ . '/../../includes/csrf.php';
 require_once __DIR__ . '/../../includes/db.php'; // Required for all CRUD
+require_once __DIR__ . '/../../includes/auto_migrate.php';
 require_admin_login();
+
+// Auto-create any missing tables seamlessly
+ensure_database_tables_exist(Database::getConnection());
 
 $current_page = basename($_SERVER['PHP_SELF']);
 

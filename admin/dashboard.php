@@ -4,49 +4,63 @@ require_once __DIR__ . '/includes/header.php';
 
 $pdo = Database::getConnection();
 
-// Fetch stats
+$safe_count = function($sql) use ($pdo) {
+    try {
+        return (int)($pdo->query($sql)->fetchColumn() ?: 0);
+    } catch (Throwable $e) {
+        return 0;
+    }
+};
+
+// Fetch stats safely
 $stats = [
-    'notices' => $pdo->query("SELECT COUNT(*) FROM notices")->fetchColumn() ?: 0,
-    'projects' => $pdo->query("SELECT COUNT(*) FROM projects")->fetchColumn() ?: 0,
-    'gallery' => $pdo->query("SELECT COUNT(*) FROM gallery")->fetchColumn() ?: 0,
-    'unread_messages' => $pdo->query("SELECT COUNT(*) FROM contact_messages WHERE is_read = 0")->fetchColumn() ?: 0,
-    'pending_donations' => $pdo->query("SELECT COUNT(*) FROM donation_interests WHERE status = 'pending'")->fetchColumn() ?: 0,
-    'admins' => $pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn() ?: 0,
-    'subscribers' => $pdo->query("SELECT COUNT(*) FROM newsletter_subscribers")->fetchColumn() ?: 0,
-    'team' => $pdo->query("SELECT COUNT(*) FROM team_members")->fetchColumn() ?: 0,
-    'forms' => $pdo->query("SELECT COUNT(*) FROM downloadable_forms")->fetchColumn() ?: 0,
-    'sliders' => $pdo->query("SELECT COUNT(*) FROM hero_sliders")->fetchColumn() ?: 0,
+    'notices' => $safe_count("SELECT COUNT(*) FROM notices"),
+    'projects' => $safe_count("SELECT COUNT(*) FROM projects"),
+    'gallery' => $safe_count("SELECT COUNT(*) FROM gallery"),
+    'unread_messages' => $safe_count("SELECT COUNT(*) FROM contact_messages WHERE is_read = 0"),
+    'pending_donations' => $safe_count("SELECT COUNT(*) FROM donation_interests WHERE status = 'pending'"),
+    'admins' => $safe_count("SELECT COUNT(*) FROM admins"),
+    'subscribers' => $safe_count("SELECT COUNT(*) FROM newsletter_subscribers"),
+    'team' => $safe_count("SELECT COUNT(*) FROM team_members"),
+    'forms' => $safe_count("SELECT COUNT(*) FROM downloadable_forms"),
+    'sliders' => $safe_count("SELECT COUNT(*) FROM hero_sliders"),
 ];
 
-// Fetch recent activity
+// Fetch recent activity safely
 $activities = [];
 
-$recent_messages = $pdo->query("SELECT 'message' as type, name, created_at FROM contact_messages ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-foreach($recent_messages as $m) {
-    $activities[] = [
-        'type' => 'message',
-        'text' => 'নতুন মেসেজ — ' . e($m['name']),
-        'time' => strtotime($m['created_at'])
-    ];
-}
+try {
+    $recent_messages = $pdo->query("SELECT 'message' as type, name, created_at FROM contact_messages ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
+    foreach($recent_messages as $m) {
+        $activities[] = [
+            'type' => 'message',
+            'text' => 'নতুন মেসেজ — ' . e($m['name']),
+            'time' => strtotime($m['created_at'])
+        ];
+    }
+} catch (Throwable $e) {}
 
-$recent_donations = $pdo->query("SELECT 'donation' as type, donation_amount, payment_method, created_at FROM donation_interests ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-foreach($recent_donations as $d) {
-    $activities[] = [
-        'type' => 'donation',
-        'text' => 'নতুন ডোনেশন — ৳ ' . number_format($d['donation_amount']) . ' (' . e($d['payment_method']) . ')',
-        'time' => strtotime($d['created_at'])
-    ];
-}
+try {
+    $recent_donations = $pdo->query("SELECT 'donation' as type, donation_amount, payment_method, created_at FROM donation_interests ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
+    foreach($recent_donations as $d) {
+        $activities[] = [
+            'type' => 'donation',
+            'text' => 'নতুন ডোনেশন — ৳ ' . number_format($d['donation_amount']) . ' (' . e($d['payment_method']) . ')',
+            'time' => strtotime($d['created_at'])
+        ];
+    }
+} catch (Throwable $e) {}
 
-$recent_notices = $pdo->query("SELECT 'notice' as type, title_bn, created_at FROM notices ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
-foreach($recent_notices as $n) {
-    $activities[] = [
-        'type' => 'notice',
-        'text' => 'নোটিশ প্রকাশিত — ' . e($n['title_bn']),
-        'time' => strtotime($n['created_at'])
-    ];
-}
+try {
+    $recent_notices = $pdo->query("SELECT 'notice' as type, title_bn, created_at FROM notices ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
+    foreach($recent_notices as $n) {
+        $activities[] = [
+            'type' => 'notice',
+            'text' => 'নোটিশ প্রকাশিত — ' . e($n['title_bn']),
+            'time' => strtotime($n['created_at'])
+        ];
+    }
+} catch (Throwable $e) {}
 
 // Sort activities by time descending
 usort($activities, function($a, $b) {
@@ -102,17 +116,21 @@ for ($i = 6; $i >= 0; $i--) {
 
 $start_date = date('Y-m-d 00:00:00', strtotime('-6 days'));
 
-$donations_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM donation_interests WHERE created_at >= ? GROUP BY DATE(created_at)");
-$donations_query->execute([$start_date]);
-foreach ($donations_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
-    if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['donations'] = $row['c'];
-}
+try {
+    $donations_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM donation_interests WHERE created_at >= ? GROUP BY DATE(created_at)");
+    $donations_query->execute([$start_date]);
+    foreach ($donations_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['donations'] = $row['c'];
+    }
+} catch (Throwable $e) {}
 
-$messages_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM contact_messages WHERE created_at >= ? GROUP BY DATE(created_at)");
-$messages_query->execute([$start_date]);
-foreach ($messages_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
-    if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['messages'] = $row['c'];
-}
+try {
+    $messages_query = $pdo->prepare("SELECT DATE(created_at) as d, COUNT(*) as c FROM contact_messages WHERE created_at >= ? GROUP BY DATE(created_at)");
+    $messages_query->execute([$start_date]);
+    foreach ($messages_query->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        if (isset($chart_dates[$row['d']])) $chart_dates[$row['d']]['messages'] = $row['c'];
+    }
+} catch (Throwable $e) {}
 
 foreach ($chart_dates as $d => $data) {
     $chart_donations[] = $data['donations'];
