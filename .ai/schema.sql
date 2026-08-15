@@ -110,13 +110,47 @@ CREATE TABLE donation_interests (
 );
 
 -- 8. blogs
-CREATE TABLE blogs (
+CREATE TABLE IF NOT EXISTS blogs (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    title_bn VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NULL,
+    title_bn VARCHAR(255) NULL,
     title_en VARCHAR(255) NULL,
-    content_bn TEXT NOT NULL,
+    content TEXT NULL,
+    content_bn TEXT NULL,
     content_en TEXT NULL,
     cover_image VARCHAR(255) NULL,
     published_date DATE NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 9. publications
+CREATE TABLE IF NOT EXISTS publications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    title_en VARCHAR(255) NULL,
+    description TEXT NOT NULL,
+    description_en TEXT NULL,
+    type VARCHAR(50) NOT NULL DEFAULT 'report',
+    cover_image VARCHAR(255) NULL,
+    file_path VARCHAR(255) NULL,
+    published_date DATE NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 10. feedback
+CREATE TABLE IF NOT EXISTS feedback (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    rating INT NOT NULL DEFAULT 5,
+    comment TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 11. settings
+CREATE TABLE IF NOT EXISTS settings (
+    setting_key VARCHAR(100) PRIMARY KEY,
+    setting_value TEXT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+

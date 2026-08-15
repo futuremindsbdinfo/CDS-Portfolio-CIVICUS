@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // admin/login.php
 require_once __DIR__ . '/../includes/auth.php';
 init_secure_session();
@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         if (is_rate_limited($username, $ip_address)) {
             $rate_limit_error = "Too many failed login attempts. Please try again after 15 minutes.";
-            log_login_attempt($username, $ip_address, false);
         } else {
             $pdo = Database::getConnection();
             $stmt = $pdo->prepare("SELECT id, password_hash, is_active FROM admins WHERE username = ?");
@@ -39,6 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($admin['is_active']) {
                     log_login_attempt($username, $ip_address, true);
                     
+                    // Clear failed attempts upon successful login
+                    try {
+                        $clearStmt = $pdo->prepare("DELETE FROM login_attempts WHERE username = ? OR ip_address = ?");
+                        $clearStmt->execute([$username, $ip_address]);
+                    } catch (Exception $e) {}
+
                     // Update last login
                     $updateStmt = $pdo->prepare("UPDATE admins SET last_login_at = NOW() WHERE id = ?");
                     $updateStmt->execute([$admin['id']]);

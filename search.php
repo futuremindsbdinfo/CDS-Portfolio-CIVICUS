@@ -21,7 +21,7 @@ if (!empty($query)) {
     $project_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Search notices
-    $stmt = $pdo->prepare("SELECT id, title_bn, title_en, description_bn, created_at, 'notice' as type FROM notices WHERE title_bn LIKE ? OR title_en LIKE ? OR description_bn LIKE ? ORDER BY created_at DESC LIMIT 10");
+    $stmt = $pdo->prepare("SELECT id, title_bn, title_en, content_bn as description_bn, created_at, 'notice' as type FROM notices WHERE title_bn LIKE ? OR title_en LIKE ? OR content_bn LIKE ? ORDER BY created_at DESC LIMIT 10");
     $stmt->execute([$search_term, $search_term, $search_term]);
     $notice_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

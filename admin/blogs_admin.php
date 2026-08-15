@@ -59,8 +59,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $cover_image = $upload_result['filename'];
     }
 
+    // Detect column names dynamically
+    $blog_cols = [];
+    try {
+        $cols = $db->query("SHOW COLUMNS FROM blogs")->fetchAll(PDO::FETCH_COLUMN);
+        $blog_cols = $cols ?: [];
+    } catch (Exception $e) {}
+
+    $title_col = in_array('title_bn', $blog_cols) ? 'title_bn' : 'title';
+    $content_col = in_array('content_bn', $blog_cols) ? 'content_bn' : 'content';
+
     if ($db && !empty($title) && !empty($content)) {
-        $stmt = $db->prepare("INSERT INTO blogs (title, title_en, content, content_en, cover_image, published_date) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO blogs ({$title_col}, title_en, {$content_col}, content_en, cover_image, published_date) VALUES (?, ?, ?, ?, ?, ?)");
         if ($stmt->execute([$title, $title_en, $content, $content_en, $cover_image, $published_date])) {
             $_SESSION['flash_message'] = "Blog added successfully.";
             $_SESSION['flash_type'] = "success";
@@ -86,6 +96,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $content_en = clean_input($_POST['content_en'] ?? '');
     $published_date = !empty($_POST['published_date']) ? clean_input($_POST['published_date']) : date('Y-m-d');
     
+    // Detect column names dynamically
+    $blog_cols = [];
+    try {
+        $cols = $db->query("SHOW COLUMNS FROM blogs")->fetchAll(PDO::FETCH_COLUMN);
+        $blog_cols = $cols ?: [];
+    } catch (Exception $e) {}
+
+    $title_col = in_array('title_bn', $blog_cols) ? 'title_bn' : 'title';
+    $content_col = in_array('content_bn', $blog_cols) ? 'content_bn' : 'content';
+
     if ($db && !empty($title) && !empty($content)) {
         $cover_image_query = "";
         $params = [$title, $title_en, $content, $content_en, $published_date];
@@ -112,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         
         $params[] = $id;
 
-        $stmt = $db->prepare("UPDATE blogs SET title = ?, title_en = ?, content = ?, content_en = ?, published_date = ? $cover_image_query WHERE id = ?");
+        $stmt = $db->prepare("UPDATE blogs SET {$title_col} = ?, title_en = ?, {$content_col} = ?, content_en = ?, published_date = ? $cover_image_query WHERE id = ?");
         if ($stmt->execute($params)) {
             $_SESSION['flash_message'] = "Blog updated successfully.";
             $_SESSION['flash_type'] = "success";
