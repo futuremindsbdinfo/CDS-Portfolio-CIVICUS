@@ -20,20 +20,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Toggle active state on buttons
-        langBtns.forEach(btn => {
-            const btnLang = btn.getAttribute('data-set-lang');
-            if (btnLang) {
-                if (btnLang === lang) {
-                    btn.classList.add('bg-primary/20', 'text-primary', 'font-bold');
-                    btn.classList.remove('text-foreground/70', 'hover:text-primary');
-                } else {
-                    btn.classList.remove('bg-primary/20', 'text-primary', 'font-bold');
-                    btn.classList.add('text-foreground/70', 'hover:text-primary');
-                }
-            }
+        // Update header active language text indicators (BN / EN)
+        const langTextBadges = document.querySelectorAll('.active-lang-text');
+        langTextBadges.forEach(badge => {
+            badge.textContent = lang.toUpperCase();
         });
-        
+
+        // Toggle checkmarks inside dropdowns
+        const checksBn = document.querySelectorAll('.check-bn');
+        const checksEn = document.querySelectorAll('.check-en');
+        if (lang === 'bn') {
+            checksBn.forEach(el => el.classList.remove('hidden'));
+            checksEn.forEach(el => el.classList.add('hidden'));
+        } else {
+            checksBn.forEach(el => el.classList.add('hidden'));
+            checksEn.forEach(el => el.classList.remove('hidden'));
+        }
+
         // Handle input placeholders
         const inputsWithEnPlaceholder = document.querySelectorAll('[data-en-placeholder]');
         inputsWithEnPlaceholder.forEach(input => {
@@ -48,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // Close dropdowns if open
+        const langDropdowns = document.querySelectorAll('#desktop-lang-dropdown, #mobile-lang-dropdown');
+        langDropdowns.forEach(d => d.classList.add('hidden'));
     }
 
     // Initialize Language
@@ -57,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bind Toggle Buttons
     if (langBtns.length > 0) {
         langBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const langToSet = btn.getAttribute('data-set-lang');
                 if (langToSet) applyLanguage(langToSet);
             });
