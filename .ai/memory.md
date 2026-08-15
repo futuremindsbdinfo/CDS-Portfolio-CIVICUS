@@ -53,5 +53,6 @@
 - **[FEATURE ADDED]** Notices-এ Optional PDF Attachment ফীচার যোগ করা হয়েছে। সিকিউরিটির জন্য application/pdf MIME type check (finfo), %PDF- magic bytes check, double extension block, 5MB limit এবং random filename generate করা হচ্ছে। ফাইলগুলো uploads/notices/ ফোল্ডারে সেভ হবে (যা .htaccess দিয়ে PHP execution block করা)।
 - **[FIXED]** Hero সেকশনের CDS লোগো গ্রাফিক্সের চারপাশের ৪টি অপ্রয়োজনীয় সাদা ডট (circle element) `index.php` থেকে রিমুভ করা হয়েছে।
 - **[UPDATED]** Footer-এ "Made with ♥ by Future Minds Academy" (লিংক: `https://fuminds.com`) আপডেট করা হয়েছে।
-- **[REDESIGNED]** `admin/login.php` পেজটিকে আধুনিক Glassmorphic UI, ব্যাকগ্রাউন্ড গ্লো, লোগো, ইনপুট আইকন, পাসওয়ার্ড শো/হাইড বাটন এবং Kalpurush/SolaimanLipi ফন্ট সহ রেডিজাইন করা হয়েছে।
 - **[FEATURE ADDED]** Blogs CRUD (admin/blogs_admin.php) যোগ করা হয়েছে। title, content, published_date, cover_image (uploads/blogs/) সহ সম্পূর্ণ ফাংশনালিটি (PDO, CSRF, sanitize)। `blog.php` তে ডাইনামিক ফেচিং এবং `blog_details.php` টেমপ্লেট তৈরি করা হয়েছে। schema.sql এ blogs টেবিল যোগ করা হয়েছে।
+- **[REDESIGNED]** CIVICUS ডিজাইনের আদলে সম্পূর্ণ `index.php` হোমপেজ রিডিজাইন সম্পন্ন: ৩-স্লাইডের হিরো ক্যারোসেল/স্লাইডার (বাম/ডান অ্যারো + ডট নেভিগেশন), সিডিএস ব্র্যান্ড কালারের জ্যামিতিক ডিভাইডার, ৫টি মূল স্তম্ভের কার্ড (সুশিক্ষা, সুশাসন, সুস্বাস্থ্য, সুনাগরিক, উন্নত বাংলাদেশ), সাম্প্রতিক আপডেট গ্রিড (প্রজেক্ট ও নোটিশ), এনগেজ ও অ্যাক্ট সেকশন এবং নিউজলেটার সাবস্ক্রিপশন ব্লক। Tailwind CSS রি-কম্পাইল করে `assets/css/style.css` আপডেট ও পুশ করা হয়েছে।
+
