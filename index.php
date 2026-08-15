@@ -661,18 +661,17 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Box 1: Volunteer Challenge -->
             <a href="https://membership.fuminds.com/" target="_blank" class="group block rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#0e1b64] to-[#1e3a8a] relative shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 p-8 flex flex-col justify-center items-center text-center text-white">
-                    <span class="text-xs uppercase tracking-widest text-[#f59e0b] font-bold mb-2">
+                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-3 leading-tight">
                         <span data-lang="bn">স্বেচ্ছাসেবা</span>
-                        <span data-lang="en" class="hidden">VOLUNTEER</span>
-                    </span>
-                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-2 leading-tight">VOLUNTEER CHALLENGE</h3>
-                    <p class="text-sm text-slate-200 max-w-xs">
+                        <span data-lang="en" class="hidden">VOLUNTEER CHALLENGE</span>
+                    </h3>
+                    <p class="text-sm text-slate-200 max-w-xs leading-relaxed">
                         <span data-lang="bn">পরিবর্তনের কারিগর হিসেবে আমাদের সাথে স্বেচ্ছাসেবায় যোগ দিন</span>
                         <span data-lang="en" class="hidden">Join our network of grassroots changemakers</span>
                     </p>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 bg-white py-3.5 px-6 flex items-center justify-between text-[#0e1b64] font-bold text-sm group-hover:bg-slate-50 transition">
-                    <span data-lang="bn">ভলান্টিয়ার হিসেবে যোগ দিন</span>
+                    <span data-lang="bn">স্বেচ্ছাসেবী হিসেবে যোগ দিন</span>
                     <span data-lang="en" class="hidden">Join as a Volunteer</span>
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </div>
@@ -681,12 +680,11 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Box 2: Innovation Awards -->
             <a href="/projects.php" class="group block rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#3A7D5C] to-[#047857] relative shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 p-8 flex flex-col justify-center items-center text-center text-white">
-                    <span class="text-xs uppercase tracking-widest text-[#86efac] font-bold mb-2">
+                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-3 leading-tight">
                         <span data-lang="bn">সামাজিক উদ্ভাবন</span>
-                        <span data-lang="en" class="hidden">INNOVATION</span>
-                    </span>
-                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-2 leading-tight">INNOVATION AWARDS</h3>
-                    <p class="text-sm text-slate-100 max-w-xs">
+                        <span data-lang="en" class="hidden">INNOVATION AWARDS</span>
+                    </h3>
+                    <p class="text-sm text-slate-100 max-w-xs leading-relaxed">
                         <span data-lang="bn">স্থানীয় সমস্যা সমাধানে তরুণদের উদ্ভাবনী আইডিয়াকে স্বীকৃতি</span>
                         <span data-lang="en" class="hidden">Recognizing and scaling youth-led social solutions</span>
                     </p>
@@ -701,12 +699,11 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Box 3: Stand As My Witness -->
             <a href="/about.php" class="group block rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#0284c7] to-[#0369a1] relative shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 p-8 flex flex-col justify-center items-center text-center text-white">
-                    <span class="text-xs uppercase tracking-widest text-[#bae6fd] font-bold mb-2">
+                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-3 leading-tight">
                         <span data-lang="bn">অধিকার সুরক্ষা</span>
-                        <span data-lang="en" class="hidden">CAMPAIGN</span>
-                    </span>
-                    <h3 class="font-serif-bn font-black text-2xl sm:text-3xl text-white mb-2 leading-tight uppercase">STAND AS MY WITNESS</h3>
-                    <p class="text-sm text-slate-100 max-w-xs">
+                        <span data-lang="en" class="hidden">STAND AS MY WITNESS</span>
+                    </h3>
+                    <p class="text-sm text-slate-100 max-w-xs leading-relaxed">
                         <span data-lang="bn">সামাজিক নিরাপত্তা ও মানবাধিকার সুরক্ষায় সচেতন অবস্থান</span>
                         <span data-lang="en" class="hidden">Standing for citizen rights and community justice</span>
                     </p>
