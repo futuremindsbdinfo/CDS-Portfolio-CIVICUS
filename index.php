@@ -338,6 +338,45 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
             </div>
+
+            <!-- Fallback Default Slide 3: Active Initiatives -->
+            <div class="cds-hero-slide bg-[#e3e8f8]">
+                <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+                    <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+                        <div class="space-y-6 text-left">
+                            <div class="inline-flex items-center gap-2 bg-[#0e1b64]/10 text-[#0e1b64] px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                                <span class="w-2 h-2 rounded-full bg-[#0e1b64] animate-pulse"></span>
+                                <span data-lang="bn">আমাদের উদ্যোগ ও প্রকল্প</span>
+                                <span data-lang="en" class="hidden">Our Projects</span>
+                            </div>
+                            <h1 class="font-serif-bn font-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#0e1b64] leading-[1.15]">
+                                <span data-lang="bn">শিক্ষা, স্বাস্থ্য ও সুশাসনের লক্ষ্যে মাঠপর্যায়ে বাস্তবসম্মত উদ্যোগ</span>
+                                <span data-lang="en" class="hidden">Real Grassroots Initiatives in Education, Health & Governance</span>
+                            </h1>
+                            <p class="text-base sm:text-lg text-slate-700 max-w-xl leading-relaxed">
+                                <span data-lang="bn">কুমিল্লা নাঙ্গলকোট ও লালমাই উপজেলাসহ সমগ্র বাংলাদেশে প্রান্তিক জনগোষ্ঠীকে এগিয়ে নিতে আমরা নিবেদিতপ্রাণ।</span>
+                                <span data-lang="en" class="hidden">Dedicated to uplifting underprivileged communities across Nangalkot, Lalmai and all over Bangladesh.</span>
+                            </p>
+                            <div class="pt-2 flex flex-wrap gap-4 items-center">
+                                <a href="/projects.php" class="cds-btn-primary">
+                                    <span data-lang="bn">চলমান প্রজেক্টসমূহ</span>
+                                    <span data-lang="en" class="hidden">VIEW PROJECTS</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </a>
+                                <a href="/about.php" class="cds-btn-outline">
+                                    <span data-lang="bn">আমাদের লক্ষ্য</span>
+                                    <span data-lang="en" class="hidden">OUR MISSION</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex justify-center lg:justify-end">
+                            <div class="relative w-full max-w-[540px] flex items-center justify-center p-8 bg-white rounded-2xl shadow-xl border-4 border-white min-h-[280px] sm:min-h-[340px] lg:min-h-[380px]">
+                                <img src="/assets/img/cds-logo.png" alt="CDS Bangladesh" class="max-h-[200px] w-auto object-contain">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -352,7 +391,7 @@ require_once __DIR__ . '/includes/header.php';
     <!-- Dots Indicators -->
     <div class="cds-hero-dots" id="heroDots">
         <?php 
-            $slide_count = !empty($hero_sliders) ? count($hero_sliders) : 2;
+            $slide_count = !empty($hero_sliders) ? count($hero_sliders) : 3;
             for ($i = 0; $i < $slide_count; $i++): 
         ?>
             <button class="cds-hero-dot <?php echo $i === 0 ? 'active' : ''; ?>" data-slide="<?php echo $i; ?>" aria-label="Slide <?php echo $i + 1; ?>"></button>
