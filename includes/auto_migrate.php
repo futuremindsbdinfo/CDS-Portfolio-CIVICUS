@@ -102,10 +102,12 @@ function ensure_database_tables_exist(PDO $pdo) {
         // Seed default social and site settings
         $pdo->exec("INSERT INTO settings (setting_key, setting_value) VALUES 
             ('social_facebook', 'https://www.facebook.com/citizendevelopmentsociety'),
-            ('site_email', 'info@cds.org.bd'),
-            ('site_phone', '+880 1700-000000'),
+            ('site_email', 'citizendevelopmentsociety@gmail.com'),
+            ('site_phone', '+8801886004317'),
+            ('site_address', 'কেন্দ্রীয় কার্যালয়: ২৮/১, কাকরাইল, ঢাকা-১০০০, বাংলাদেশ'),
+            ('site_address_en', 'Head Office: 28/1, Kakrail, Dhaka-1000, Bangladesh'),
             ('site_title', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)'),
-            ('site_slogan', 'নাগরিক ক্ষমতায়নে একটি সমৃদ্ধ ও মানবিক বাংলাদেশ বিনির্মাণে')
+            ('site_slogan', 'নাগরিক ক্ষমতায়নে একটি সমৃদ্ধ ও মানবিক বাংলাদেশ বিনির্মাণে')
         ON DUPLICATE KEY UPDATE setting_value = IF(setting_value IS NULL OR setting_value = '', VALUES(setting_value), setting_value);");
 
         // 7. SEED DEFAULT HERO SLIDERS IF EMPTY

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $success_message = '<span data-lang="bn">ধন্যবাদ! আপনার বার্তাটি সফলভাবে জমা হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।</span><span data-lang="en" class="hidden">Thank you! Your message has been sent successfully. We will get in touch with you shortly.</span>';
                     
                     // Send notification to Admin
-                    $admin_email = get_setting('site_email', 'info@cds.org.bd');
+                    $admin_email = get_setting('site_email', 'citizendevelopmentsociety@gmail.com');
                     if (!empty($admin_email)) {
                         $mail_sub = "ওয়েবসাইটে নতুন বার্তা: " . $subject;
                         $mail_body = "<div style='font-family:sans-serif; padding:20px; line-height:1.6; color:#333;'>
@@ -98,8 +98,8 @@ include 'includes/header.php';
                                 <h3 class="font-bold text-gray-800" data-lang="bn">অফিস ঠিকানা</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Office Address</h3>
                                 <p class="text-gray-600 mt-1">
-                                    <span data-lang="bn"><?php echo nl2br(htmlspecialchars(get_setting('site_address', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></span>
-                                    <span data-lang="en" class="hidden"><?php echo nl2br(htmlspecialchars(get_setting('site_address_en', '123/A, Motijheel C/A, Dhaka-1000, Bangladesh'))); ?></span>
+                                    <span data-lang="bn"><?php echo nl2br(htmlspecialchars(get_setting('site_address', 'কেন্দ্রীয় কার্যালয়: ২৮/১, কাকরাইল, ঢাকা-১০০০, বাংলাদেশ'))); ?></span>
+                                    <span data-lang="en" class="hidden"><?php echo nl2br(htmlspecialchars(get_setting('site_address_en', 'Head Office: 28/1, Kakrail, Dhaka-1000, Bangladesh'))); ?></span>
                                 </p>
                             </div>
                         </div>
@@ -109,7 +109,7 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">ইমেইল</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Email</h3>
-                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_email', 'info@cds.org.bd')); ?></p>
+                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_email', 'citizendevelopmentsociety@gmail.com')); ?></p>
                             </div>
                         </div>
                         
@@ -118,7 +118,7 @@ include 'includes/header.php';
                             <div>
                                 <h3 class="font-bold text-gray-800" data-lang="bn">ফোন</h3>
                                 <h3 class="font-bold text-gray-800 hidden" data-lang="en">Phone</h3>
-                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_phone', '+880 1700-000000')); ?></p>
+                                <p class="text-gray-600 mt-1"><?php echo htmlspecialchars(get_setting('site_phone', '+8801886004317')); ?></p>
                             </div>
                         </div>
 

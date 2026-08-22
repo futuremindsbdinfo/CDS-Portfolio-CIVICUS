@@ -56,13 +56,13 @@
               <div class="font-serif-bn text-base font-bold">
                   <span data-lang="bn">যোগাযোগ</span><span data-lang="en" class="hidden">Contact</span>
               </div>
-              <ul class="mt-4 space-y-2 text-sm text-white/85">
+                <ul class="mt-4 space-y-2 text-sm text-white/85">
                 <li>
-                    <span data-lang="bn"><?php echo nl2br(htmlspecialchars(get_setting('site_address', 'ঢাকা, বাংলাদেশ'))); ?></span>
-                    <span data-lang="en" class="hidden"><?php echo nl2br(htmlspecialchars(get_setting('site_address_en', 'Dhaka, Bangladesh'))); ?></span>
+                    <span data-lang="bn"><?php echo nl2br(htmlspecialchars(get_setting('site_address', 'কেন্দ্রীয় কার্যালয়: ২৮/১, কাকরাইল, ঢাকা-১০০০, বাংলাদেশ'))); ?></span>
+                    <span data-lang="en" class="hidden"><?php echo nl2br(htmlspecialchars(get_setting('site_address_en', 'Head Office: 28/1, Kakrail, Dhaka-1000, Bangladesh'))); ?></span>
                 </li>
-                <li><?php echo htmlspecialchars(get_setting('site_phone', '+880 1234-567890')); ?></li>
-                <li><?php echo htmlspecialchars(get_setting('site_email', 'contact@cdsbangladesh.org')); ?></li>
+                <li><?php echo htmlspecialchars(get_setting('site_phone', '+8801886004317')); ?></li>
+                <li><?php echo htmlspecialchars(get_setting('site_email', 'citizendevelopmentsociety@gmail.com')); ?></li>
               </ul>
               <a href="admin/login.php" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white">
                 <span data-lang="bn">অ্যাডমিন প্যানেল</span><span data-lang="en" class="hidden">Admin Panel</span> &rarr;
