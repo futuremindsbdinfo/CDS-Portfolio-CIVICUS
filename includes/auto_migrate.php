@@ -94,10 +94,19 @@ function ensure_database_tables_exist(PDO $pdo) {
         // 6. SETTINGS TABLE
         $pdo->exec("CREATE TABLE IF NOT EXISTS settings (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            `key` VARCHAR(100) NOT NULL UNIQUE,
-            `value` TEXT NULL,
+            setting_key VARCHAR(100) NOT NULL UNIQUE,
+            setting_value TEXT NULL,
             updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+
+        // Seed default social and site settings
+        $pdo->exec("INSERT INTO settings (setting_key, setting_value) VALUES 
+            ('social_facebook', 'https://www.facebook.com/citizendevelopmentsociety'),
+            ('site_email', 'info@cds.org.bd'),
+            ('site_phone', '+880 1700-000000'),
+            ('site_title', 'সিটিজেন ডেভেলপমেন্ট সোসাইটি (সিডিএস)'),
+            ('site_slogan', 'নাগরিক ক্ষমতায়নে একটি সমৃদ্ধ ও মানবিক বাংলাদেশ বিনির্মাণে')
+        ON DUPLICATE KEY UPDATE setting_value = IF(setting_value IS NULL OR setting_value = '', VALUES(setting_value), setting_value);");
 
         // 7. SEED DEFAULT HERO SLIDERS IF EMPTY
         $sliderCount = (int)$pdo->query("SELECT COUNT(*) FROM hero_sliders")->fetchColumn();

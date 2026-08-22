@@ -214,7 +214,7 @@ include 'includes/header.php';
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <label class="block">
                         <span class="mb-1.5 block text-sm font-semibold text-slate-700">Facebook Page URL</span>
-                        <input type="url" name="social_facebook" value="<?php echo e($settings['social_facebook'] ?? ''); ?>" placeholder="https://facebook.com/..." class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
+                        <input type="url" name="social_facebook" value="<?php echo e($settings['social_facebook'] ?? 'https://www.facebook.com/citizendevelopmentsociety'); ?>" placeholder="https://www.facebook.com/citizendevelopmentsociety" class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20">
                     </label>
                     <label class="block">
                         <span class="mb-1.5 block text-sm font-semibold text-slate-700">YouTube Channel URL</span>
